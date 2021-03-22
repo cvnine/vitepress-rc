@@ -4,7 +4,7 @@ import { createServer } from './server'
 
 const argv: any = minimist(process.argv.slice(2))
 
-console.log(chalk.cyan(` v${require('../../package.json').version}`))
+console.log(chalk.cyan(`vitepress-rc v${require('../../package.json').version}`))
 console.log(chalk.cyan(`vite v${require('vite/package.json').version}`))
 
 const command = argv._[0]
@@ -24,7 +24,7 @@ if (!command || command === 'dev') {
 			process.exit(1)
 		})
 } else if (command === 'build') {
-} else if (command === 'ssr') {
+} else if (command === 'serve') {
 } else {
 	console.log(chalk.red(`unknown command "${command}".`))
 	process.exit(1)
