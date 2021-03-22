@@ -1,0 +1,24 @@
+{
+	"typescript.tsserver.experimental.enableProjectDiagnostics": false,
+	"editor.insertSpaces": false,
+    "editor.suggestSelection": "first",
+	"editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true,
+		"source.fixAll.stylelint": true
+	},
+    "eslint.codeActionsOnSave.mode": "all",
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "html",
+    ],
+    "prettier.singleQuote": true,
+    "prettier.semi": false,
+    "files.insertFinalNewline": true,
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+	}
+}
