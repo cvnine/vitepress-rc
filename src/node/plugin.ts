@@ -9,12 +9,12 @@ import slash from 'slash'
 import { Plugin as VitePlugin } from 'vite'
 import type { SiteConfig } from '../types'
 import remarkTransform from './transform'
-import { APP_PATH, SPECIAL_IMPORT_SITE_DATA } from './paths'
+import { APP_PATH, SPECIAL_IMPORT_SITE_DATA, SPECIAL_IMPORT_THEME } from './paths'
 import { resolveSiteData } from './config'
 
 export function createVitePlugin(
 	root: string,
-	{ configPath, plugin, site, pages }: SiteConfig,
+	{ configPath, plugin, site, pages, themeDir }: SiteConfig,
 	ssr = false,
 	pageToHashMap?: Record<string, string>
 ) {
@@ -47,13 +47,21 @@ export function createVitePlugin(
 	//其他处理
 	const vitePluginPressRc: VitePlugin = {
 		name: 'vite-plugin-press-rc',
+		config() {
+			return {
+				resolve: {
+					alias: {
+						[SPECIAL_IMPORT_THEME]: themeDir,
+					},
+				},
+			}
+		},
 		resolveId(id) {
 			if (id === SPECIAL_IMPORT_SITE_DATA) {
 				return SPECIAL_IMPORT_SITE_DATA
 			}
 		},
-
-		load(id) {
+		async load(id) {
 			if (id === SPECIAL_IMPORT_SITE_DATA) {
 				return `export default ${JSON.stringify(JSON.stringify(siteData))}`
 			}

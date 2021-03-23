@@ -8,7 +8,8 @@
 	  "lib": ["ESNext", "DOM"],
 	  "types": ["vite/client"],
 	  "paths": {
-		"vitepress-rc": ["index.ts"]
+		"vitepress-rc": ["index.ts"],
+		"/@special-import/theme/*": ["theme-default/*"],
 	  }
 	},
 	"include": ["."]
