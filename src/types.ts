@@ -2,8 +2,6 @@ import { Plugin as VitePlugin } from 'vite'
 import type { Plugin as UnifiedPlugin } from 'unified'
 
 export interface MdxVitePluginOption {
-	preMdxPlugins?: VitePlugin[]
-	afterMdxPlugins?: VitePlugin[]
 	remarkPlugins?: UnifiedPlugin[]
 	rehypePlugins: UnifiedPlugin[]
 }

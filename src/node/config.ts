@@ -13,6 +13,7 @@ export async function resolveConfig(root: string = process.cwd()) {
 	const userConfig = await resolveUserConfig(root)
 	const site = await resolveSiteData(root)
 
+	//主题路径
 	const userThemeDir = resolve(root, 'theme')
 	const themeDir = (await fs.pathExists(userThemeDir)) ? userThemeDir : DEFAULT_THEME_PATH
 
