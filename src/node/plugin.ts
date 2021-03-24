@@ -9,12 +9,12 @@ import slash from 'slash'
 import { Plugin as VitePlugin } from 'vite'
 import type { SiteConfig } from '../types/types'
 import remarkTransform from './transform'
-import { APP_PATH, SPECIAL_IMPORT_SITE_DATA, SPECIAL_IMPORT_THEME } from './paths'
+import { APP_PATH, SPECIAL_IMPORT_SITE_DATA } from './paths'
 import { resolveSiteData } from './config'
 
 export function createVitePlugin(
 	root: string,
-	{ configPath, plugin, site, pages, themeDir }: SiteConfig,
+	{ configPath, alias, plugin, site, pages, themeDir }: SiteConfig,
 	ssr = false,
 	pageToHashMap?: Record<string, string>
 ) {
@@ -50,9 +50,7 @@ export function createVitePlugin(
 		config() {
 			return {
 				resolve: {
-					alias: {
-						[SPECIAL_IMPORT_THEME]: themeDir,
-					},
+					alias,
 				},
 			}
 		},

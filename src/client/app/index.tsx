@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
-import Layout from '/@special-import/theme/index'
+import { Layout } from '/@special-import/theme/index'
 
 ReactDOM.render(
 	<React.StrictMode>

@@ -2,7 +2,7 @@
     "name": "vitepress-rc",
     "version": "0.0.1",
     "description": "react doc tools base on vitepress",
-    "repository": "https://github.com/ihupoo/vitepress-rc.git",
+    "repository": "https://github.com/cvnine/vitepress-rc.git",
     "author": "ihupoo <840499492@qq.com>",
     "license": "MIT",
     "main": "dist/node/index.js",

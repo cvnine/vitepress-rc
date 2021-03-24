@@ -2,11 +2,11 @@ import chalk from 'chalk'
 import fs from 'fs-extra'
 import path from 'path'
 import globby from 'globby'
-import { APP_PATH, DEFAULT_THEME_PATH } from './paths'
+import { APP_PATH, DEFAULT_THEME_PATH, resolveAliases } from './paths'
 import { UserConfig } from '../types/types'
 
 const resolve = (root: string, file: string) => {
-	return path.resolve(root, `.docr`, file)
+	return path.resolve(root, `.vitepressrc`, file)
 }
 
 export async function resolveConfig(root: string = process.cwd()) {
@@ -24,6 +24,7 @@ export async function resolveConfig(root: string = process.cwd()) {
 		pages: await globby(['**.md'], { cwd: root, ignore: ['node_modules'] }),
 		configPath: resolve(root, 'config.js'),
 		outDir: resolve(root, 'dist'),
+		alias: resolveAliases(themeDir, userConfig),
 		tempDir: path.resolve(APP_PATH, 'temp'),
 		plugin: userConfig.plugin,
 	}
