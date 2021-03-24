@@ -33,9 +33,6 @@ function injectImports(code_es2019: string) {
 }
 
 async function mdxTransform(code_mdx: string, id: string, userPlugin?: MdxVitePluginOption) {
-	//预处理
-	code_mdx = code_mdx + `<TEMP_MDX_ABSOLUTE_PATH path="${slash(id)}" />`
-
 	const userRemarkPlugins = userPlugin?.remarkPlugins
 		?.map((x) => {
 			if (typeof x === 'function') {
