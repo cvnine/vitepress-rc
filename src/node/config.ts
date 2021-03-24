@@ -3,7 +3,7 @@ import fs from 'fs-extra'
 import path from 'path'
 import globby from 'globby'
 import { APP_PATH, DEFAULT_THEME_PATH } from './paths'
-import { UserConfig } from '../types'
+import { UserConfig } from '../types/types'
 
 const resolve = (root: string, file: string) => {
 	return path.resolve(root, `.docr`, file)
@@ -21,7 +21,7 @@ export async function resolveConfig(root: string = process.cwd()) {
 		root,
 		site,
 		themeDir,
-		pages: await globby(['**.mdx'], { cwd: root, ignore: ['node_modules'] }),
+		pages: await globby(['**.md'], { cwd: root, ignore: ['node_modules'] }),
 		configPath: resolve(root, 'config.js'),
 		outDir: resolve(root, 'dist'),
 		tempDir: path.resolve(APP_PATH, 'temp'),
