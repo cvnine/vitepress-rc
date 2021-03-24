@@ -332,6 +332,11 @@
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
 
+"@types/es-module-lexer@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.npm.taobao.org/@types/es-module-lexer/download/@types/es-module-lexer-0.3.0.tgz#9fee3f19f64e6b3f999eeb3a70bd177a4d57a6cb"
+  integrity sha1-n+4/GfZOaz+Znus6cL0Xek1Xpss=
+
 "@types/estree@*":
   version "0.0.46"
   resolved "https://registry.npm.taobao.org/@types/estree/download/@types/estree-0.0.46.tgz#0fb6bfbbeabd7a30880504993369c4bf1deab1fe"
@@ -1151,14 +1156,9 @@ es-to-primitive@^1.2.1:
     is-date-object "^1.0.1"
     is-symbol "^1.0.2"
 
-esbuild@^0.8.31:
-  version "0.8.57"
-  resolved "https://registry.npm.taobao.org/esbuild/download/esbuild-0.8.57.tgz?cache=0&sync_timestamp=1616276864371&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fesbuild%2Fdownload%2Fesbuild-0.8.57.tgz#a42d02bc2b57c70bcd0ef897fe244766bb6dd926"
-  integrity sha1-pC0CvCtXxwvNDviX/iRHZrtt2SY=
-
-esbuild@^0.9.3:
+esbuild@^0.9.3, esbuild@^0.9.6:
   version "0.9.6"
-  resolved "https://registry.npm.taobao.org/esbuild/download/esbuild-0.9.6.tgz?cache=0&sync_timestamp=1616276864371&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fesbuild%2Fdownload%2Fesbuild-0.9.6.tgz#2cae519e7ce2328ecf57ae738090d07ce7245850"
+  resolved "https://registry.npm.taobao.org/esbuild/download/esbuild-0.9.6.tgz#2cae519e7ce2328ecf57ae738090d07ce7245850"
   integrity sha1-LK5RnnziMo7PV65zgJDQfOckWFA=
 
 escalade@^3.1.1:
@@ -1512,11 +1512,6 @@ fill-range@^7.0.1:
   integrity sha1-GRmmp8df44ssfHflGYU12prN2kA=
   dependencies:
     to-regex-range "^5.0.1"
-
-find-dependency@^1.3.0:
-  version "1.3.3"
-  resolved "https://registry.npm.taobao.org/find-dependency/download/find-dependency-1.3.3.tgz#a14d5f341a13b06f23a445f6706bdb319947f918"
-  integrity sha1-oU1fNBoTsG8jpEX2cGvbMZlH+Rg=
 
 find-up@^2.0.0, find-up@^2.1.0:
   version "2.1.0"
@@ -3792,14 +3787,6 @@ vfile@^4.0.0:
     is-buffer "^2.0.0"
     unist-util-stringify-position "^2.0.0"
     vfile-message "^2.0.0"
-
-vite-plugin-mdx@^3.2.2:
-  version "3.2.2"
-  resolved "https://registry.npm.taobao.org/vite-plugin-mdx/download/vite-plugin-mdx-3.2.2.tgz#cba29294e64f7107c86b4c41c8505303b6201359"
-  integrity sha1-y6KSlOZPcQfIa0xByFBTA7YgE1k=
-  dependencies:
-    esbuild "^0.8.31"
-    find-dependency "^1.3.0"
 
 vite@^2.1.2:
   version "2.1.2"

@@ -1,50 +1,21 @@
 import path from 'path'
 import reactRefresh from '@vitejs/plugin-react-refresh'
-import mdx from 'vite-plugin-mdx'
-import remarkTable from 'remark-gfm'
-import remarkFrontmatter from 'remark-frontmatter'
-import remarkParseYaml from 'remark-parse-yaml'
-import remarkSlug from 'remark-slug'
-import slash from 'slash'
 import { Plugin as VitePlugin } from 'vite'
 import type { SiteConfig } from '../types/types'
-import remarkTransform from './transform'
+import { mdxTransform } from './transform'
 import { APP_PATH, SPECIAL_IMPORT_SITE_DATA } from './paths'
 import { resolveSiteData } from './config'
 
 export function createVitePlugin(
 	root: string,
-	{ configPath, alias, plugin, site, pages, themeDir }: SiteConfig,
+	{ configPath, alias, plugin: userPlugin, site, pages, themeDir }: SiteConfig,
 	ssr = false,
 	pageToHashMap?: Record<string, string>
 ) {
+	const reactRefreshPlugin = reactRefresh()
+
 	let siteData = site
 
-	//预处理 md
-	const vitePluginMdxParse: VitePlugin = {
-		name: 'vite-plugin-mdx-parse',
-		transform(code, id, ssr) {
-			if (/\.md?$/.test(id)) {
-				code = code + `<TEMP_MDX_ABSOLUTE_PATH path="${slash(id)}" />`
-			}
-			return code
-		},
-	}
-
-	//编译 md --> js
-	const vitePluginMdxTransForm: VitePlugin = mdx({
-		remarkPlugins: [
-			remarkFrontmatter,
-			remarkParseYaml,
-			remarkSlug,
-			...remarkTransform,
-			remarkTable,
-			...(plugin?.remarkPlugins ?? []),
-		],
-		rehypePlugins: [...(plugin?.rehypePlugins ?? [])],
-	})
-
-	//其他处理
 	const vitePluginPressRc: VitePlugin = {
 		name: 'vite-plugin-press-rc',
 		config() {
@@ -64,6 +35,15 @@ export function createVitePlugin(
 				return `export default ${JSON.stringify(JSON.stringify(siteData))}`
 			}
 		},
+
+		async transform(code, id, ssr) {
+			if (/\.md?$/.test(id)) {
+				code = await mdxTransform(code, id, userPlugin)
+				const refreshResult = await reactRefreshPlugin.transform!.call(this, code, id + '.js', ssr)
+				return refreshResult || code
+			}
+		},
+
 		configureServer(server) {
 			// serve our index.html after vite history fallback
 			return () => {
@@ -102,5 +82,5 @@ export function createVitePlugin(
 		},
 	}
 
-	return [reactRefresh(), vitePluginMdxParse, vitePluginMdxTransForm, vitePluginPressRc]
+	return [reactRefreshPlugin, vitePluginPressRc]
 }
