@@ -9,8 +9,9 @@
 	  "types": ["vite/client"],
 	  "paths": {
 		"vitepress-rc": ["index.ts"],
-		"/@special-import/theme/*": ["theme-default/*"],
+		"@virtual-module/theme/*": ["theme-default/*"],
+		"@types": ["../types/types.ts"],
 	  }
 	},
-	"include": ["."]
+	"include": [".", "../types/types.ts"]
   }

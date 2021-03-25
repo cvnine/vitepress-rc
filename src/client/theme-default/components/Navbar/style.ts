@@ -13,7 +13,8 @@ export const Wrap = styled.div`
 	height: var(--doc-nav-height);
 	white-space: nowrap;
 	background: #fff;
-	box-shadow: 0 8px 24px -2px rgb(0 0 0 / 5%);
+	/* box-shadow: 0 8px 24px -2px rgb(0 0 0 / 5%); */
+	border-bottom: 1px solid #ebedf1;
 
 	@media (max-width: 767px) {
 		display: flex;

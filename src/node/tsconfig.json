@@ -8,5 +8,5 @@
 	  "lib": ["ESNext", "DOM"],
 	  "sourceMap": true,
 	},
-	"include": [".", "types.d.ts"]
+	"include": ["."]
   }

@@ -3,7 +3,7 @@ import fs from 'fs-extra'
 import path from 'path'
 import globby from 'globby'
 import { APP_PATH, DEFAULT_THEME_PATH, resolveAliases } from './paths'
-import { UserConfig } from '../types/types'
+import { SiteData, UserConfig } from '../types/types'
 
 const resolve = (root: string, file: string) => {
 	return path.resolve(root, `.vitepressrc`, file)
@@ -11,7 +11,7 @@ const resolve = (root: string, file: string) => {
 
 export async function resolveConfig(root: string = process.cwd()) {
 	const userConfig = await resolveUserConfig(root)
-	const site = await resolveSiteData(root)
+	const siteData = await resolveSiteData(root)
 
 	//主题路径
 	const userThemeDir = resolve(root, 'theme')
@@ -19,7 +19,7 @@ export async function resolveConfig(root: string = process.cwd()) {
 
 	const config = {
 		root,
-		site,
+		siteData,
 		themeDir,
 		pages: await globby(['**.md'], { cwd: root, ignore: ['node_modules'] }),
 		configPath: resolve(root, 'config.js'),
@@ -48,7 +48,7 @@ export async function resolveUserConfig(root: string) {
 	return userConfig
 }
 
-export async function resolveSiteData(root: string) {
+export async function resolveSiteData(root: string): Promise<SiteData<any>> {
 	const userConfig = await resolveUserConfig(root)
 
 	return {

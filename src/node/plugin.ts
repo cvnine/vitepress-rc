@@ -8,13 +8,11 @@ import { resolveSiteData } from './config'
 
 export function createVitePlugin(
 	root: string,
-	{ configPath, alias, plugin: userPlugin, site, pages, themeDir }: SiteConfig,
+	{ configPath, alias, plugin: userPlugin, siteData, pages, themeDir }: SiteConfig,
 	ssr = false,
 	pageToHashMap?: Record<string, string>
 ) {
 	const reactRefreshPlugin = reactRefresh()
-
-	let siteData = site
 
 	const vitePluginPressRc: VitePlugin = {
 		name: 'vite-plugin-press-rc',

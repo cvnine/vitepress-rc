@@ -16,17 +16,19 @@ export interface UserConfig<ThemeConfig = any> {
 	plugin?: MdxVitePluginOption
 }
 
+export interface SiteData<ThemeConfig = any> {
+	lang: string
+	base: string
+	title: string
+	description: string
+	themeConfig: ThemeConfig
+}
+
 export interface SiteConfig<ThemeConfig = any> {
 	root: string
 	alias: AliasOptions
 	configPath: string
-	site: {
-		lang: string
-		title: string
-		description: string
-		base: string
-		themeConfig: ThemeConfig
-	}
+	siteData: SiteData<ThemeConfig>
 	themeDir: string
 	outDir: string
 	pages: string[]

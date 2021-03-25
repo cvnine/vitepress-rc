@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Wrap } from './style'
 import { Link } from '../Link'
-import { context } from 'vitepress-rc'
+import { useSideData } from 'vitepress-rc'
 import SearchBar from '../SearchBar'
 
 interface NavbarProps {
@@ -10,11 +10,7 @@ interface NavbarProps {
 }
 
 export default function Navbar(props: NavbarProps) {
-	const {
-		base,
-		config: { title },
-		nav: navItems,
-	} = useContext(context)
+	const { base, title, themeConfig } = useSideData()
 
 	return (
 		<Wrap>
@@ -22,9 +18,9 @@ export default function Navbar(props: NavbarProps) {
 			<Link to={base}>{title}</Link>
 			<nav>
 				<SearchBar />
-				{navItems.map((nav) => (
-					<span key={nav.title || nav.path}>
-						{nav.path ? <Link to={nav.path}>{nav.title}</Link> : nav.title}
+				{themeConfig.nav.map((nav) => (
+					<span key={nav.text || nav.link}>
+						{nav.link ? <Link to={nav.link}>{nav.text}</Link> : nav.text}
 					</span>
 				))}
 			</nav>

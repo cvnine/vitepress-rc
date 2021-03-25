@@ -7,7 +7,7 @@ export async function createServer(root: string = process.cwd(), serverOptions: 
 
 	return createViteServer({
 		root,
-		base: config.site.base,
+		base: config.siteData.base,
 		plugins: createVitePlugin(root, config),
 		server: serverOptions,
 	})
