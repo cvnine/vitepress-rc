@@ -1,6 +1,6 @@
 //fork from vite-plugin-mdx
 import esbuild from 'esbuild'
-import mdx from '@mdx-js/mdx'
+import { createCompiler } from '@mdx-js/mdx'
 import remarkTable from 'remark-gfm'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkParseYaml from 'remark-parse-yaml'
@@ -20,10 +20,10 @@ async function jsxToES2019(code_jsx: string) {
 	})
 
 	// TODO stabilize this bugfix
-	code_es2019 = code_es2019.replace(
-		'export default function MDXContent',
-		'export default MDXContent; function MDXContent'
-	)
+	// code_es2019 = code_es2019.replace(
+	// 	'export default function MDXContent',
+	// 	'export default MDXContent; function MDXContent'
+	// )
 
 	return code_es2019
 }
@@ -51,11 +51,12 @@ async function mdxTransform(code_mdx: string, id: string, userPlugin?: MdxVitePl
 		})
 		.filter(Boolean)
 
-	const code_jsx = await mdx(code_mdx, {
+	const code_vFile = await createCompiler({
 		remarkPlugins: [remarkFrontmatter, remarkParseYaml, remarkSlug, remarkTable, ...(userRemarkPlugins ?? [])],
 		rehypePlugins: [...(userRehypePlugins ?? [])],
-	})
-	const code_es2019 = await jsxToES2019(code_jsx)
+	}).process(code_mdx)
+
+	const code_es2019 = await jsxToES2019(String(code_vFile))
 	const code_final = injectImports(code_es2019)
 	return code_final
 }
