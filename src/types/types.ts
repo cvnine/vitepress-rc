@@ -34,3 +34,18 @@ export interface SiteConfig<ThemeConfig = any> {
 	pages: string[]
 	plugin?: MdxVitePluginOption
 }
+
+export interface PageData {
+	title: string
+	relativePath: string
+	description: string
+	headers: Header[]
+	frontmatter: Record<string, any>
+	lastUpdated: number
+}
+
+export interface Header {
+	level: number
+	title: string
+	slug: string
+}
