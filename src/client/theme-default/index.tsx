@@ -1,4 +1,5 @@
-import './index.css'
+// import './index.css'
 import Layout from './Layout'
+import NotFound from './NotFound'
 
-export { Layout }
+export { Layout, NotFound }

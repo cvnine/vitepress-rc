@@ -1,7 +1,7 @@
 module.exports = {
 	lang: 'en-US',
-	title: 'VitePress-rc',
-	description: 'Vite & React powered static site generator.',
+	title: 'VitePrssawefwaarc',
+	description: 'Vite & React p site generator.',
   
 	themeConfig: {
 	  repo: 'cvnine/vitepress-rc',
@@ -36,7 +36,7 @@ module.exports = {
 	  {
 		text: 'Introduction',
 		children: [
-		  { text: 'What is VitePress?', link: '/' },
+		  { text: 'What is VitePss?', link: '/' },
 		  { text: 'Getting Started', link: '/guide/getting-started' },
 		  { text: 'Configuration', link: '/guide/differences-from-vitepress' },
 		]

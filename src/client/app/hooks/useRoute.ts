@@ -1,11 +1,11 @@
 import { PageData } from '@types'
-import { Component, useEffect, useRef, useState } from 'react'
+import { Component, ComponentType, useEffect, useRef, useState } from 'react'
 import { inBrowser } from 'vitepress-rc'
 
 export interface Route {
 	path: string
 	data: PageData
-	component: Component | null
+	component: ComponentType<any> | null
 }
 
 export interface Router {
@@ -26,15 +26,16 @@ const getDefaultRoute: Route = {
 
 interface PageModule {
 	__pageData: string
-	default: Component
+	default: ComponentType<any>
 }
 
-export function useRoute(fallbackComponent?: Component) {
+export function useRoute(fallbackComponent?: ComponentType<any>) {
 	const [route, setRoute] = useState(getDefaultRoute)
 
 	const latestPendingPathRef = useRef<string | null>(null)
 
 	const isInitialPageLoad = useRef<boolean>(inBrowser)
+	const initialPath = useRef<string>('')
 
 	useEffect(() => {
 		function go(href: string = inBrowser ? window.location.href : '/') {
@@ -58,9 +59,10 @@ export function useRoute(fallbackComponent?: Component) {
 			try {
 				let pageFilePath = pathToFile(pendingPath)
 				if (isInitialPageLoad) {
+					initialPath.current = pageFilePath
 				}
 
-				if (isInitialPageLoad) {
+				if (isInitialPageLoad || initialPath.current === pageFilePath) {
 					pageFilePath = pageFilePath.replace(/\.js$/, '.lean.js')
 				}
 
@@ -68,7 +70,7 @@ export function useRoute(fallbackComponent?: Component) {
 				if (inBrowser) {
 					isInitialPageLoad.current = false
 
-					page = await import(pageFilePath)
+					page = await import(/* @vite-ignore */ pageFilePath)
 				} else {
 					page = require(pageFilePath)
 				}
@@ -165,6 +167,21 @@ export function useRoute(fallbackComponent?: Component) {
 
 		//load页面执行一次，获取数据
 		go()
+
+		function shouldHotReload(payload: any): boolean {
+			const payloadPath = payload.path.replace(/(\bindex)?\.md$/, '')
+			const locationPath = window.location.pathname.replace(/(\bindex)?\.html$/, '')
+
+			return payloadPath === locationPath
+		}
+
+		if (import.meta.hot) {
+			import.meta.hot!.on('vitepress:pageData', (payload) => {
+				if (shouldHotReload(payload)) {
+					setRoute((val) => ({ ...val, data: payload.pageData }))
+				}
+			})
+		}
 
 		return () => {
 			if (inBrowser) {

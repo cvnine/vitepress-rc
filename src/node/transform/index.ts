@@ -1,5 +1,5 @@
 //fork from vite-plugin-mdx
-import esbuild from 'esbuild'
+import * as esbuild from 'esbuild'
 import { createCompiler } from '@mdx-js/mdx'
 import remarkTable from 'remark-gfm'
 import remarkFrontmatter from 'remark-frontmatter'
@@ -28,8 +28,15 @@ async function jsxToES2019(code_jsx: string) {
 	return code_es2019
 }
 
-function injectImports(code_es2019: string) {
-	return [`import React from 'react'`, `import { mdx } from '@mdx-js/react'`, '', code_es2019].join('\n')
+function injectImports(code_es2019: string, pageData: object) {
+	return [
+		`import React from 'react'`,
+		`import { mdx } from '@mdx-js/react'`,
+		'',
+		code_es2019,
+		'',
+		`export const __pageData = ${JSON.stringify(JSON.stringify(pageData))}`,
+	].join('\n')
 }
 
 async function mdxTransform(code_mdx: string, id: string, userPlugin?: MdxVitePluginOption) {
@@ -56,9 +63,18 @@ async function mdxTransform(code_mdx: string, id: string, userPlugin?: MdxVitePl
 		rehypePlugins: [...(userRehypePlugins ?? [])],
 	}).process(code_mdx)
 
+	let pageData = {
+		title: 'string',
+		relativePath: 'string',
+		description: 'string',
+		navs: [],
+		frontmatter: {},
+		lastUpdated: 21312,
+	}
+
 	const code_es2019 = await jsxToES2019(String(code_vFile))
-	const code_final = injectImports(code_es2019)
-	return code_final
+	const code_final = injectImports(code_es2019, pageData)
+	return { code: code_final, pageData }
 }
 
 export { mdxTransform }

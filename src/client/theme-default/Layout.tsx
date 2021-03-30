@@ -1,28 +1,31 @@
-import React, { useState } from 'react'
-import { BrowserRouter as Router } from 'react-router-dom'
-import { Wrap } from './style'
-import Navbar from './components/Navbar'
-import SideMenu from './components/SideMenu'
+import React, { useContext, useState } from 'react'
+import { Context } from 'vitepress-rc'
+// import { Wrap } from './style'
+// import Navbar from './components/Navbar'
+// import SideMenu from './components/SideMenu'
 
 export default function Layout() {
 	const [menuCollapsed, setMenuCollapsed] = useState(true)
+
+	const { path, component: Comp, data } = useContext(Context)
+
 	return (
-		<Router>
-			<Wrap
-				onClick={() => {
-					if (menuCollapsed) return
-					setMenuCollapsed(true)
+		<div
+			onClick={() => {
+				if (menuCollapsed) return
+				setMenuCollapsed(true)
+			}}
+		>
+			{/* <Navbar
+				title={'组件库'}
+				onMobileMenuClick={(ev) => {
+					setMenuCollapsed((val) => !val)
+					ev.stopPropagation()
 				}}
-			>
-				<Navbar
-					title={'组件库'}
-					onMobileMenuClick={(ev) => {
-						setMenuCollapsed((val) => !val)
-						ev.stopPropagation()
-					}}
-				/>
-				<SideMenu mobileMenuCollapsed={menuCollapsed} />
-			</Wrap>
-		</Router>
+			/>
+			<SideMenu mobileMenuCollapsed={menuCollapsed} /> */}
+
+			{Comp ? <Comp /> : null}
+		</div>
 	)
 }

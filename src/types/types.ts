@@ -11,6 +11,7 @@ export interface UserConfig<ThemeConfig = any> {
 	base?: string
 	title?: string
 	alias?: Record<string, string>
+	head?: HeadConfig[]
 	description?: string
 	themeConfig?: ThemeConfig
 	plugin?: MdxVitePluginOption
@@ -20,6 +21,7 @@ export interface SiteData<ThemeConfig = any> {
 	lang: string
 	base: string
 	title: string
+	head: HeadConfig[]
 	description: string
 	themeConfig: ThemeConfig
 }
@@ -35,16 +37,18 @@ export interface SiteConfig<ThemeConfig = any> {
 	plugin?: MdxVitePluginOption
 }
 
+export type HeadConfig = [string, Record<string, string>] | [string, Record<string, string>, string]
+
 export interface PageData {
 	title: string
 	relativePath: string
 	description: string
-	headers: Header[]
+	navs: Nav[]
 	frontmatter: Record<string, any>
 	lastUpdated: number
 }
 
-export interface Header {
+export interface Nav {
 	level: number
 	title: string
 	slug: string

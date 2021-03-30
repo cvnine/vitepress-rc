@@ -2,7 +2,7 @@
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
 	  "baseUrl": ".",
-	  "outDir": "../../dist/client",
+	  "outDir": "../../dist",
 	  "target": "esnext",
 	  "module": "esnext",
 	  "lib": ["ESNext", "DOM"],

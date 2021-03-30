@@ -55,6 +55,7 @@ export async function resolveSiteData(root: string): Promise<SiteData<any>> {
 		lang: userConfig.lang || 'en-US',
 		title: userConfig.title || 'VitePress',
 		description: userConfig.description || 'A VitePress site',
+		head: userConfig.head || [],
 		base: userConfig.base ? userConfig.base.replace(/([^/])$/, '$1/') : '/',
 		themeConfig: userConfig.themeConfig || {},
 	}
