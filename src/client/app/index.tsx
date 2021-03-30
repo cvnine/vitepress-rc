@@ -1,17 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Layout, NotFound } from '@virtual-module/theme/index'
+import Theme from '@virtual-module/theme/index'
 import { useRoute } from './hooks/useRoute'
 import Context from './context'
 import { useHtmlHead } from './hooks/useHtmlHead'
 
 function App() {
-	const { route } = useRoute(NotFound)
+	const { route } = useRoute(Theme.NotFound)
 	useHtmlHead(route)
 
 	return (
 		<Context.Provider value={route}>
-			<Layout />
+			<Theme.Layout />
 		</Context.Provider>
 	)
 }
