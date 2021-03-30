@@ -7,6 +7,8 @@ import remarkParseYaml from 'remark-parse-yaml'
 import remarkSlug from 'remark-slug'
 import slash from 'slash'
 import { MdxVitePluginOption } from '../../types/types'
+import path from 'path'
+import fs from 'fs-extra'
 
 async function jsxToES2019(code_jsx: string) {
 	// We use `esbuild` ourselves instead of letting Vite doing the esbuild transform,
@@ -39,7 +41,7 @@ function injectImports(code_es2019: string, pageData: object) {
 	].join('\n')
 }
 
-async function mdxTransform(code_mdx: string, id: string, userPlugin?: MdxVitePluginOption) {
+async function mdxTransform(code_mdx: string, id: string, root: string, userPlugin?: MdxVitePluginOption) {
 	const userRemarkPlugins = userPlugin?.remarkPlugins
 		?.map((x) => {
 			if (typeof x === 'function') {
@@ -63,13 +65,16 @@ async function mdxTransform(code_mdx: string, id: string, userPlugin?: MdxVitePl
 		rehypePlugins: [...(userRehypePlugins ?? [])],
 	}).process(code_mdx)
 
+	const relativePath = slash(path.relative(root, id))
+
 	let pageData = {
 		title: 'string',
-		relativePath: 'string',
 		description: 'string',
-		navs: [],
+
+		relativePath,
+		slugs: [],
 		frontmatter: {},
-		lastUpdated: 21312,
+		lastUpdated: Math.round(fs.statSync(id).mtimeMs),
 	}
 
 	const code_es2019 = await jsxToES2019(String(code_vFile))
