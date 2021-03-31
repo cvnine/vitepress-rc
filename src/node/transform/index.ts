@@ -72,7 +72,7 @@ async function mdxTransform(code_mdx: string, id: string, root: string, userPlug
 		description: 'string',
 
 		relativePath,
-		slugs: [],
+		headers: [],
 		frontmatter: {},
 		lastUpdated: Math.round(fs.statSync(id).mtimeMs),
 	}

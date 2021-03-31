@@ -6,7 +6,6 @@ import { useSideData } from 'vitepress-rc'
 import { DefaultTheme } from '@types'
 
 interface NavbarProps {
-	title: string
 	onMobileMenuClick: (ev: React.MouseEvent<HTMLButtonElement>) => void
 }
 
