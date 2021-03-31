@@ -6,7 +6,7 @@ const SvgWrap = styled.svg`
 	top: -1px;
 	display: inline-block;
 	vertical-align: middle;
-	color: var(--doc-border);
+	color: #4d5164;
 `
 
 export const OutboundLink: FC = () => {

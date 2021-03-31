@@ -1,3 +1,4 @@
+import { ComponentType } from 'react'
 import type { Plugin as UnifiedPlugin } from 'unified'
 import { AliasOptions } from 'vite'
 
@@ -52,6 +53,12 @@ export interface Header {
 	level: number
 	title: string
 	slug: string
+}
+
+export interface Route {
+	path: string
+	data: PageData
+	component: ComponentType<any> | null
 }
 
 export namespace DefaultTheme {

@@ -4,6 +4,16 @@ import { createGlobalStyle } from 'styled-components'
 export const Wrap = styled.div`
 	box-sizing: border-box;
 	min-height: 100vh;
+
+	main {
+		margin-left: var(--doc-site-menu-width);
+		padding-top: var(--doc-nav-height);
+
+		@media (max-width: 767px) {
+			margin-left: 0;
+			padding-top: var(--doc-mobile-nav-height);
+		}
+	}
 `
 
 export const GlobalStyle = createGlobalStyle`
@@ -44,7 +54,7 @@ export const GlobalStyle = createGlobalStyle`
 		--doc-light-bg: #f9fafb;
 
 		/* 尺寸表 */
-		--doc-nav-height: 64px;
+		--doc-nav-height: 60px;
 		--doc-mobile-nav-height: 50px;
 		--doc-menu-width: 260px;
 		--doc-site-menu-width: 300px;

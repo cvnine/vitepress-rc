@@ -8,10 +8,8 @@ interface WrapProps {
 export const Wrap = styled.div<WrapProps>`
 	position: fixed;
 	z-index: 100;
-	top: 0;
 	left: 0;
 	bottom: 0;
-	width: var(--doc-menu-width);
 	box-sizing: border-box;
 	transition: left 0.3s;
 	${(props) =>
@@ -19,16 +17,6 @@ export const Wrap = styled.div<WrapProps>`
 		`
 			display: none;
 		`}
-
-	@media (max-width: 767px) {
-		left: -var(--doc-menu-mobile-width);
-		top: var(--doc-mobile-nav-height);
-		display: block !important;
-		width: var(--doc-menu-mobile-width);
-		background-color: #fff;
-
-		${(props) => props.mobileMenuCollapsed && `left: 0;`}
-	}
 
 	&::after {
 		content: '';
@@ -215,6 +203,16 @@ export const Wrap = styled.div<WrapProps>`
 				}
 			}
 		}
+	}
+
+	@media (max-width: 767px) {
+		left: -var(--doc-menu-mobile-width);
+		top: var(--doc-mobile-nav-height);
+		display: block !important;
+		width: var(--doc-menu-mobile-width);
+		background-color: #fff;
+
+		${(props) => props.mobileMenuCollapsed && `left: 0;`}
 	}
 
 	@media only screen and (min-width: 768px) {

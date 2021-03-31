@@ -9,6 +9,10 @@ function App() {
 	const { route } = useRoute(Theme.NotFound)
 	useHtmlHead(route)
 
+	if (route.data === null) {
+		return <></>
+	}
+
 	return (
 		<Context.Provider value={route}>
 			<Theme.Layout />

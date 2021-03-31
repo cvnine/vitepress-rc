@@ -2,7 +2,8 @@ import React, { useContext, useState } from 'react'
 import { Context } from 'vitepress-rc'
 import { Wrap, GlobalStyle } from './style'
 import Navbar from './components/Navbar'
-// import SideMenu from './components/SideMenu'
+import SideMenu from './components/SideMenu'
+import { Content } from './components/Content'
 
 export default function Layout() {
 	const [menuCollapsed, setMenuCollapsed] = useState(true)
@@ -23,9 +24,11 @@ export default function Layout() {
 					ev.stopPropagation()
 				}}
 			/>
-			{/* <SideMenu mobileMenuCollapsed={menuCollapsed} /> */}
+			<SideMenu mobileMenuCollapsed={menuCollapsed} />
 
-			{Comp ? <Comp /> : null}
+			<main>
+				<Content>{Comp ? <Comp /> : null}</Content>
+			</main>
 		</Wrap>
 	)
 }
