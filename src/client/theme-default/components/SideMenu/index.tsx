@@ -51,6 +51,8 @@ const SideBar: FC<{
 	const route = useContext(Context)
 	const sideData = useSideData()
 
+	console.log('route :>> ', route)
+
 	const link = resolveLink(sideData.base, item.link)
 	const children = (item as DefaultTheme.SideBarGroup).children
 	const isActive = isActiveRoute(route, item.link)

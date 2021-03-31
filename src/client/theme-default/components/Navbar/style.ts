@@ -9,7 +9,7 @@ export const Wrap = styled.div`
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	padding: 0 58px;
+	padding: 0 35px;
 	height: var(--doc-nav-height);
 	white-space: nowrap;
 	background: #fff;
@@ -75,7 +75,7 @@ export const Wrap = styled.div`
 				&.active::after {
 					content: '';
 					position: absolute;
-					bottom: 0;
+					bottom: 20%;
 					left: -2px;
 					right: -2px;
 					height: 2px;

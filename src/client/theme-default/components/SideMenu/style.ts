@@ -33,6 +33,7 @@ export const Wrap = styled.div<WrapProps>`
 	.menu-content {
 		width: 100%;
 		height: 100%;
+		padding-top: 42px;
 		overflow: auto;
 		overscroll-behavior: contain;
 
@@ -140,8 +141,6 @@ export const Wrap = styled.div<WrapProps>`
 		}
 
 		.nav-list {
-			padding: 16px 0;
-
 			> li,
 			> li > a {
 				padding-right: 0;
@@ -159,7 +158,7 @@ export const Wrap = styled.div<WrapProps>`
 		}
 
 		.list {
-			padding: 0;
+			padding: 10px 24px;
 			margin-bottom: 40px;
 
 			> li > a {
@@ -218,7 +217,6 @@ export const Wrap = styled.div<WrapProps>`
 	@media only screen and (min-width: 768px) {
 		top: var(--doc-nav-height);
 		width: var(--doc-site-menu-width);
-		padding-top: 50px;
 		background: transparent;
 
 		.list > li > a {

@@ -4,6 +4,7 @@ export const Wrap = styled.div`
 	color: var(--doc-text);
 	font-size: 15px;
 	line-height: 1.60625;
+	padding: 0 24px;
 
 	&:not(:first-child):empty {
 		min-height: 32px;
@@ -57,7 +58,6 @@ export const Wrap = styled.div`
 	}
 
 	h1 {
-		margin-top: 48px;
 		margin-bottom: 32px;
 		font-size: 32px;
 	}
