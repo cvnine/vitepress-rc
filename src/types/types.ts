@@ -4,7 +4,7 @@ import { AliasOptions } from 'vite'
 
 export interface MdxVitePluginOption {
 	remarkPlugins?: UnifiedPlugin[]
-	rehypePlugins: UnifiedPlugin[]
+	rehypePlugins?: UnifiedPlugin[]
 }
 
 export interface UserConfig<ThemeConfig = DefaultTheme.Config> {

@@ -14,7 +14,7 @@ All referenced assets, including those using absolute paths, will be copied to t
 
 All **static** path references, including absolute paths, should be based on your working directory structure.
 
-## Public Files
+## Public Files @#$%^& Iлｔèｒｎåｔïｏｎɑｌíƶ :dog: <ss></ss>
 
 Sometimes you may need to provide static assets that are not directly referenced in any of your Markdown or theme components (for example, favicons and PWA icons). The `public` directory under project root can be used as an escape hatch to provide static assets that either are never referenced in source code (e.g. `robots.txt`), or must retain the exact same file name (without hashing).
 

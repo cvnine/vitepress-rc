@@ -1,14 +1,32 @@
 //fork from vite-plugin-mdx
 import * as esbuild from 'esbuild'
 import { createCompiler } from '@mdx-js/mdx'
+import type { Plugin, Transformer } from 'unified'
 import remarkTable from 'remark-gfm'
 import remarkFrontmatter from 'remark-frontmatter'
 import remarkParseYaml from 'remark-parse-yaml'
 import remarkSlug from 'remark-slug'
+import remarkEmoji from 'remark-emoji'
 import slash from 'slash'
-import { MdxVitePluginOption } from '../../types/types'
+import { HeadConfig, Header, MdxVitePluginOption } from '../../types/types'
 import path from 'path'
 import fs from 'fs-extra'
+import pluginFrontmatter from './plugins/frontmatter'
+import pluginHeaders from './plugins/headers'
+import { deeplyParseHeader } from './utils'
+
+type ExcludesFalse = <T>(x: T | false) => x is T
+
+export interface VFileData {
+	frontmatter: { [key: string]: any }
+	headers: Header[]
+}
+
+export type IPluginTransformer = (
+	node: Parameters<Transformer>[0],
+	vFile: Parameters<Transformer>[1] & { data: VFileData },
+	next?: Parameters<Transformer>[2]
+) => ReturnType<Transformer>
 
 async function jsxToES2019(code_jsx: string) {
 	// We use `esbuild` ourselves instead of letting Vite doing the esbuild transform,
@@ -42,44 +60,102 @@ function injectImports(code_es2019: string, pageData: object) {
 }
 
 async function mdxTransform(code_mdx: string, id: string, root: string, userPlugin?: MdxVitePluginOption) {
-	const userRemarkPlugins = userPlugin?.remarkPlugins
+	const userRemarkPlugins = ((userPlugin?.remarkPlugins
 		?.map((x) => {
-			if (typeof x === 'function') {
-				return (x as Function).bind(undefined, id)
+			if (Array.isArray(x)) {
+				return [x[0], { ...x[1], id }]
 			}
-			return null
+			if (typeof x === 'function') {
+				return [x, { id }]
+			}
+			return false
 		})
-		.filter(Boolean)
+		.filter((Boolean as any) as ExcludesFalse) ?? []) as any) as Plugin[]
 
-	const userRehypePlugins = userPlugin?.rehypePlugins
+	const userRehypePlugins = ((userPlugin?.rehypePlugins
 		?.map((x) => {
-			if (typeof x === 'function') {
-				return (x as Function).bind(undefined, id)
+			if (Array.isArray(x)) {
+				return [x[0], { ...x[1], id }]
 			}
-			return null
+			if (typeof x === 'function') {
+				return [x, { id }]
+			}
+			return false
 		})
-		.filter(Boolean)
+		.filter((Boolean as any) as ExcludesFalse) ?? []) as any) as Plugin[]
 
 	const code_vFile = await createCompiler({
-		remarkPlugins: [remarkFrontmatter, remarkParseYaml, remarkSlug, remarkTable, ...(userRemarkPlugins ?? [])],
-		rehypePlugins: [...(userRehypePlugins ?? [])],
+		remarkPlugins: [
+			remarkFrontmatter,
+			remarkParseYaml,
+			remarkSlug,
+			remarkTable,
+			remarkEmoji,
+			[pluginFrontmatter, { id }],
+			[pluginHeaders, { id }],
+			...userRemarkPlugins,
+		],
+		rehypePlugins: [...userRehypePlugins],
 	}).process(code_mdx)
 
 	const relativePath = slash(path.relative(root, id))
 
+	const _data = code_vFile.data as VFileData
+
+	let _frontmatter = _data.frontmatter ?? {}
+	let _headers = _data.headers ?? []
+
+	console.log('code :>> ', code_vFile.data)
+
 	let pageData = {
-		title: 'string',
-		description: 'string',
+		title: inferTitle(_frontmatter, _headers),
+		description: inferDescription(_frontmatter),
 
 		relativePath,
-		headers: [],
-		frontmatter: {},
+		headers: _headers,
+		frontmatter: _frontmatter,
 		lastUpdated: Math.round(fs.statSync(id).mtimeMs),
 	}
 
 	const code_es2019 = await jsxToES2019(String(code_vFile))
 	const code_final = injectImports(code_es2019, pageData)
 	return { code: code_final, pageData }
+}
+
+const inferTitle = (frontmatter: Record<string, any>, headers: Header[]) => {
+	if (frontmatter.home) {
+		return 'Home'
+	}
+	if (frontmatter.title) {
+		return deeplyParseHeader(frontmatter.title)
+	}
+	const match = headers[0]
+	if (match) {
+		return match.title
+	}
+	return ''
+}
+
+const inferDescription = (frontmatter: Record<string, any>) => {
+	const { description, head } = frontmatter
+
+	if (description !== undefined) {
+		return description
+	}
+
+	return (head && getHeadMetaContent(head, 'description')) || ''
+}
+
+const getHeadMetaContent = (head: HeadConfig[], name: string): string | undefined => {
+	if (!head || !head.length) {
+		return undefined
+	}
+
+	const meta = head.find(([tag, attrs = {}]) => {
+		return tag === 'meta' && attrs.name === name && attrs.content
+	})
+
+	return meta && meta[1].content
 }
 
 export { mdxTransform }

@@ -1,3 +1,11 @@
+---
+title: Blogging Like a Hacker `<a>` **{231}**
+lang: en-US
+nav:
+  path: /自定义导航路由
+  title: 自定义导航名称
+  order: 控制导航顺序，数字越小越靠前，默认以路径长度和字典序排序
+---
 # Markdown Extensions
 
 ## Header Anchors
@@ -10,7 +18,7 @@ Headers automatically get anchor links applied. Rendering of anchors can be conf
 
 Internal links are converted to router link for SPA navigation. Also, every `index.md` contained in each sub-directory will automatically be converted to `index.html`, with corresponding URL `/`.
 
-For example, given the following directory structure:
+For example, given the following directory structure :dog:
 
 ```
 .
