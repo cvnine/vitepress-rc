@@ -33,7 +33,7 @@ export const Wrap = styled.div<WrapProps>`
 	.menu-content {
 		width: 100%;
 		height: 100%;
-		padding-top: 42px;
+		padding-top: 32px;
 		overflow: auto;
 		overscroll-behavior: contain;
 
@@ -41,89 +41,22 @@ export const Wrap = styled.div<WrapProps>`
 			list-style: none;
 			margin: 0;
 			padding: 0;
-			font-size: 16px;
 
 			li {
 				color: var(--doc-text);
 				a {
 					position: relative;
 					display: block;
-					padding-right: 24px;
 					color: var(--doc-heading);
-					line-height: 2.4;
 					text-decoration: none;
 					outline: none;
 					transition: color 0.3s, background 0.3s;
-
-					span {
-						display: block;
-						overflow: hidden;
-						white-space: nowrap;
-						text-overflow: ellipsis;
-					}
+					padding: 10px 36px;
 
 					&:hover,
 					&.active {
 						color: var(--doc-primary);
 					}
-
-					&::before {
-						content: '';
-						position: absolute;
-						top: 50%;
-						left: -10px;
-						margin-top: -2.5px;
-						display: inline-block;
-						width: 5px;
-						height: 5px;
-						background-color: var(--doc-primary);
-						border-radius: 50%;
-						opacity: 0;
-						transition: transform 0.2s, opacity 0.2s;
-						transform: scale(0) translateX(-10px);
-					}
-				}
-
-				&.active a,
-				a.active {
-					&::before {
-						opacity: 1;
-						transform: scale(1) translateX(0);
-					}
-				}
-
-				ul {
-					font-size: 0.9em;
-					padding-left: 1em;
-				}
-			}
-		}
-
-		> ul {
-			> li > a {
-				line-height: 2.875;
-
-				&:not([href]) {
-					padding-top: 24px;
-					line-height: 1;
-					font-weight: 500;
-					color: var(--doc-heading) !important;
-					background: transparent !important;
-					cursor: default;
-				}
-			}
-
-			> li:first-child > a:not([href]) {
-				padding-top: 0;
-			}
-		}
-
-		> ul ul {
-			a {
-				color: var(--doc-secondary);
-
-				&.active {
-					color: var(--doc-primary);
 				}
 			}
 		}
@@ -141,16 +74,13 @@ export const Wrap = styled.div<WrapProps>`
 		}
 
 		.nav-list {
+			margin-right: 10px;
 			> li,
 			> li > a {
-				padding-right: 0;
-				line-height: 2.4;
-
 				ul {
-					padding-left: 0;
+					padding-left: 10px;
 
 					a {
-						padding-right: 0;
 						font-size: 90%;
 					}
 				}
@@ -158,18 +88,27 @@ export const Wrap = styled.div<WrapProps>`
 		}
 
 		.list {
-			padding: 10px 24px;
 			margin-bottom: 40px;
+			margin-right: 10px;
+
+			> li > p {
+				font-size: 18px;
+				font-weight: 600;
+				padding: 20px 24px 10px;
+			}
 
 			> li > a {
 				position: relative;
+				padding-left: 36px;
+				font-size: 15px;
+				padding: 10px 36px;
 
 				&::after {
 					content: '';
 					position: absolute;
 					top: 0;
 					bottom: 0;
-					right: 0;
+					left: 0;
 					display: block;
 					width: 3px;
 					background-color: var(--doc-primary);
@@ -181,24 +120,54 @@ export const Wrap = styled.div<WrapProps>`
 
 				&.active {
 					z-index: 1;
-					background: linear-gradient(to left, #f8faff, rgba(248, 250, 255, 0));
+					background: linear-gradient(to right, #f8faff, rgba(248, 250, 255, 0));
 					&::after {
 						opacity: 1;
 						visibility: visible;
 					}
 				}
 
-				~ ul {
-					margin-top: 8px;
-					margin-left: 28px;
-				}
-
 				@media (max-width: 767px) {
-					padding-left: 16px;
+					padding-left: 32px;
+				}
+			}
 
-					~ ul {
-						margin-left: 16px;
+			> li > ul {
+				> li > p,
+				> li > a {
+					padding-left: 50px;
+				}
+				> li > ul {
+					> li > p,
+					> li > a {
+						padding-left: 64px;
 					}
+					> li > ul {
+						> li > p,
+						> li > a {
+							margin-left: 78px;
+						}
+						> li > ul {
+							> li > p,
+							> li > a {
+								margin-left: 92px;
+							}
+						}
+					}
+				}
+			}
+
+			.side {
+				> li > p {
+					line-height: 1.4;
+					font-weight: 600;
+					padding-top: 5px;
+					padding-bottom: 5px;
+				}
+				> li > a {
+					line-height: 1.4;
+					padding-top: 5px;
+					padding-bottom: 5px;
 				}
 			}
 		}
@@ -218,13 +187,5 @@ export const Wrap = styled.div<WrapProps>`
 		top: var(--doc-nav-height);
 		width: var(--doc-site-menu-width);
 		background: transparent;
-
-		.list > li > a {
-			padding-left: 58px;
-
-			~ ul {
-				margin-left: 58px;
-			}
-		}
 	}
 `

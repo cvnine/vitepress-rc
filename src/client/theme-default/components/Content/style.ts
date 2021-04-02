@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const Wrap = styled.div`
 	color: var(--doc-text);
-	font-size: 15px;
+	font-size: 16px;
 	line-height: 1.60625;
 	padding: 0 24px;
 
@@ -121,7 +121,7 @@ export const Wrap = styled.div`
 
 	ul,
 	ol {
-		margin: 8px 0 8px 32px;
+		margin: 8px 0 8px 20px;
 		padding: 0;
 
 		li {

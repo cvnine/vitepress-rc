@@ -2,7 +2,6 @@ import { Heading } from 'mdast'
 import visit from 'unist-util-visit'
 import find from 'unist-util-find'
 import { IPluginTransformer } from '../index'
-import { deeplyParseHeader } from '../utils'
 import { Node } from 'unist'
 
 interface PluginProps {
@@ -16,7 +15,7 @@ export default function plugin({ id }: PluginProps): IPluginTransformer {
 
 			;(vfile.data.headers || (vfile.data.headers = [])).push({
 				level: node.depth,
-				title: deeplyParseHeader((textNode?.value as string) ?? ''),
+				title: (textNode?.value as string) ?? '',
 				slug: (node.data!.id as string) || '',
 			})
 		})

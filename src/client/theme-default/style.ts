@@ -1,18 +1,21 @@
 import styled from 'styled-components'
 import { createGlobalStyle } from 'styled-components'
 
+interface WrapMainProps {
+	hiddenMenus: boolean
+}
+
 export const Wrap = styled.div`
 	box-sizing: border-box;
 	min-height: 100vh;
+`
+export const WrapMain = styled.main<WrapMainProps>`
+	margin-left: ${(props) => (props.hiddenMenus ? '0' : 'var(--doc-site-menu-width)')};
+	padding-top: var(--doc-nav-height);
 
-	main {
-		margin-left: var(--doc-site-menu-width);
-		padding-top: var(--doc-nav-height);
-
-		@media (max-width: 767px) {
-			margin-left: 0;
-			padding-top: var(--doc-mobile-nav-height);
-		}
+	@media (max-width: 767px) {
+		margin-left: 0;
+		padding-top: var(--doc-mobile-nav-height);
 	}
 `
 
@@ -32,11 +35,6 @@ export const GlobalStyle = createGlobalStyle`
 		-moz-osx-font-smoothing: grayscale;
 	}
 	
-
-	ul,
-	li {
-		list-style: none;
-	}
 
 	a, a:focus {
 		text-decoration: none;

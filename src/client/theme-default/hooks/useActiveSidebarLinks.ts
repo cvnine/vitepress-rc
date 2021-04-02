@@ -94,7 +94,7 @@ function getAnchors(sidebarLinks: HTMLAnchorElement[]): HTMLAnchorElement[] {
 }
 
 function getPageOffset(): number {
-	return +getComputedStyle(document.documentElement).getPropertyValue('--doc-nav-height') || 0
+	return parseInt(getComputedStyle(document.documentElement).getPropertyValue('--doc-nav-height')) || 0
 }
 
 function getAnchorTop(anchor: HTMLAnchorElement): number {

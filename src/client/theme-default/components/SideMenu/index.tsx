@@ -1,20 +1,16 @@
-import React, { FC, useContext } from 'react'
+import React from 'react'
 import { Wrap } from './style'
-import { useSideData, Context, joinPath } from 'vitepress-rc'
+import { useSideData, joinPath } from 'vitepress-rc'
 import { NavLink } from '../Link'
-import { DefaultTheme, Route } from '@types'
-import { useSideBar } from '../../hooks/useSidebar'
-// import SlugMenu from '../SlugMenu'
+import { DefaultTheme } from '@types'
+import SlugMenu from '../SlugMenu'
+import type { FlatSidebar } from '../../hooks/useSidebar'
 
-export default function SideMenu(props: { mobileMenuCollapsed: boolean }) {
+export default function SideMenu(props: { mobileMenuCollapsed: boolean; sideBarItems: FlatSidebar[] }) {
 	const sideData = useSideData()
-	const sideBarItems = useSideBar()
-
-	// const isHiddenMenus = meta.sidemenu === false
-	const isHiddenMenus = false
 
 	return (
-		<Wrap hiddenMenus={isHiddenMenus} mobileMenuCollapsed={!props.mobileMenuCollapsed}>
+		<Wrap hiddenMenus={props.sideBarItems.length === 0} mobileMenuCollapsed={!props.mobileMenuCollapsed}>
 			<div className="menu-content">
 				{sideData.themeConfig.nav && (
 					<div className="mobile-area">
@@ -35,45 +31,26 @@ export default function SideMenu(props: { mobileMenuCollapsed: boolean }) {
 				)}
 
 				<ul className="list">
-					{!isHiddenMenus &&
-						sideBarItems.map((item) => {
-							return <SideBar item={item} key={item.text} />
-						})}
+					{props.sideBarItems.map((item) => {
+						const link = resolveLink(sideData.base, item.link)
+						return (
+							<li key={item.text}>
+								{link ? (
+									<a href={link} className={`${item.isActive ? 'active' : ''}`}>
+										{item.text}
+									</a>
+								) : (
+									<p>{item.text}</p>
+								)}
+								{item.children && item.children.length > 0 && (
+									<SlugMenu className="side" slugs={item.children} />
+								)}
+							</li>
+						)
+					})}
 				</ul>
 			</div>
 		</Wrap>
-	)
-}
-
-const SideBar: FC<{
-	item: DefaultTheme.SideBarItem
-}> = ({ item }) => {
-	const route = useContext(Context)
-	const sideData = useSideData()
-
-	console.log('route :>> ', route)
-
-	const link = resolveLink(sideData.base, item.link)
-	const children = (item as DefaultTheme.SideBarGroup).children
-	const isActive = isActiveRoute(route, item.link)
-
-	return (
-		<li>
-			{link ? (
-				<a href={link} className={`${isActive ? 'active' : ''}`}>
-					{item.text}
-				</a>
-			) : (
-				<span>{item.text}</span>
-			)}
-			{children && children.length > 0 && (
-				<ul>
-					{children.map((child) => {
-						return <SideBar item={child} key={child.text} />
-					})}
-				</ul>
-			)}
-		</li>
 	)
 }
 
@@ -88,21 +65,4 @@ function resolveLink(base: string, path?: string): string | undefined {
 	}
 
 	return joinPath(base, path)
-}
-
-export function normalize(path: string): string {
-	const hashRE = /#.*$/
-	const extRE = /(index)?\.(md|html)$/
-	return decodeURI(path).replace(hashRE, '').replace(extRE, '')
-}
-
-export function isActiveRoute(route: Route, path?: string): boolean {
-	if (path === undefined) {
-		return false
-	}
-
-	const routePath = normalize(`/${route.data.relativePath}`)
-	const pagePath = normalize(path)
-
-	return routePath === pagePath
 }

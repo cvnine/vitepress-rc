@@ -194,7 +194,7 @@ export function useRoute(fallbackComponent?: ComponentType<any>) {
 }
 
 function scrollTo(el: HTMLElement, hash: string, smooth = false) {
-	const pageOffset = +getComputedStyle(document.documentElement).getPropertyValue('--doc-nav-height') || 0
+	const pageOffset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--doc-nav-height')) || 0
 	const target = el.classList.contains('.header-anchor') ? el : document.querySelector(decodeURIComponent(hash))
 	if (target) {
 		const targetTop = (target as HTMLElement).offsetTop - pageOffset - 15

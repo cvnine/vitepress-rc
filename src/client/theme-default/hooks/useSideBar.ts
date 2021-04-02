@@ -1,7 +1,16 @@
-import { DefaultTheme, Header } from '@types'
+import { DefaultTheme, Header, Route } from '@types'
 import React, { useContext } from 'react'
 import { useSideData, Context } from 'vitepress-rc'
 import { useActiveSidebarLinks } from './useActiveSidebarLinks'
+
+export type FlatSidebar = {
+	text: string
+	link?: string
+	level?: number
+	isActive: boolean
+	isHeadering: boolean
+	children?: FlatSidebar[]
+}
 
 export function useSideBar() {
 	const route = useContext(Context)
@@ -25,7 +34,7 @@ export function useSideBar() {
 	}
 
 	// now, there's no sidebar setting at frontmatter; let's see the configs
-	const themeSidebar = getSideBarConfig(sideData.themeConfig.sidebar || false, route.data.relativePath)
+	const themeSidebar = getSideBarConfig(sideData.themeConfig.sidebar || 'auto', route.data.relativePath)
 
 	if (themeSidebar === false) {
 		return []
@@ -35,35 +44,58 @@ export function useSideBar() {
 		return resolveAutoSidebar(headers, sidebarDepth)
 	}
 
-	return themeSidebar
+	return getSideMenu(themeSidebar, route.data.relativePath, resolveAutoSidebar(headers, sidebarDepth))
 }
 
-function resolveAutoSidebar(headers: Header[], depth: number): DefaultTheme.SideBarItem[] {
-	const ret: DefaultTheme.SideBarItem[] = []
-
+function resolveAutoSidebar(headers: Header[], depth: number): FlatSidebar[] {
 	if (headers === undefined) {
 		return []
 	}
 
-	let lastH2: DefaultTheme.SideBarItem | undefined = undefined
-	headers.forEach(({ level, title, slug }) => {
-		if (level - 1 > depth) {
-			return
-		}
-
-		const item: DefaultTheme.SideBarItem = {
-			text: title,
-			link: `#${slug}`,
-		}
-		if (level === 2) {
-			lastH2 = item
-			ret.push(item)
-		} else if (lastH2) {
-			;((lastH2 as any).children || ((lastH2 as any).children = [])).push(item)
-		}
-	})
+	let ret: FlatSidebar[] = headers
+		.filter((x) => x.level - 1 > ~~depth && x.level > 1)
+		.map((x) => ({
+			text: x.title,
+			link: `#${x.slug}`,
+			level: x.level,
+			isActive: false,
+			isHeadering: true,
+		}))
 
 	return ret
+}
+
+function getSideMenu(sidebar: DefaultTheme.SideBarItem[], relativePath: string, headering: FlatSidebar[]) {
+	let stack = [...sidebar]
+
+	let result = []
+	while (stack.length !== 0) {
+		const item = stack.shift()!
+
+		let menuItem: FlatSidebar = {
+			text: item.text,
+			link: item.link,
+			isActive: false,
+			isHeadering: false,
+		}
+
+		if (isActiveRoute(relativePath, item.link)) {
+			menuItem.isActive = true
+			menuItem.children = headering
+		}
+
+		result.push(menuItem)
+
+		const children = (item as DefaultTheme.SideBarGroup).children
+
+		if (children) {
+			for (let i = children.length - 1; i >= 0; i--) {
+				stack.unshift({ ...children[i] })
+			}
+		}
+	}
+
+	return result
 }
 
 /**
@@ -74,17 +106,17 @@ function resolveAutoSidebar(headers: Header[], depth: number): DefaultTheme.Side
  */
 export function getSideBarConfig(
 	sidebar: DefaultTheme.SideBarConfig | DefaultTheme.MultiSideBarConfig,
-	path: string
+	relativePath: string
 ): DefaultTheme.SideBarConfig {
 	if (isSideBarConfig(sidebar)) {
 		return sidebar
 	}
 
-	path = ensureStartingSlash(path)
+	relativePath = ensureStartingSlash(relativePath)
 
 	for (const dir in sidebar) {
 		// make sure the multi sidebar key starts with slash too
-		if (path.startsWith(ensureStartingSlash(dir))) {
+		if (relativePath.startsWith(ensureStartingSlash(dir))) {
 			return sidebar[dir]
 		}
 	}
@@ -132,4 +164,21 @@ export function ensureStartingSlash(path: string): string {
 
 export function removeExtention(path: string): string {
 	return path.replace(/(index)?(\.(md|html))?$/, '') || '/'
+}
+
+export function normalize(path: string): string {
+	const hashRE = /#.*$/
+	const extRE = /(index)?\.(md|html)$/
+	return decodeURI(path).replace(hashRE, '').replace(extRE, '')
+}
+
+export function isActiveRoute(relativePath: string, path?: string): boolean {
+	if (path === undefined) {
+		return false
+	}
+
+	const routePath = normalize(`/${relativePath}`)
+	const pagePath = normalize(path)
+
+	return routePath === pagePath
 }
