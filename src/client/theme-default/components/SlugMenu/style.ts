@@ -5,15 +5,15 @@ export const WrapUl = styled.ul`
 		font-size: 14px;
 		color: var(--doc-text);
 
-		&[data-level='3'] {
+		&[data-slug-level='3'] {
 			padding-left: 12px;
 		}
 
-		&[data-level='4'] {
+		&[data-slug-level='4'] {
 			padding-left: 24px;
 		}
 
-		&[data-level='5'] {
+		&[data-slug-level='5'] {
 			padding-left: 36px;
 		}
 

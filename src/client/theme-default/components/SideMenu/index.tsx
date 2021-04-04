@@ -34,7 +34,7 @@ export default function SideMenu(props: { mobileMenuCollapsed: boolean; sideBarI
 					{props.sideBarItems.map((item) => {
 						const link = resolveLink(sideData.base, item.link)
 						return (
-							<li key={item.text}>
+							<li key={item.text} data-sidebar-level={item.level}>
 								{link ? (
 									<a href={link} className={`${item.isActive ? 'active' : ''}`}>
 										{item.text}

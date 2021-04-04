@@ -93,7 +93,7 @@ export function useRoute(fallbackComponent?: ComponentType<any>) {
 								}
 							}
 							window.scrollTo(0, scrollPosition)
-						})
+						}, 200)
 					}
 				}
 			} catch (err) {

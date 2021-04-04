@@ -105,8 +105,6 @@ async function mdxTransform(code_mdx: string, id: string, root: string, userPlug
 	let _frontmatter = _data.frontmatter ?? {}
 	let _headers = _data.headers ?? []
 
-	console.log('code :>> ', code_vFile.data)
-
 	let pageData = {
 		title: inferTitle(_frontmatter, _headers),
 		description: inferDescription(_frontmatter),

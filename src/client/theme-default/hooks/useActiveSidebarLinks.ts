@@ -45,11 +45,6 @@ export function useActiveSidebarLinks() {
 		}
 	}
 
-	// onUpdated(() => {
-	// 	// sidebar update means a route change
-	// 	activateLink(decodeURIComponent(window.location.hash))
-	// })
-
 	useEffect(() => {
 		setActiveLink()
 
@@ -93,12 +88,8 @@ function getAnchors(sidebarLinks: HTMLAnchorElement[]): HTMLAnchorElement[] {
 		) as HTMLAnchorElement[]
 }
 
-function getPageOffset(): number {
-	return parseInt(getComputedStyle(document.documentElement).getPropertyValue('--doc-nav-height')) || 0
-}
-
 function getAnchorTop(anchor: HTMLAnchorElement): number {
-	const pageOffset = getPageOffset()
+	const pageOffset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--doc-nav-height')) || 0
 
 	return anchor.parentElement!.offsetTop - pageOffset - 15
 }

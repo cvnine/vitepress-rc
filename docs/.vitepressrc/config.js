@@ -48,7 +48,11 @@ function getGuideSidebar() {
     {
       text: 'Introduction',
       children: [
-        { text: 'What is VitePress?', link: '/' },
+        { text: 'What is VitePress?', link: '/',
+	
+	// children:[ { text: 'Getting Started', link: '/guide/getting-started' },
+	// { text: 'Configuration', link: '/guide/configuration' },]
+},
         { text: 'Getting Started', link: '/guide/getting-started' },
         { text: 'Configuration', link: '/guide/configuration' },
         { text: 'Asset Handling', link: '/guide/assets' },

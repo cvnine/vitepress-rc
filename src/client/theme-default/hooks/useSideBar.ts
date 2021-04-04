@@ -8,7 +8,6 @@ export type FlatSidebar = {
 	link?: string
 	level?: number
 	isActive: boolean
-	isHeadering: boolean
 	children?: FlatSidebar[]
 }
 
@@ -59,14 +58,13 @@ function resolveAutoSidebar(headers: Header[], depth: number): FlatSidebar[] {
 			link: `#${x.slug}`,
 			level: x.level,
 			isActive: false,
-			isHeadering: true,
 		}))
 
 	return ret
 }
 
 function getSideMenu(sidebar: DefaultTheme.SideBarItem[], relativePath: string, headering: FlatSidebar[]) {
-	let stack = [...sidebar]
+	let stack: (DefaultTheme.SideBarItem & { _level?: number })[] = [...sidebar]
 
 	let result = []
 	while (stack.length !== 0) {
@@ -75,8 +73,8 @@ function getSideMenu(sidebar: DefaultTheme.SideBarItem[], relativePath: string, 
 		let menuItem: FlatSidebar = {
 			text: item.text,
 			link: item.link,
+			level: item._level ? item._level : 1,
 			isActive: false,
-			isHeadering: false,
 		}
 
 		if (isActiveRoute(relativePath, item.link)) {
@@ -90,7 +88,7 @@ function getSideMenu(sidebar: DefaultTheme.SideBarItem[], relativePath: string, 
 
 		if (children) {
 			for (let i = children.length - 1; i >= 0; i--) {
-				stack.unshift({ ...children[i] })
+				stack.unshift({ ...children[i], _level: item._level ? item._level + 1 : 2 })
 			}
 		}
 	}

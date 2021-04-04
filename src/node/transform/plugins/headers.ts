@@ -13,11 +13,26 @@ export default function plugin({ id }: PluginProps): IPluginTransformer {
 		visit(tree, 'heading', function visitor(node: Heading & Node) {
 			const textNode = find(node, { type: 'text' })
 
+			const headerId = (node.data && (node.data.id as string)) || ''
+
 			;(vfile.data.headers || (vfile.data.headers = [])).push({
 				level: node.depth,
 				title: (textNode?.value as string) ?? '',
-				slug: (node.data!.id as string) || '',
+				slug: headerId,
 			})
+
+			if (headerId) {
+				node.children.unshift({
+					type: 'link',
+					url: `#${headerId}`,
+					data: {
+						hProperties: {
+							ariaHidden: 'true',
+						},
+					},
+					children: [],
+				})
+			}
 		})
 	}
 }
