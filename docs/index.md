@@ -58,4 +58,4 @@ import ABC, {Column} from './abc'
 
 <Column />
 
-<API export="A" src="./abc.tsx" ss='{"dd":"ss"}'></API>
+<API export="A" src="./abc.tsx" ss="{'dd':'ss'}"></API>

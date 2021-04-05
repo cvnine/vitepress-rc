@@ -3788,7 +3788,7 @@ vfile@^4.0.0:
 
 vite@^2.1.2:
   version "2.1.5"
-  resolved "https://registry.npm.taobao.org/vite/download/vite-2.1.5.tgz?cache=0&sync_timestamp=1617153043581&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvite%2Fdownload%2Fvite-2.1.5.tgz#4857da441c62f7982c83cbd5f42a00330f20c9c1"
+  resolved "https://registry.npm.taobao.org/vite/download/vite-2.1.5.tgz#4857da441c62f7982c83cbd5f42a00330f20c9c1"
   integrity sha1-SFfaRBxi95gsg8vV9CoAMw8gycE=
   dependencies:
     esbuild "^0.9.3"

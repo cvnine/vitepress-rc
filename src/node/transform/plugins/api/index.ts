@@ -55,11 +55,11 @@ export default function plugin({ id }: PluginProps): IPluginTransformer {
 
 						console.log('JSON.stringify(parseDocgen) :>> ', JSON.stringify(parseDocgen))
 						console.log('JSON.stringify(parseDocgen) :>> ', node.attributes)
-						// ;(node.attributes as Attributes[]).push({
-						// 	type: 'mdxJsxAttribute',
-						// 	name: 'identifier',
-						// 	value: parseDocgen,
-						// })
+						;(node.attributes as Attributes[]).push({
+							type: 'mdxJsxAttribute',
+							name: 'identifier',
+							value: JSON.stringify(parseDocgen).replace(/"/g, "'"),
+						})
 
 						// const itemExport = attributes.find((x) => x.name === 'export')
 
