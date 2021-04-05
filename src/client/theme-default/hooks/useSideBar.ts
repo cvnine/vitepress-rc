@@ -7,7 +7,7 @@ export type FlatSidebar = {
 	link?: string
 	level?: number
 	isActive: boolean
-	children?: Omit<FlatSidebar, 'isActive'>[]
+	children?: FlatSidebar[]
 }
 
 export function useSideBar() {
@@ -43,27 +43,24 @@ export function useSideBar() {
 	return getSideMenu(themeSidebar, route.data.relativePath, resolveAutoSidebar(headers, sidebarDepth))
 }
 
-function resolveAutoSidebar(headers: Header[], depth: number): Omit<FlatSidebar, 'isActive'>[] {
+function resolveAutoSidebar(headers: Header[], depth: number): FlatSidebar[] {
 	if (headers === undefined) {
 		return []
 	}
 
-	let ret: Omit<FlatSidebar, 'isActive'>[] = headers
+	let ret: FlatSidebar[] = headers
 		.filter((x) => x.level - 1 > ~~depth && x.level > 1)
 		.map((x) => ({
 			text: x.title,
 			link: `#${x.slug}`,
 			level: x.level,
+			isActive: false,
 		}))
 
 	return ret
 }
 
-function getSideMenu(
-	sidebar: DefaultTheme.SideBarItem[],
-	relativePath: string,
-	headering: Omit<FlatSidebar, 'isActive'>[]
-) {
+function getSideMenu(sidebar: DefaultTheme.SideBarItem[], relativePath: string, headering: FlatSidebar[]) {
 	let stack: (DefaultTheme.SideBarItem & { _level?: number })[] = [...sidebar]
 
 	let result = []

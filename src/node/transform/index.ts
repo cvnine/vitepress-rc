@@ -13,6 +13,8 @@ import path from 'path'
 import fs from 'fs-extra'
 import pluginFrontmatter from './plugins/frontmatter'
 import pluginHeaders from './plugins/headers'
+import pluginLink from './plugins/link'
+import pluginApi from './plugins/api'
 import { deeplyParseHeader } from './utils'
 
 type ExcludesFalse = <T>(x: T | false) => x is T
@@ -93,6 +95,8 @@ async function mdxTransform(code_mdx: string, id: string, root: string, userPlug
 			remarkEmoji,
 			[pluginFrontmatter, { id }],
 			[pluginHeaders, { id }],
+			[pluginLink, { id }],
+			[pluginApi, { id }],
 			...userRemarkPlugins,
 		],
 		rehypePlugins: [...userRehypePlugins],
