@@ -134,7 +134,7 @@ export function useRoute(fallbackComponent?: ComponentType<any>) {
 						if (hash && hash !== currentUrl.hash) {
 							window.history.pushState(null, '', hash)
 							// use smooth scroll when clicking on header anchor links
-							scrollTo(link, hash, link.classList.contains('header-anchor'))
+							scrollTo(link, hash, link.classList.contains('header-anchor-a'))
 						}
 					} else {
 						go(href)
@@ -195,7 +195,7 @@ export function useRoute(fallbackComponent?: ComponentType<any>) {
 
 function scrollTo(el: HTMLElement, hash: string, smooth = false) {
 	const pageOffset = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--doc-nav-height')) || 0
-	const target = el.classList.contains('.header-anchor') ? el : document.querySelector(decodeURIComponent(hash))
+	const target = el.classList.contains('.header-anchor-a') ? el : document.querySelector(decodeURIComponent(hash))
 	if (target) {
 		const targetTop = (target as HTMLElement).offsetTop - pageOffset - 15
 		// only smooth scroll if distance is smaller than screen height.

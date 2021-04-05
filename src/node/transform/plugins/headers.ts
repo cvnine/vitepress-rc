@@ -28,6 +28,7 @@ export default function plugin({ id }: PluginProps): IPluginTransformer {
 					data: {
 						hProperties: {
 							ariaHidden: 'true',
+							class: 'header-anchor-a',
 						},
 					},
 					children: [],

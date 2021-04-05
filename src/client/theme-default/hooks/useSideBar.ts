@@ -1,21 +1,18 @@
 import { DefaultTheme, Header, Route } from '@types'
 import React, { useContext } from 'react'
 import { useSideData, Context } from 'vitepress-rc'
-import { useActiveSidebarLinks } from './useActiveSidebarLinks'
 
 export type FlatSidebar = {
 	text: string
 	link?: string
 	level?: number
 	isActive: boolean
-	children?: FlatSidebar[]
+	children?: Omit<FlatSidebar, 'isActive'>[]
 }
 
 export function useSideBar() {
 	const route = useContext(Context)
 	const sideData = useSideData()
-
-	// useActiveSidebarLinks()
 
 	// at first, we'll check if we can find the sidebar setting in frontmatter.
 	const headers = route.data.headers
@@ -46,24 +43,27 @@ export function useSideBar() {
 	return getSideMenu(themeSidebar, route.data.relativePath, resolveAutoSidebar(headers, sidebarDepth))
 }
 
-function resolveAutoSidebar(headers: Header[], depth: number): FlatSidebar[] {
+function resolveAutoSidebar(headers: Header[], depth: number): Omit<FlatSidebar, 'isActive'>[] {
 	if (headers === undefined) {
 		return []
 	}
 
-	let ret: FlatSidebar[] = headers
+	let ret: Omit<FlatSidebar, 'isActive'>[] = headers
 		.filter((x) => x.level - 1 > ~~depth && x.level > 1)
 		.map((x) => ({
 			text: x.title,
 			link: `#${x.slug}`,
 			level: x.level,
-			isActive: false,
 		}))
 
 	return ret
 }
 
-function getSideMenu(sidebar: DefaultTheme.SideBarItem[], relativePath: string, headering: FlatSidebar[]) {
+function getSideMenu(
+	sidebar: DefaultTheme.SideBarItem[],
+	relativePath: string,
+	headering: Omit<FlatSidebar, 'isActive'>[]
+) {
 	let stack: (DefaultTheme.SideBarItem & { _level?: number })[] = [...sidebar]
 
 	let result = []
@@ -150,10 +150,6 @@ export function isSideBarConfig(
 
 export function isSideBarGroup(item: DefaultTheme.SideBarItem): item is DefaultTheme.SideBarGroup {
 	return (item as DefaultTheme.SideBarGroup).children !== undefined
-}
-
-export function isSideBarEmpty(sidebar?: DefaultTheme.SideBarConfig): boolean {
-	return Array.isArray(sidebar) ? sidebar.length === 0 : !sidebar
 }
 
 export function ensureStartingSlash(path: string): string {

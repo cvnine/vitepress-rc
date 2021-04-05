@@ -83,7 +83,7 @@ export const Wrap = styled.div<WrapProps>`
 			margin-bottom: 40px;
 			margin-right: 10px;
 
-			a {
+			li:not(.slug-li) > a {
 				&::after {
 					content: '';
 					position: absolute;
