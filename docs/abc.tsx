@@ -13,12 +13,12 @@ export interface IColumnProps {
 	/** prop4 description */
 	prop4: 'prop1' | 'prop2' | 'prop3'
 	/** prop5 description */
-	prop5: 'prop0'
+	prop5: 'prop51'
 }
 
 export interface IColumnPr {
 	/** prs description */
-	prs?: string
+	props?: string
 }
 function A(props: IColumnPr) {
 	return '这是react A'
@@ -31,9 +31,3 @@ export class Column extends Component<IColumnProps, {}> {
 }
 
 export default A
-
-// export class Column extends Component<IColumnProps, {}> {
-// 	render() {
-// 		return <div>这是react column</div>
-// 	}
-// }

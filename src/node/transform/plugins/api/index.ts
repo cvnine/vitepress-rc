@@ -5,6 +5,11 @@ import fs from 'fs-extra'
 import Parser from './parse'
 import { Alias } from 'vite'
 
+import fromMarkdown from 'mdast-util-from-markdown'
+import syntax from 'micromark-extension-mdxjs'
+import mdx from 'mdast-util-mdx'
+import slash from 'slash'
+
 interface PluginProps {
 	id: string
 	alias: Alias[]
@@ -18,7 +23,7 @@ interface Attributes {
 
 export default function plugin({ id, alias }: PluginProps): IPluginTransformer {
 	return (tree, vfile) => {
-		visit(tree, 'mdxJsxFlowElement', function visitor(node) {
+		visit(tree, 'mdxJsxFlowElement', function visitor(node, i, parent) {
 			if (node.name === 'API') {
 				if (node.attributes) {
 					let attributes = node.attributes as Attributes[]
@@ -36,30 +41,26 @@ export default function plugin({ id, alias }: PluginProps): IPluginTransformer {
 						let docgen = null
 
 						try {
+							//测试时编译耗时近 3s，内置缓存
 							docgen = Parser(filePath)
 						} catch (err) {
 							console.log('error : ', err)
 						}
 
 						if (docgen) {
-							let parseDocgen = {} as any
-							for (const key in docgen) {
-								parseDocgen[key] = docgen[key].map((gen) => {
-									return {
-										identifier: replaceMarks(gen.identifier),
-										type: replaceMarks(gen.type),
-										description: replaceMarks(gen.description),
-										required: replaceMarks(gen.required),
-										defaultValue: replaceMarks(gen.defaultValue),
-									}
-								})
-							}
-
 							;(node.attributes as Attributes[]).push({
 								type: 'mdxJsxAttribute',
 								name: 'identifier',
-								value: JSON.stringify(parseDocgen).replace(/"/g, "'"),
+								value: JSON.stringify(docgen),
 							})
+
+							//for hmr
+							const importNode = fromMarkdown(`import "${slash(filePath)}"`, {
+								extensions: [syntax()],
+								mdastExtensions: [mdx.fromMarkdown],
+							})
+
+							parent?.children.splice(i + 1, 0, importNode.children[0])
 						}
 					}
 				}
@@ -100,15 +101,4 @@ function isExist(id: string, componentPath: string) {
 	} else {
 		return null
 	}
-}
-
-/**
- *  bug with esbuild
- *  see: https://github.com/evanw/esbuild/issues/1115
- */
-function replaceMarks(val: any) {
-	if (val) {
-		return `${val}`.replace(/"|'/g, '`')
-	}
-	return ''
 }

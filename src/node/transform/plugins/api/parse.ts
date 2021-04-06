@@ -1,6 +1,17 @@
 import * as parser from 'react-docgen-typescript'
 import { cacher } from './cache'
 
+const DEFAULT_EXPORTS = [
+	'default',
+	'__function',
+	'Stateless',
+	'StyledComponentClass',
+	'StyledComponent',
+	'FunctionComponent',
+	'StatelessComponent',
+	'ForwardRefExoticComponent',
+]
+
 export interface ApiProp {
 	/**
 	 * component property name
@@ -38,6 +49,9 @@ export default function Parser(filePath: string) {
 					savePropValueAsString: true,
 					shouldExtractLiteralValuesFromEnum: true,
 					shouldRemoveUndefinedFromOptional: true,
+					componentNameResolver: (source) => {
+						return DEFAULT_EXPORTS.includes(source.getName()) ? 'default' : undefined
+					},
 				}
 			)
 			.parse(filePath)

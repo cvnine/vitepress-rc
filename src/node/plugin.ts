@@ -113,8 +113,6 @@ export function createVitePlugin(
 				return [...modules]
 			}
 
-			console.log('111 :>> ', 111)
-
 			server.ws.send({
 				type: 'update',
 				updates: [

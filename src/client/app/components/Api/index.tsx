@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import { WrapTable } from './style'
 
 interface APIProps {
-	exports?: string
+	export?: string
 	identifier: string
 	src?: string
 }
@@ -23,8 +23,8 @@ const TEXT = {
 	required: '(必选)',
 }
 
-export const API: FC<APIProps> = ({ exports, identifier }) => {
-	const renderMap = getRenderMap(exports, identifier)
+export const API: FC<APIProps> = ({ export: expt, identifier }) => {
+	const renderMap = getRenderMap(expt, identifier)
 
 	return (
 		renderMap && (
@@ -56,18 +56,16 @@ export const API: FC<APIProps> = ({ exports, identifier }) => {
 	)
 }
 
-function getRenderMap(exports: APIProps['exports'], identifier: APIProps['identifier']): RenderMap | null {
+function getRenderMap(expt: APIProps['export'] = 'default', identifier: APIProps['identifier']): RenderMap | null {
 	if (!identifier) return null
 
 	let identifierMap = null
 	try {
-		identifierMap = JSON.parse(identifier.replace(/'/g, '"') ?? '{}')
+		identifierMap = JSON.parse(identifier ?? '{}')
 	} catch (err) {}
 
-	let result = null
-	if (exports) {
-		result = identifierMap[exports]
-	} else {
+	let result = identifierMap[expt]
+	if (!result) {
 		for (const key in identifierMap) {
 			result = identifierMap[key]
 			break

@@ -20,6 +20,12 @@ class FileCache {
 
 		return result
 	}
+
+	hmrCache = {}
+
+	addHmrCache(filePath: string, mdPath: string) {
+		this.hmrCache[filePath].push(mdPath)
+	}
 }
 
 export const cacher = new FileCache()
