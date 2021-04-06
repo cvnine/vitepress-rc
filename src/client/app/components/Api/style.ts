@@ -1,3 +1,5 @@
 import styled from 'styled-components'
 
-export const Wrap = styled.div``
+export const WrapTable = styled.table`
+	margin-top: 24px;
+`

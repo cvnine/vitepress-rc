@@ -1,6 +1,6 @@
 import { ComponentType } from 'react'
 import type { Plugin as UnifiedPlugin } from 'unified'
-import { AliasOptions } from 'vite'
+import { Alias } from 'vite'
 
 export interface MdxVitePluginOption {
 	remarkPlugins?: UnifiedPlugin[]
@@ -29,7 +29,7 @@ export interface SiteData<ThemeConfig = DefaultTheme.Config> {
 
 export interface SiteConfig<ThemeConfig = DefaultTheme.Config> {
 	root: string
-	alias: AliasOptions
+	alias: Alias[]
 	configPath: string
 	siteData: SiteData<ThemeConfig>
 	themeDir: string

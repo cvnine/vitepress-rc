@@ -13,7 +13,7 @@ export interface IColumnProps {
 	/** prop4 description */
 	prop4: 'prop1' | 'prop2' | 'prop3'
 	/** prop5 description */
-	prop5: 'prop1'
+	prop5: 'prop0'
 }
 
 export interface IColumnPr {

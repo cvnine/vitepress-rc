@@ -16,6 +16,7 @@ import pluginHeaders from './plugins/headers'
 import pluginLink from './plugins/link'
 import pluginApi from './plugins/api'
 import { deeplyParseHeader } from './utils'
+import { Alias } from 'vite'
 
 type ExcludesFalse = <T>(x: T | false) => x is T
 
@@ -61,7 +62,12 @@ function injectImports(code_es2019: string, pageData: object) {
 	].join('\n')
 }
 
-async function mdxTransform(code_mdx: string, id: string, root: string, userPlugin?: MdxVitePluginOption) {
+async function mdxTransform(
+	code_mdx: string,
+	id: string,
+	{ root, alias }: { root: string; alias: Alias[] },
+	userPlugin?: MdxVitePluginOption
+) {
 	const userRemarkPlugins = ((userPlugin?.remarkPlugins
 		?.map((x) => {
 			if (Array.isArray(x)) {
@@ -96,7 +102,7 @@ async function mdxTransform(code_mdx: string, id: string, root: string, userPlug
 			[pluginFrontmatter, { id }],
 			[pluginHeaders, { id }],
 			[pluginLink, { id }],
-			[pluginApi, { id }],
+			[pluginApi, { id, alias }],
 			...userRemarkPlugins,
 		],
 		rehypePlugins: [...userRehypePlugins],

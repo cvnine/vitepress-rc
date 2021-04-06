@@ -1,5 +1,5 @@
 import path from 'path'
-import { AliasOptions } from 'vite'
+import { Alias } from 'vite'
 import { UserConfig } from '../types/types'
 
 export const APP_PATH = path.join(__dirname, '../client/app')
@@ -9,7 +9,7 @@ export const DEFAULT_THEME_PATH = path.join(__dirname, '../client/theme-default'
 export const SPECIAL_IMPORT_SITE_DATA = '@virtual-module/siteData'
 export const SPECIAL_IMPORT_THEME = '@virtual-module/theme'
 
-export function resolveAliases(themeDir: string, userConfig: UserConfig): AliasOptions {
+export function resolveAliases(themeDir: string, userConfig: UserConfig): Alias[] {
 	const paths: Record<string, string> = {
 		...userConfig.alias,
 		[SPECIAL_IMPORT_THEME]: themeDir,

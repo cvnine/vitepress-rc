@@ -1,14 +1,13 @@
 import { IPluginTransformer } from '../../index'
 import visit from 'unist-util-visit'
 import path from 'path'
-import Parser, { ApiProp } from './parse'
+import fs from 'fs-extra'
+import Parser from './parse'
+import { Alias } from 'vite'
 
 interface PluginProps {
 	id: string
-}
-
-interface IhProperties {
-	[key: string]: any
+	alias: Alias[]
 }
 
 interface Attributes {
@@ -17,7 +16,7 @@ interface Attributes {
 	value: string
 }
 
-export default function plugin({ id }: PluginProps): IPluginTransformer {
+export default function plugin({ id, alias }: PluginProps): IPluginTransformer {
 	return (tree, vfile) => {
 		visit(tree, 'mdxJsxFlowElement', function visitor(node) {
 			if (node.name === 'API') {
@@ -31,67 +30,37 @@ export default function plugin({ id }: PluginProps): IPluginTransformer {
 						componentPath = path.resolve(path.parse(id).dir, './index')
 					}
 
-					let docgen = null
+					const filePath = getParseFilePath({ id, alias }, itemSrc?.value)
 
-					try {
-						docgen = Parser(path.resolve(path.parse(id).dir, componentPath))
-					} catch (err) {
-						console.log('error : ', err)
-					}
+					if (filePath) {
+						let docgen = null
 
-					if (docgen) {
-						let parseDocgen = {} as any
-						for (const key in docgen) {
-							parseDocgen[key] = docgen[key].map((gen) => {
-								return {
-									identifier: replaceMarks(gen.identifier),
-									type: replaceMarks(gen.type),
-									description: replaceMarks(gen.description),
-									required: replaceMarks(gen.required),
-									defaultValue: replaceMarks(gen.defaultValue),
-								}
-							})
+						try {
+							docgen = Parser(filePath)
+						} catch (err) {
+							console.log('error : ', err)
 						}
 
-						console.log('JSON.stringify(parseDocgen) :>> ', JSON.stringify(parseDocgen))
-						console.log('JSON.stringify(parseDocgen) :>> ', node.attributes)
-						;(node.attributes as Attributes[]).push({
-							type: 'mdxJsxAttribute',
-							name: 'identifier',
-							value: JSON.stringify(parseDocgen).replace(/"/g, "'"),
-						})
+						if (docgen) {
+							let parseDocgen = {} as any
+							for (const key in docgen) {
+								parseDocgen[key] = docgen[key].map((gen) => {
+									return {
+										identifier: replaceMarks(gen.identifier),
+										type: replaceMarks(gen.type),
+										description: replaceMarks(gen.description),
+										required: replaceMarks(gen.required),
+										defaultValue: replaceMarks(gen.defaultValue),
+									}
+								})
+							}
 
-						// const itemExport = attributes.find((x) => x.name === 'export')
-
-						// let ApiExport: ApiProp[] = []
-
-						// if (itemExport?.value && docgen[itemExport.value]) {
-						// 	ApiExport = docgen[itemExport.value]
-						// } else {
-						// 	for (const key in docgen) {
-						// 		ApiExport = docgen[key]
-						// 		break
-						// 	}
-						// }
-
-						// node.children = ApiExport.map((gen) => {
-						// 	let _identifier = gen.identifier.replace(/"|'/g, '`')
-						// 	let _description = gen.description?.replace(/"|'/g, '`') ?? ''
-						// 	let _type = gen.type.replace(/"|'/g, '`')
-						// 	let _required = `${gen.required}`.replace(/"|'/g, '`')
-
-						// 	return {
-						// 		type: 'mdxJsxFlowElement',
-						// 		name: 'APINodes',
-						// 		attributes: [
-						// 			{ type: 'mdxJsxAttribute', name: 'identifier', value: _identifier },
-						// 			{ type: 'mdxJsxAttribute', name: 'description', value: _description },
-						// 			{ type: 'mdxJsxAttribute', name: 'type', value: _type },
-						// 			{ type: 'mdxJsxAttribute', name: 'required', value: _required },
-						// 		],
-						// 		children: [],
-						// 	}
-						// })
+							;(node.attributes as Attributes[]).push({
+								type: 'mdxJsxAttribute',
+								name: 'identifier',
+								value: JSON.stringify(parseDocgen).replace(/"/g, "'"),
+							})
+						}
 					}
 				}
 			}
@@ -99,6 +68,44 @@ export default function plugin({ id }: PluginProps): IPluginTransformer {
 	}
 }
 
+function getParseFilePath({ id, alias }: PluginProps, src?: string) {
+	let componentPath = src
+	if (!componentPath) {
+		componentPath = path.resolve(path.parse(id).dir, './index')
+		let filePath = isExist(id, componentPath)
+		return filePath
+	} else {
+		let filePath = isExist(id, componentPath)
+		if (filePath) {
+			return filePath
+		} else {
+			for (const item of alias) {
+				if (typeof item.find === 'string') {
+					filePath = isExist(item.replacement, componentPath.replace(item.find, item.replacement))
+					if (filePath) {
+						return filePath
+					}
+				}
+			}
+			return null
+		}
+	}
+}
+
+function isExist(id: string, componentPath: string) {
+	let filePath = path.resolve(path.parse(id).dir, componentPath)
+
+	if (fs.existsSync(filePath)) {
+		return filePath
+	} else {
+		return null
+	}
+}
+
+/**
+ *  bug with esbuild
+ *  see: https://github.com/evanw/esbuild/issues/1115
+ */
 function replaceMarks(val: any) {
 	if (val) {
 		return `${val}`.replace(/"|'/g, '`')
