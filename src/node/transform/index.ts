@@ -125,12 +125,7 @@ async function mdxTransform(
 		lastUpdated: Math.round(fs.statSync(id).mtimeMs),
 	}
 
-	/**
-	 *  see: https://github.com/mdx-js/mdx/issues/1513
-	 */
-	let _code = String(code_vFile).replace(/\\\\"/g, '&quot;').replace(/\\"/g, '&quot;')
-
-	const code_es2019 = await jsxToES2019(_code)
+	const code_es2019 = await jsxToES2019(String(code_vFile))
 	const code_final = injectImports(code_es2019, pageData)
 	return { code: code_final, pageData }
 }

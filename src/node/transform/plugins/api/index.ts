@@ -49,7 +49,12 @@ export default function plugin({ id, alias }: PluginProps): IPluginTransformer {
 							;(node.attributes as Attributes[]).push({
 								type: 'mdxJsxAttribute',
 								name: 'identifier',
-								value: JSON.stringify(docgen),
+
+								/**
+								 *  bugs here
+								 *  see: https://github.com/mdx-js/mdx/issues/1513
+								 */
+								value: JSON.stringify(docgen).replace(/\\"/g, '%@%').replace(/"/g, '%&%'),
 							})
 
 							//for hmr
@@ -75,7 +80,11 @@ function getParseFilePath({ id, alias }: PluginProps, src?: string) {
 	let componentPath = src
 	if (!componentPath) {
 		componentPath = path.resolve(path.parse(id).dir, './index')
-		let filePath = isExist(id, componentPath)
+		let filePath =
+			isExist(id, `${componentPath}.tsx`) ||
+			isExist(id, `${componentPath}.jsx`) ||
+			isExist(id, `${componentPath}.ts`) ||
+			isExist(id, `${componentPath}.js`)
 		return filePath ? slash(filePath) : null
 	} else {
 		let filePath = isExist(id, componentPath)

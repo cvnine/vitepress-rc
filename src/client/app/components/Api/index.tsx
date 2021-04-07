@@ -41,12 +41,14 @@ export const API: FC<APIProps> = ({ export: expt, identifier }) => {
 					{renderMap.map((row) => (
 						<tr key={row.identifier}>
 							<td>{row.identifier}</td>
-							<td>{row.description || '--'}</td>
+							<td>{row.description?.replace(/%@%/g, '"') || '--'}</td>
 							<td>
-								<code>{row.type}</code>
+								<code>{row.type?.replace(/%@%/g, '"')}</code>
 							</td>
 							<td>
-								<code>{row.default || (row.required && TEXT.required) || '--'}</code>
+								<code>
+									{row.default?.replace(/%@%/g, '"') || (row.required && TEXT.required) || '--'}
+								</code>
 							</td>
 						</tr>
 					))}
@@ -59,18 +61,19 @@ export const API: FC<APIProps> = ({ export: expt, identifier }) => {
 function getRenderMap(expt: APIProps['export'] = 'default', identifier: APIProps['identifier']): RenderMap | null {
 	if (!identifier) return null
 
-	let identifierMap = null
+	let identifierMap = null,
+		result = null
 	try {
-		identifierMap = JSON.parse(identifier ?? '{}')
-	} catch (err) {}
+		identifierMap = JSON.parse(identifier.replace(/%&%/g, '"') ?? '{}')
 
-	let result = identifierMap[expt]
-	if (!result) {
-		for (const key in identifierMap) {
-			result = identifierMap[key]
-			break
+		result = identifierMap[expt]
+		if (!result) {
+			for (const key in identifierMap) {
+				result = identifierMap[key]
+				break
+			}
 		}
-	}
+	} catch (err) {}
 
 	return result
 }

@@ -211,7 +211,7 @@ export default {
 
 ```html
 <ul>
-  <li v-for="todo in todos" :key="todo.id">{{ todo.text }}</li>
+  <li v-for='todo in todos' :key="todo.id">{{ todo.text }}</li>
 </ul>
 ```
 
@@ -239,7 +239,7 @@ export default {
 export default {
   data () {
     return {
-      msg: 'Highlighted!'
+      msg: "Highlighted!"
     }
   }
 }
