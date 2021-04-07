@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { MDXProvider } from '@mdx-js/react'
 import { Wrap } from './style'
-import { API } from 'vitepress-rc'
+import { API, CodeBlock } from 'vitepress-rc'
 
 export const Content: FC = (props) => {
 	return (
@@ -9,6 +9,8 @@ export const Content: FC = (props) => {
 			<MDXProvider
 				components={{
 					API: API,
+					pre: (props: any) => <div {...props} />,
+					code: CodeBlock,
 				}}
 			>
 				{props.children}

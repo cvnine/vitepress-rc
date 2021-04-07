@@ -5,3 +5,4 @@ export { default as Context } from './app/context'
 
 export { Content } from './app/components/Content'
 export { API } from './app/components/Api'
+export { CodeBlock } from './app/components/CodeBlock'

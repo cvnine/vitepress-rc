@@ -71,6 +71,9 @@ export function createVitePlugin(
 										window.$RefreshSig$ = () => (type) => type
 										window.__vite_plugin_react_preamble_installed__ = true
 									</script>
+									<script>
+										window.global = window
+									</script>
 									</head>
 									<body>
 										<div id="app"></div>

@@ -15,6 +15,7 @@ import pluginFrontmatter from './plugins/frontmatter'
 import pluginHeaders from './plugins/headers'
 import pluginLink from './plugins/link'
 import pluginApi from './plugins/api'
+import pluginCode from './plugins/code'
 import { deeplyParseHeader } from './utils'
 import { Alias } from 'vite'
 
@@ -103,6 +104,7 @@ async function mdxTransform(
 			[pluginHeaders, { id }],
 			[pluginLink, { id }],
 			[pluginApi, { id, alias }],
+			[pluginCode, { id }],
 			...userRemarkPlugins,
 		],
 		rehypePlugins: [...userRehypePlugins],

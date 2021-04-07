@@ -64,7 +64,6 @@ Outbound links automatically get `target="_blank" rel="noopener noreferrer"`:
 title: Blogging Like a Hacker
 lang: en-US
 ---
-
 ```
 
 This data will be available to the rest of the page, along with all custom and theming components.
