@@ -2,7 +2,8 @@ import React, { FC } from 'react'
 import Highlight, { defaultProps, Language } from 'prism-react-renderer'
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live'
 import { mdx } from '@mdx-js/react'
-import { Wrap } from './style'
+import { CodeView } from './CodeView'
+import { CodePreviewer } from './CodePreviewer'
 
 interface CodeBlockProps {
 	className?: string
@@ -10,10 +11,24 @@ interface CodeBlockProps {
 	children: string
 }
 
-export const CodeBlock: FC<CodeBlockProps> = ({ children, className, live, ...res }) => {
-	const language = (className?.replace(/language-/, '') ?? 'js') as Language
+const RE = /^language-([^{]*)({([\d,-]+)})*/
 
-	console.log('language :>> ', language)
+function parseClassName(className?: string) {
+	if (className) {
+		const result = RE.exec(className) ?? [null, 'js', null]
+
+		const lineNumbers = result[3]?.split(',').map((x) => x.split('-').map((n) => parseInt(n, 10))) ?? []
+
+		return [result[1], lineNumbers] as [Language, number[][]]
+	}
+
+	return (['js', []] as unknown) as [Language, number[][]]
+}
+
+export const CodeBlock: FC<CodeBlockProps> = ({ children, className, live, ...res }) => {
+	const code = children.replace(/\n$/, '')
+
+	const [language, lineNumbers] = parseClassName(className)
 
 	// if (live) {
 	// 	return (
@@ -27,21 +42,9 @@ export const CodeBlock: FC<CodeBlockProps> = ({ children, className, live, ...re
 	// 	)
 	// }
 
-	return (
-		<Wrap>
-			<Highlight {...defaultProps} code={children} language={language} theme={undefined}>
-				{({ className, style, tokens, getLineProps, getTokenProps }) => (
-					<pre className={className} style={{ ...style }}>
-						{tokens.map((line, i) => (
-							<div key={i} {...getLineProps({ line, key: i })}>
-								{line.map((token, key) => (
-									<span key={key} {...getTokenProps({ token, key })} />
-								))}
-							</div>
-						))}
-					</pre>
-				)}
-			</Highlight>
-		</Wrap>
-	)
+	if (language === 'jsx' || language === 'tsx') {
+		return <CodePreviewer code={code} language={language} />
+	}
+
+	return <CodeView code={code} language={language} lineNumbers={lineNumbers} />
 }

@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const Wrap = styled.div`
+export const CodeViewWrap = styled.div`
 	/* PrismJS 1.23.0
 https://prismjs.com/download.html?themes#themes=prism&languages=markup+css+clike+javascript+javadoclike+jsdoc+jsx+tsx+scss+typescript */
 	/**
@@ -58,7 +58,7 @@ https://prismjs.com/download.html?themes#themes=prism&languages=markup+css+clike
 
 	/* Code blocks */
 	pre[class*='language-'] {
-		padding: 1em;
+		padding: 1em 0;
 		margin: 0.5em 0;
 		overflow: auto;
 	}
@@ -73,6 +73,21 @@ https://prismjs.com/download.html?themes#themes=prism&languages=markup+css+clike
 		padding: 0.1em;
 		border-radius: 0.3em;
 		white-space: normal;
+	}
+
+	pre[class*='language-'] > div {
+		padding: 0 1em;
+	}
+
+	pre[class*='language-'] > div.highlighted {
+		background: hsl(220deg 24% 93%);
+		.token.operator,
+		.token.entity,
+		.token.url,
+		.language-css .token.string,
+		.style .token.string {
+			background: hsl(220deg 24% 93%);
+		}
 	}
 
 	.token.comment,
