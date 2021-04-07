@@ -1,11 +1,9 @@
 import * as React from 'react'
 import { Component } from 'react'
 
-export interface IColumnProps {
+interface IColumnProps {
 	/** prop1 description */
 	prop1?: string
-	/** prop2 description */
-	prop2: number
 	/**
 	 * prop3 description
 	 */
@@ -13,18 +11,23 @@ export interface IColumnProps {
 	/** prop4 description */
 	prop4: 'prop1' | 'prop2' | 'prop3'
 	/** prop5 description */
-	prop5: 'prop51'
+	prop5: 'prop5'
+}
+
+export interface IC extends IColumnProps {
+	/** prop2 description */
+	prop2: number
 }
 
 export interface IColumnPr {
-	/** prs description */
+	/** pros description */
 	props?: string
 }
 function A(props: IColumnPr) {
 	return '这是react A'
 }
 
-export class Column extends Component<IColumnProps, {}> {
+export class Column extends Component<IC, {}> {
 	render() {
 		return <div>这是react column</div>
 	}

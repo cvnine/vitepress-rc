@@ -21,10 +21,20 @@ class FileCache {
 		return result
 	}
 
-	hmrCache = {}
+	hmrCache: Record<string, string[]> = {}
 
-	addHmrCache(filePath: string, mdPath: string) {
-		this.hmrCache[filePath].push(mdPath)
+	setHmrCache(id: string, filePaths: string[]) {
+		this.hmrCache[id] = filePaths
+	}
+
+	getHmrCache(filePath: string) {
+		let result: string[] = []
+		for (const [key, value] of Object.entries(this.hmrCache)) {
+			if (value.includes(filePath)) {
+				result.push(key)
+			}
+		}
+		return result
 	}
 }
 

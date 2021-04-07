@@ -51,5 +51,5 @@ VitePress is future oriented: VitePress only targets browsers that support nativ
 
 Probably not. It's currently under a different name so that we don't over commit to the compatibility with the current VuePress ecosystem (mostly themes and plugins). We'll see how close we can get without compromising the design goals listed above. But the overall idea is that VitePress will have a drastically more minimal theming API (preferring JavaScript APIs instead of file layout conventions) and likely no plugins (all customization is done in themes).
 
-
-<API export="Column" src="./abc.tsx"></API>
+<API export="Column" src="root/abc.tsx"></API>
+<API export="A" src="./abc.tsx"></API>

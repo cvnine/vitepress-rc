@@ -9,6 +9,7 @@ import fromMarkdown from 'mdast-util-from-markdown'
 import syntax from 'micromark-extension-mdxjs'
 import mdx from 'mdast-util-mdx'
 import slash from 'slash'
+import { cacher } from './cache'
 
 interface PluginProps {
 	id: string
@@ -23,17 +24,14 @@ interface Attributes {
 
 export default function plugin({ id, alias }: PluginProps): IPluginTransformer {
 	return (tree, vfile) => {
+		let filePaths: string[] = []
+
 		visit(tree, 'mdxJsxFlowElement', function visitor(node, i, parent) {
 			if (node.name === 'API') {
 				if (node.attributes) {
 					let attributes = node.attributes as Attributes[]
 
 					const itemSrc = attributes.find((x) => x.name === 'src')
-
-					let componentPath = itemSrc?.value
-					if (!componentPath) {
-						componentPath = path.resolve(path.parse(id).dir, './index')
-					}
 
 					const filePath = getParseFilePath({ id, alias }, itemSrc?.value)
 
@@ -61,11 +59,15 @@ export default function plugin({ id, alias }: PluginProps): IPluginTransformer {
 							})
 
 							parent?.children.splice(i + 1, 0, importNode.children[0])
+
+							filePaths.push(filePath)
 						}
 					}
 				}
 			}
 		})
+
+		cacher.setHmrCache(id, [...new Set(filePaths)])
 	}
 }
 
@@ -74,17 +76,17 @@ function getParseFilePath({ id, alias }: PluginProps, src?: string) {
 	if (!componentPath) {
 		componentPath = path.resolve(path.parse(id).dir, './index')
 		let filePath = isExist(id, componentPath)
-		return filePath
+		return filePath ? slash(filePath) : null
 	} else {
 		let filePath = isExist(id, componentPath)
 		if (filePath) {
-			return filePath
+			return slash(filePath)
 		} else {
 			for (const item of alias) {
 				if (typeof item.find === 'string') {
 					filePath = isExist(item.replacement, componentPath.replace(item.find, item.replacement))
 					if (filePath) {
-						return filePath
+						return slash(filePath)
 					}
 				}
 			}

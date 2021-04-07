@@ -6,6 +6,7 @@ import { mdxTransform } from './transform'
 import { APP_PATH, SPECIAL_IMPORT_SITE_DATA } from './paths'
 import { resolveSiteData } from './config'
 import slash from 'slash'
+import { cacher } from './transform/plugins/api/cache'
 
 export function createVitePlugin(
 	root: string,
@@ -113,17 +114,22 @@ export function createVitePlugin(
 				return [...modules]
 			}
 
-			server.ws.send({
-				type: 'update',
-				updates: [
-					{
-						type: `js-update`,
-						timestamp: Date.now(),
-						path: `/index.md`,
-						acceptedPath: `/index.md`,
-					},
-				],
-			})
+			if (/\.(jsx|tsx|js|ts)$/.test(file)) {
+				let idPaths = cacher.getHmrCache(file)
+				for (const item of idPaths) {
+					server.ws.send({
+						type: 'update',
+						updates: [
+							{
+								type: `js-update`,
+								timestamp: Date.now(),
+								path: `/${slash(path.relative(root, item))}`,
+								acceptedPath: `/${slash(path.relative(root, item))}`,
+							},
+						],
+					})
+				}
+			}
 		},
 	}
 
