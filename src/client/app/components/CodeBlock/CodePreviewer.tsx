@@ -9,16 +9,6 @@ interface CodeBlockProps {
 	language: Language
 }
 
-console.log('ts :>> ', ts)
-
 export const CodePreviewer: FC<CodeBlockProps> = ({ code, language }) => {
-	return (
-		<CodeViewWrap>
-			<LiveProvider code={code} scope={{ mdx }} noInline={true} theme={undefined}>
-				<LivePreview />
-				<LiveEditor />
-				<LiveError />
-			</LiveProvider>
-		</CodeViewWrap>
-	)
+	return <CodeViewWrap></CodeViewWrap>
 }
