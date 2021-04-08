@@ -54,3 +54,25 @@ Probably not. It's currently under a different name so that we don't over commit
 v-for="todo in todos"
 
 <API export="Column"></API>
+
+```jsx
+const Wrapper = ({ children }) => (
+  <div style={{
+    background: 'papayawhip',
+    width: '100%',
+    padding: '2rem'
+  }}>
+    {children}
+  </div>
+)
+
+const Title = () => (
+  <h3 style={{ color: 'palevioletred' }}>
+    Hello World!
+  </h3>
+)
+
+render(
+    <Title />
+)
+```

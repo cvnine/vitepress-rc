@@ -1,7 +1,5 @@
 import React, { FC } from 'react'
-import Highlight, { defaultProps, Language } from 'prism-react-renderer'
-import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'react-live'
-import { mdx } from '@mdx-js/react'
+import { Language } from 'prism-react-renderer'
 import { CodeView } from './CodeView'
 import { CodePreviewer } from './CodePreviewer'
 
