@@ -29,7 +29,7 @@ export default function LiveProvider({ code: prevCode, disabled, scope, transfor
 			setError(err.toString())
 			setElement(null)
 		}
-		const renderElement = (element: React.ComponentType) => setElement(element)
+		const renderElement = (element: React.ComponentType) => setElement(() => element)
 
 		try {
 			setElement(null)

@@ -8,7 +8,7 @@ interface ILivePreview {
 export default function LivePreview({ Component, ...rest }: ILivePreview) {
 	return (
 		<Component {...rest}>
-			<LiveContext.Consumer>{({ element: Element }) => Element}</LiveContext.Consumer>
+			<LiveContext.Consumer>{({ element: Element }) => Element && <Element />}</LiveContext.Consumer>
 		</Component>
 	)
 }

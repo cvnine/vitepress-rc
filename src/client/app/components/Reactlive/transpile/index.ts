@@ -21,7 +21,11 @@ export const renderElementAsync = (
 		return errorCallback(new SyntaxError('No-Inline evaluations must call `render`.'))
 	}
 
-	transform(code).then((c) => {
-		evalCode(c, { ...scope, render })
-	})
+	transform(code)
+		.then((c) => {
+			evalCode(c, { ...scope, render })
+		})
+		.catch((err) => {
+			errorCallback(err)
+		})
 }
