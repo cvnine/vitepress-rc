@@ -41,7 +41,7 @@ export const CodeBlock: FC<CodeBlockProps> = ({ children, className, live, ...re
 	// }
 
 	if (language === 'jsx' || language === 'tsx') {
-		return <CodePreviewer code={code} language={language} />
+		return <CodePreviewer code={code} />
 	}
 
 	return <CodeView code={code} language={language} lineNumbers={lineNumbers} />

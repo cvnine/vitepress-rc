@@ -1,19 +1,7 @@
-import Editor from './components/Editor'
+import LiveProvider from './components/LiveProvider'
+import LiveEditor from './components/LiveEditor'
+import LiveError from './components/LiveError'
+import LivePreview from './components/LivePreview'
+import LiveContext from './components/LiveContext'
 
-import LiveProvider from './components/Live/LiveProvider'
-import LiveEditor from './components/Live/LiveEditor'
-import LiveError from './components/Live/LiveError'
-import LivePreview from './components/Live/LivePreview'
-import LiveContext from './components/Live/LiveContext'
-
-export * from './utils/transpile'
-
-export {
-	Editor,
-	// Main exports:
-	LiveProvider,
-	LiveEditor,
-	LiveError,
-	LivePreview,
-	LiveContext,
-}
+export { LiveProvider, LiveEditor, LiveError, LivePreview, LiveContext }
