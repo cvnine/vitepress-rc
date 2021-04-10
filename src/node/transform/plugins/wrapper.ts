@@ -1,4 +1,4 @@
-import { IPluginTransformer, VFileData } from '../index'
+import { IPluginTransformer } from '../index'
 import visit from 'unist-util-visit'
 
 interface PluginProps {
@@ -7,6 +7,8 @@ interface PluginProps {
 
 export default function plugin({ id }: PluginProps): IPluginTransformer {
 	return (tree, vfile) => {
-		visit(tree, 'code', function visitor(node) {})
+		visit(tree, 'root', function visitor(node) {
+			console.log('node :>> ', node)
+		})
 	}
 }

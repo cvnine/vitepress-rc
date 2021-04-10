@@ -40,7 +40,7 @@ export const CodeBlock: FC<CodeBlockProps> = ({ children, className, live, ...re
 	// 	)
 	// }
 
-	if (language === 'jsx' || language === 'tsx') {
+	if (live && (language === 'jsx' || language === 'tsx')) {
 		return <CodePreviewer code={code} />
 	}
 

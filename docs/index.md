@@ -55,7 +55,7 @@ v-for="todo in todos"
 
 <API export="Column"></API>
 
-```jsx
+```jsx live
 const Wrapper = ({ children }) => (
   <div style={{
     background: 'papayawhip',
