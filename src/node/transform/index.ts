@@ -106,10 +106,9 @@ async function mdxTransform(
 			[pluginLink, { id }],
 			[pluginApi, { id, alias }],
 			[pluginCode, { id }],
-			[pluginWrapper, { id }],
 			...userRemarkPlugins,
 		],
-		rehypePlugins: [...userRehypePlugins],
+		rehypePlugins: [([pluginWrapper, { id }] as unknown) as Plugin, ...userRehypePlugins],
 	}).process(code_mdx)
 
 	const relativePath = slash(path.relative(root, id))

@@ -9,12 +9,12 @@ interface CodeBlockProps {
 
 export const CodePreviewer: FC<CodeBlockProps> = ({ code }) => {
 	return (
-		<CodeViewWrap className="previewer">
-			<LiveProvider code={code} scope={{ mdx }}>
-				<LivePreview />
-				<LiveEditor />
-				<LiveError />
-			</LiveProvider>
-		</CodeViewWrap>
+		<LiveProvider code={code} scope={{ mdx }}>
+			<LivePreview />
+			<CodeViewWrap className="code-editor-wrap">
+				<LiveEditor className="code-editor" />
+			</CodeViewWrap>
+			<LiveError />
+		</LiveProvider>
 	)
 }

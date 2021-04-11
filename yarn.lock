@@ -353,6 +353,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/hast@^2.3.1":
+  version "2.3.1"
+  resolved "https://registry.npm.taobao.org/@types/hast/download/@types/hast-2.3.1.tgz?cache=0&sync_timestamp=1613380318679&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fhast%2Fdownload%2F%40types%2Fhast-2.3.1.tgz#b16872f2a6144c7025f296fb9636a667ebb79cd9"
+  integrity sha1-sWhy8qYUTHAl8pb7ljamZ+u3nNk=
+  dependencies:
+    "@types/unist" "*"
+
 "@types/history@*":
   version "4.7.8"
   resolved "https://registry.npm.taobao.org/@types/history/download/@types/history-4.7.8.tgz?cache=0&sync_timestamp=1613378700985&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fhistory%2Fdownload%2F%40types%2Fhistory-4.7.8.tgz#49348387983075705fe8f4e02fb67f7daaec4934"

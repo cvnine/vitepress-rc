@@ -41,6 +41,7 @@
         "@types/buble": "^0.19.2",
         "@types/es-module-lexer": "^0.3.0",
         "@types/fs-extra": "^9.0.8",
+        "@types/hast": "^2.3.1",
         "@types/mdast": "^3.0.3",
         "@types/minimist": "^1.2.1",
         "@types/node": "^14.14.35",

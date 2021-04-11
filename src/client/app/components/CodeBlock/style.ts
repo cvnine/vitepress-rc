@@ -9,6 +9,15 @@ https://prismjs.com/download.html?themes#themes=prism&languages=markup+css+clike
  * @author Lea Verou
  */
 
+	&.code-editor-wrap {
+		background: #f6f7f9;
+		padding: 1em;
+		textarea:focus {
+			outline: none;
+		}
+	}
+
+	.code-editor,
 	code[class*='language-'],
 	pre[class*='language-'] {
 		color: var(--doc-text);
@@ -21,7 +30,7 @@ https://prismjs.com/download.html?themes#themes=prism&languages=markup+css+clike
 		word-spacing: normal;
 		word-break: normal;
 		word-wrap: normal;
-		line-height: 1.5;
+		line-height: 23px;
 
 		-moz-tab-size: 4;
 		-o-tab-size: 4;
@@ -33,6 +42,8 @@ https://prismjs.com/download.html?themes#themes=prism&languages=markup+css+clike
 		hyphens: none;
 	}
 
+	.code-editor::-moz-selection,
+	.code-editor ::-moz-selection,
 	pre[class*='language-']::-moz-selection,
 	pre[class*='language-'] ::-moz-selection,
 	code[class*='language-']::-moz-selection,
@@ -41,6 +52,8 @@ https://prismjs.com/download.html?themes#themes=prism&languages=markup+css+clike
 		background: #b3d4fc;
 	}
 
+	.code-editor::selection,
+	.code-editor ::selection,
 	pre[class*='language-']::selection,
 	pre[class*='language-'] ::selection,
 	code[class*='language-']::selection,
@@ -50,6 +63,7 @@ https://prismjs.com/download.html?themes#themes=prism&languages=markup+css+clike
 	}
 
 	@media print {
+		.code-editor,
 		code[class*='language-'],
 		pre[class*='language-'] {
 			text-shadow: none;
@@ -64,6 +78,7 @@ https://prismjs.com/download.html?themes#themes=prism&languages=markup+css+clike
 	}
 
 	:not(pre) > code[class*='language-'],
+	.code-editor,
 	pre[class*='language-'] {
 		background: #f6f7f9;
 	}
