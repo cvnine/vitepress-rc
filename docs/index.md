@@ -56,6 +56,10 @@ v-for="todo in todos"
 <API export="Column"></API>
 
 ```jsx live=true dd tt=false
+
+import {bbb} from 'react'
+import af from 'ad'
+
 const Wrapper = ({ children }) => (
   <div style={{
     background: 'papayawhip',
@@ -72,9 +76,7 @@ const Title = () => (
   </h3>
 )
 
-render(
-    <Title />
-)
+export default Title
 ```
 
 

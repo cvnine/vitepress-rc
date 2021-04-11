@@ -177,4 +177,8 @@ export const Wrap = styled.div`
 			max-width: 100%;
 		}
 	}
+
+	.code-live {
+		margin: 16px 0;
+	}
 `

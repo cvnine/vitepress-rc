@@ -15,7 +15,6 @@ export interface ILiveProvider {
 export default function LiveProvider({ code: prevCode, disabled, scope, transformCode, children }: ILiveProvider) {
 	const [error, setError] = useState<string | null>('')
 	const [element, setElement] = useState<React.ComponentType | null>(null)
-	const _isMounted = useRef(true)
 
 	const onChange = (editCode: string) => {
 		transpile({ code: editCode, scope, transformCode })
@@ -27,15 +26,11 @@ export default function LiveProvider({ code: prevCode, disabled, scope, transfor
 			scope,
 		}
 		const errorCallback = (err: Error) => {
-			if (_isMounted.current) {
-				setError(err.toString())
-				setElement(null)
-			}
+			setError(err.toString())
+			setElement(null)
 		}
 		const renderElement = (element: React.ComponentType) => {
-			if (_isMounted.current) {
-				setElement(() => element)
-			}
+			setElement(() => element)
 		}
 
 		try {
@@ -49,9 +44,6 @@ export default function LiveProvider({ code: prevCode, disabled, scope, transfor
 
 	useEffect(() => {
 		transpile({ code: prevCode, scope, transformCode })
-		return () => {
-			_isMounted.current = false
-		}
 	}, [prevCode, scope, transformCode])
 
 	return (

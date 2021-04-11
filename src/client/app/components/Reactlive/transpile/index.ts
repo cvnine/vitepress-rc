@@ -11,19 +11,16 @@ export const renderElementAsync = (
 ) => {
 	const render = (element: React.ReactNode) => {
 		if (typeof element === 'undefined') {
-			errorCallback(new SyntaxError('`render` must be called with valid JSX.'))
+			errorCallback(new SyntaxError('`export default` must be called with valid JSX.'))
 		} else {
 			resultCallback(errorBoundary(element, errorCallback))
 		}
 	}
 
-	if (!/render\s*\(/.test(code)) {
-		return errorCallback(new SyntaxError('No-Inline evaluations must call `render`.'))
-	}
-
 	transform(code)
-		.then((c) => {
-			evalCode(c, { ...scope, render })
+		.then(({ result, imports, error }) => {
+			if (error) throw error
+			evalCode(result, { ...scope, ...imports, render })
 		})
 		.catch((err) => {
 			errorCallback(err)

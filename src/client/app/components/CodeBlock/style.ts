@@ -24,7 +24,7 @@ https://prismjs.com/download.html?themes#themes=prism&languages=markup+css+clike
 		background: none;
 		text-shadow: 0 1px white;
 		font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-		font-size: 1em;
+		font-size: 14px;
 		text-align: left;
 		white-space: pre;
 		word-spacing: normal;
@@ -176,5 +176,37 @@ https://prismjs.com/download.html?themes#themes=prism&languages=markup+css+clike
 
 	.token.entity {
 		cursor: help;
+	}
+`
+export const PreviewerWarp = styled.div`
+	border: 1px solid #ebedf1;
+	border-radius: 1px;
+	.code-preview-wrap {
+		padding: 30px 24px;
+	}
+	.code-error-wrap {
+		font-size: 14px;
+		background: #f6f7f9;
+		border-radius: 8px;
+	}
+	.code-actions {
+		display: flex;
+		height: 40px;
+		padding: 0 1em;
+		align-items: center;
+		border-top: 1px dashed #ebedf1;
+		button {
+			position: relative;
+			display: inline-block;
+			width: 16px;
+			height: 16px;
+			padding: 0;
+			border: 0;
+			box-sizing: border-box;
+			cursor: pointer;
+			opacity: 0.6;
+			outline: none;
+			transition: opacity 0.2s, background 0.2s;
+		}
 	}
 `
