@@ -1,4 +1,4 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect } from 'react'
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'vitepress-rc'
 import { CodeViewWrap, PreviewerWarp } from './style'
 import { mdx } from '@mdx-js/react'
@@ -13,15 +13,12 @@ export const CodePreviewer: FC<CodeBlockProps> = ({ code }) => {
 			<LiveProvider code={code} scope={{ mdx }}>
 				<div className="code-preview-wrap">
 					<LivePreview />
-
-					<div className="code-error-wrap">
-						<LiveError style={{ padding: '10px' }} />
-					</div>
 				</div>
 				<div className="code-actions"></div>
 				<CodeViewWrap className="code-editor-wrap">
 					<LiveEditor className="code-editor" />
 				</CodeViewWrap>
+				<LiveError className="code-error-wrap" />
 			</LiveProvider>
 		</PreviewerWarp>
 	)

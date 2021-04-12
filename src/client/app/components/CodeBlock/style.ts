@@ -186,8 +186,9 @@ export const PreviewerWarp = styled.div`
 	}
 	.code-error-wrap {
 		font-size: 14px;
-		background: #f6f7f9;
-		border-radius: 8px;
+		background: var(--doc-light-bg);
+		border-top: 1px dashed #d8d8da;
+		padding: 24px;
 	}
 	.code-actions {
 		display: flex;

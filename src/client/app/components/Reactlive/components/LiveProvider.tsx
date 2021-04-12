@@ -31,14 +31,13 @@ export default function LiveProvider({ code: prevCode, disabled, scope, transfor
 		}
 		const renderElement = (element: React.ComponentType) => {
 			setElement(() => element)
+			setError(null)
 		}
 
 		try {
-			setElement(null)
-			setError(null)
 			renderElementAsync(input, renderElement, errorCallback)
 		} catch (error) {
-			setError(error.toString())
+			errorCallback(error)
 		}
 	}
 

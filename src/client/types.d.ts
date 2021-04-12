@@ -4,3 +4,5 @@ declare module '@virtual-module/siteData' {
 }
 
 declare const __VP_HASH_MAP__: Record<string, string>
+
+declare module 'https://*'
