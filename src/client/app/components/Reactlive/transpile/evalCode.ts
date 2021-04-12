@@ -1,5 +1,3 @@
-import React from 'react'
-
 const evalCode = (
 	code: string,
 	scope: {
@@ -10,8 +8,8 @@ const evalCode = (
 	const scopeValues = scopeKeys.map((key) => scope[key])
 
 	// eslint-disable-next-line no-new-func
-	const res = new Function('React', ...scopeKeys, code)
-	return res(React, ...scopeValues)
+	const res = new Function(...scopeKeys, code)
+	return res(...scopeValues)
 }
 
 export default evalCode

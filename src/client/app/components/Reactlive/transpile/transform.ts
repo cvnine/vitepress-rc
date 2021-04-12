@@ -67,7 +67,15 @@ async function transform(code: string): Promise<ITransform> {
 		const entriesImports: [string, ImportValue[]][] = Object.entries(_imports)
 		let imports: any = {}
 		try {
-			const r = await Promise.all(entriesImports.map((x) => import(`https://jspm.dev/${x[0]}`)))
+			const r = await Promise.all(
+				entriesImports.map((x) => {
+					if (x[0].startsWith('http')) {
+						return import(/* @vite-ignore */ `${x[0]}`)
+					} else {
+						return import(/* @vite-ignore */ `https://jspm.dev/${x[0]}`)
+					}
+				})
+			)
 			for (let index = 0; index < entriesImports.length; index++) {
 				let [key, val] = entriesImports[index]
 				for (const variable of val) {
@@ -86,7 +94,9 @@ async function transform(code: string): Promise<ITransform> {
 			}
 		}
 
-		_code = $(_code).replace(`import $_$1 from '$_$2'`, '').generate()
+		/* import css */
+
+		_code = $(_code).replace(`import $_$1 from '$_$2'`, '').replace(`import '$_$'`, '').generate()
 
 		/* export default */
 		const exportDefault = $(_code).find(`export default $_$`)

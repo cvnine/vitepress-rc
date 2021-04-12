@@ -57,8 +57,10 @@ v-for="todo in todos"
 
 ```jsx live=true dd tt=false
 
-import {Breadcrumb} from 'antd'
+import React from 'react'
 
+import {Breadcrumb} from 'antd'
+import 'https://unpkg.com/antd@4.15.1/dist/antd.css';
 
 const Title = () => (
  <Breadcrumb>

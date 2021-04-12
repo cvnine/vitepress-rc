@@ -14,7 +14,8 @@ export interface ILiveProvider {
 
 export default function LiveProvider({ code: prevCode, disabled, scope, transformCode, children }: ILiveProvider) {
 	const [error, setError] = useState<string | null>('')
-	const [element, setElement] = useState<React.ComponentType | null>(null)
+	// const [element, setElement] = useState<React.ComponentType | null>(null)
+	const domRef = useRef<HTMLDivElement>(null)
 
 	const onChange = (editCode: string) => {
 		transpile({ code: editCode, scope, transformCode })
@@ -27,15 +28,19 @@ export default function LiveProvider({ code: prevCode, disabled, scope, transfor
 		}
 		const errorCallback = (err: Error) => {
 			setError(err.toString())
-			setElement(null)
+			// setElement(null)
+			import('https://jspm.dev/react-dom').then(({ default: ReactDom }) => {
+				ReactDom.unmountComponentAtNode(domRef.current)
+			})
 		}
-		const renderElement = (element: React.ComponentType) => {
-			setElement(() => element)
+		const renderElement = () => {
+			// setElement(() => element)
+
 			setError(null)
 		}
 
 		try {
-			renderElementAsync(input, renderElement, errorCallback)
+			renderElementAsync(input, renderElement, errorCallback, domRef)
 		} catch (error) {
 			errorCallback(error)
 		}
@@ -50,7 +55,7 @@ export default function LiveProvider({ code: prevCode, disabled, scope, transfor
 			value={{
 				code: prevCode,
 				disabled,
-				element,
+				domRef,
 				error,
 				onChange,
 			}}

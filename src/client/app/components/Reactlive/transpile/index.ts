@@ -3,12 +3,13 @@ import errorBoundary, { ErrorCallback } from './errorBoundary'
 import evalCode from './evalCode'
 import React from 'react'
 
-type ResultCallback = (element: React.ComponentType) => void
+type ResultCallback = () => void
 
 export const renderElementAsync = (
 	{ code = '', scope = {} },
 	resultCallback: ResultCallback,
-	errorCallback: ErrorCallback
+	errorCallback: ErrorCallback,
+	domRef: React.RefObject<HTMLDivElement>
 ) => {
 	const render = (element: React.ReactNode) => {
 		if (element == null || element === '') {
@@ -22,13 +23,15 @@ export const renderElementAsync = (
 			typeof element === 'boolean' ||
 			Array.isArray(element)
 		) {
-			resultCallback(errorBoundary(element, errorCallback))
+			errorBoundary(element, errorCallback, domRef)
+			resultCallback()
 			return
 		}
 		if (typeof element === 'function') {
 			if (isClass(element)) {
 				if (element.prototype.isReactComponent) {
-					resultCallback(errorBoundary(element, errorCallback))
+					errorBoundary(element, errorCallback, domRef)
+					resultCallback()
 					return
 				}
 			} else {
@@ -42,7 +45,8 @@ export const renderElementAsync = (
 						typeof returnBack === 'boolean' ||
 						Array.isArray(returnBack))
 				) {
-					resultCallback(errorBoundary(element, errorCallback))
+					errorBoundary(element, errorCallback, domRef)
+					resultCallback()
 					return
 				}
 			}
