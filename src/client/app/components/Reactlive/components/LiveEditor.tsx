@@ -4,6 +4,7 @@ import Editor from 'react-simple-code-editor'
 import Highlight, { defaultProps } from 'prism-react-renderer'
 
 interface ICodeEditor extends Omit<IContext, 'error' | 'element' | 'shadowRoot'> {
+	onCodeChange?: (code: string) => void
 	[key: string]: any
 }
 
@@ -11,11 +12,12 @@ type ILiveEditor = {
 	[key: string]: any
 }
 
-const CodeEditor: FC<ICodeEditor> = ({ code: prevCode, onChange, style, ...res }) => {
+const CodeEditor: FC<ICodeEditor> = ({ code: prevCode, onChange, style, onCodeChange, ...res }) => {
 	const [code, setCode] = React.useState(prevCode)
 
 	useEffect(() => {
 		setCode(prevCode)
+		onCodeChange && onCodeChange(prevCode)
 	}, [prevCode])
 
 	const highlightCode = (code: string) => (
@@ -37,6 +39,7 @@ const CodeEditor: FC<ICodeEditor> = ({ code: prevCode, onChange, style, ...res }
 	const updateContent = (code: string) => {
 		setCode(code)
 		onChange && onChange(code)
+		onCodeChange && onCodeChange(code)
 	}
 
 	return (

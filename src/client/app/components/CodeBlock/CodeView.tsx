@@ -1,6 +1,8 @@
 import React, { FC } from 'react'
 import Highlight, { defaultProps, Language } from 'prism-react-renderer'
 import { CodeViewWrap } from './style'
+import { CopyIcon, CopyOk } from './icon'
+import { useCopy } from './hooks'
 
 interface CodeBlockProps {
 	code: string
@@ -9,8 +11,12 @@ interface CodeBlockProps {
 }
 
 export const CodeView: FC<CodeBlockProps> = ({ code, language, lineNumbers }) => {
+	const [copy, status] = useCopy()
 	return (
 		<CodeViewWrap>
+			<span className="copy-icon">
+				{status === 'ready' ? <CopyIcon onClick={() => copy(code)} /> : <CopyOk />}
+			</span>
 			<Highlight {...defaultProps} code={code} language={language} theme={undefined}>
 				{({ className, style, tokens, getLineProps, getTokenProps }) => (
 					<pre className={className} style={{ ...style }}>

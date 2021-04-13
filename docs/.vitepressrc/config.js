@@ -50,6 +50,10 @@ module.exports = {
 
 function getGuideSidebar() {
   return [
+	{
+		text: 'Todo',
+		children: [{ text: 'Todo List', link: '/guide/todo' }]
+	},
     {
       text: 'Introduction',
       children: [

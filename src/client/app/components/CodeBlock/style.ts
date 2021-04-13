@@ -17,6 +17,18 @@ https://prismjs.com/download.html?themes#themes=prism&languages=markup+css+clike
 		}
 	}
 
+	position: relative;
+	.copy-icon {
+		position: absolute;
+		right: 10px;
+		top: 8px;
+		opacity: 0;
+	}
+	&:hover .copy-icon {
+		opacity: 0.6;
+		transition: opacity 0.2s;
+	}
+
 	.code-editor,
 	code[class*='language-'],
 	pre[class*='language-'] {
@@ -196,5 +208,11 @@ export const PreviewerWarp = styled.div`
 		padding: 0 1em;
 		align-items: center;
 		border-top: 1px dashed #ebedf1;
+		justify-content: space-between;
+		&--right {
+			svg {
+				margin-left: 10px;
+			}
+		}
 	}
 `

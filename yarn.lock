@@ -926,6 +926,11 @@ convert-source-map@^1.7.0:
   dependencies:
     safe-buffer "~5.1.1"
 
+copy-text-to-clipboard@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.npm.taobao.org/copy-text-to-clipboard/download/copy-text-to-clipboard-3.0.1.tgz#8cbf8f90e0a47f12e4a24743736265d157bce69c"
+  integrity sha1-jL+PkOCkfxLkokdDc2Jl0Ve85pw=
+
 core-js-pure@^3.0.0:
   version "3.10.1"
   resolved "https://registry.npm.taobao.org/core-js-pure/download/core-js-pure-3.10.1.tgz?cache=0&sync_timestamp=1617822649174&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fcore-js-pure%2Fdownload%2Fcore-js-pure-3.10.1.tgz#28642697dfcf02e0fd9f4d9891bd03a22df28ecf"

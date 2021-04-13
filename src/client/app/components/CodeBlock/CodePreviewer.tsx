@@ -1,32 +1,47 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, useState } from 'react'
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'vitepress-rc'
-import { CodeIcon, CopyIcon, SandboxIcon } from './icon'
+import { CodeIcon, CopyIcon, CopyOk, RestoreIcon, SandboxIcon } from './icon'
 import { CodeViewWrap, PreviewerWarp } from './style'
+import { useCopy } from './hooks'
 
 interface CodeBlockProps {
 	code: string
 }
 
 export const CodePreviewer: FC<CodeBlockProps> = ({ code }) => {
+	const [showCode, setShowCode] = useState(false)
+	const [currentCode, setCurrentCode] = useState(code)
+	const [copy, status] = useCopy()
+
 	return (
 		<PreviewerWarp>
-			<LiveProvider code={code} scope={{}}>
+			<LiveProvider code={currentCode} scope={{}}>
 				<div className="code-preview-wrap">
 					<LivePreview />
 				</div>
 				<div className="code-actions">
 					<div>
-						<SandboxIcon />
+						<SandboxIcon onClick={() => setShowCode((val) => !val)} />
 					</div>
-					<div>
-						<CopyIcon />
-						<CodeIcon />
+					<div className="code-actions--right">
+						<RestoreIcon onClick={() => setCurrentCode(code)} />
+						{status === 'ready' ? <CopyIcon onClick={() => copy(currentCode)} /> : <CopyOk />}
+						<CodeIcon onClick={() => setShowCode((val) => !val)} />
 					</div>
 				</div>
-				<CodeViewWrap className="code-editor-wrap">
-					<LiveEditor className="code-editor" />
-				</CodeViewWrap>
-				<LiveError className="code-error-wrap" />
+				{showCode && (
+					<>
+						<CodeViewWrap className="code-editor-wrap">
+							<LiveEditor
+								className="code-editor"
+								onCodeChange={(code: string) => {
+									setCurrentCode(code)
+								}}
+							/>
+						</CodeViewWrap>
+						<LiveError className="code-error-wrap" />
+					</>
+				)}
 			</LiveProvider>
 		</PreviewerWarp>
 	)
