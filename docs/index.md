@@ -3,6 +3,45 @@
 ::: warning WARNING
 VitePress is early WIP! Currently the focus is on making Vite stable and feature complete first. It is not recommended to use this for anything serious yet.
 :::
+
+
+```jsx live=true
+
+import React from 'react'
+
+import {Breadcrumb} from 'antd'
+import 'https://unpkg.com/antd@4.15.1/dist/antd.css';
+
+const Title = () => (
+ <Breadcrumb>
+    <Breadcrumb.Item>Home</Breadcrumb.Item>
+    <Breadcrumb.Item>
+      <a href="">Application Center</a>
+    </Breadcrumb.Item>
+    <Breadcrumb.Item>
+      <a href="">Application List</a>
+    </Breadcrumb.Item>
+    <Breadcrumb.Item>An Application</Breadcrumb.Item>
+  </Breadcrumb>
+)
+
+export default Title
+```
+
+
+```jsx live=true
+
+import React from 'react'
+
+import {Input} from 'antd'
+import 'https://unpkg.com/antd@4.15.1/dist/antd.css';
+
+const Title = () => (
+ <Input placeholder="Basic usage" />
+)
+
+export default Title
+```
  
 VitePress is [VuePress](https://vuepress.vuejs.org/)' little brother, built on top of [Vite](https://github.com/vitejs/vite).
 
@@ -55,30 +94,3 @@ v-for="todo in todos"
 
 <API export="Column"></API>
 
-```jsx live=true dd tt=false
-
-import React from 'react'
-
-import {Breadcrumb} from 'antd'
-import 'https://unpkg.com/antd@4.15.1/dist/antd.css';
-
-const Title = () => (
- <Breadcrumb>
-    <Breadcrumb.Item>Home</Breadcrumb.Item>
-    <Breadcrumb.Item>
-      <a href="">Application Center</a>
-    </Breadcrumb.Item>
-    <Breadcrumb.Item>
-      <a href="">Application List</a>
-    </Breadcrumb.Item>
-    <Breadcrumb.Item>An Application</Breadcrumb.Item>
-  </Breadcrumb>
-)
-
-export default Title
-```
-
-
-<div>123</div>
-
-# test

@@ -1,4 +1,3 @@
-import { transform as _transform } from 'buble'
 import React from 'react'
 
 interface ITransform {
@@ -7,21 +6,12 @@ interface ITransform {
 		[key: string]: any
 	}
 	error?: Error
+	cssText?: string
 }
 
 interface ImportValue {
 	value: string
 	isDestructing: boolean
-}
-
-const opts = {
-	objectAssign: 'Object.assign',
-	transforms: {
-		dangerousForOf: true,
-		dangerousTaggedTemplateString: true,
-		asyncAwait: false,
-		generator: false,
-	},
 }
 
 const makeRender = (defaultFn: React.ComponentType) => {
@@ -42,14 +32,16 @@ function isDestructing(tokens: any, start: number) {
 async function transform(code: string): Promise<ITransform> {
 	try {
 		const [{ default: $ }, babel] = await Promise.all([
-			import('https://jspm.dev/gogocode'),
+			import('https://jspm.dev/gogocode@0.2.9'),
 			import('https://jspm.dev/@babel/standalone'),
 		])
 
 		let _code = code
 
 		/* import */
-		let _imports: Record<string, ImportValue[]> = {}
+		let tmpImportMap: Record<string, ImportValue[]> = {}
+		let importJs: { [key: string]: any } = {}
+
 		$(_code)
 			.find(`import $_$1 from '$_$2'`)
 			.each((item: any) => {
@@ -61,11 +53,10 @@ async function transform(code: string): Promise<ITransform> {
 					}
 				})
 				let importName: string = item.match[2][0].value
-				;(_imports[importName] || (_imports[importName] = [])).push(...node)
+				;(tmpImportMap[importName] || (tmpImportMap[importName] = [])).push(...node)
 			})
 
-		const entriesImports: [string, ImportValue[]][] = Object.entries(_imports)
-		let imports: any = {}
+		const entriesImports: [string, ImportValue[]][] = Object.entries(tmpImportMap)
 		try {
 			const r = await Promise.all(
 				entriesImports.map((x) => {
@@ -80,9 +71,9 @@ async function transform(code: string): Promise<ITransform> {
 				let [key, val] = entriesImports[index]
 				for (const variable of val) {
 					if (variable.isDestructing) {
-						imports[variable.value] = r[index].default[variable.value]
+						importJs[variable.value] = r[index].default[variable.value]
 					} else {
-						imports[variable.value] = r[index].default
+						importJs[variable.value] = r[index].default
 					}
 				}
 			}
@@ -95,32 +86,44 @@ async function transform(code: string): Promise<ITransform> {
 		}
 
 		/* import css */
+		let importCss: string[] = []
+		let cssText: string = ''
+		$(_code)
+			.find(`import '$_$'`)
+			.each((item: any) => {
+				let value = item.match[0][0].value
+				if (/\.css$/.test(value)) {
+					importCss.push(value)
+				}
+			})
 
-		_code = $(_code).replace(`import $_$1 from '$_$2'`, '').replace(`import '$_$'`, '').generate()
+		try {
+			const r = await Promise.all(importCss.map((x) => fetch(/* @vite-ignore */ `${x}`).then((x) => x.text())))
+			cssText = r.join('\n')
+		} catch (err) {}
 
 		/* export default */
 		const exportDefault = $(_code).find(`export default $_$`)
-		let defaultFn = () => null
 
-		if (exportDefault[0]) {
-			if (exportDefault[1]) {
-				return {
-					result: '',
-					imports: {},
-					error: new SyntaxError('multiple `export default` error'),
-				}
-			} else {
-				let match = exportDefault[0].match
-				defaultFn = match[0][0].value
-				_code = $(_code).replace(`export default $_$`, '').generate()
-			}
-		} else {
+		if (exportDefault.length === 0) {
 			return {
 				result: '',
 				imports: {},
 				error: new SyntaxError('`export default` must be called'),
 			}
+		} else if (exportDefault.length > 1) {
+			return {
+				result: '',
+				imports: {},
+				error: new SyntaxError('multiple `export default` error'),
+			}
 		}
+
+		let match = exportDefault[0].match
+		let defaultFn = match[0][0].value
+
+		//移除import export 影响
+		_code = $(_code).replace(`import '$_$'`, '').replace(`export default $_$`, '').generate()
 
 		const babelResult = babel.transform(_code + makeRender(defaultFn), {
 			filename: 'transformedCode.ts',
@@ -136,12 +139,12 @@ async function transform(code: string): Promise<ITransform> {
 			],
 		})
 
-		return { result: babelResult.code, imports }
-	} catch (err) {
-		console.log('buble :>> ', err)
+		return { result: babelResult.code, imports: importJs, cssText }
+	} catch (error) {
 		return {
-			result: _transform(code, opts).code,
+			result: '',
 			imports: {},
+			error,
 		}
 	}
 }

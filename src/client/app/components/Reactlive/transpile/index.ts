@@ -9,9 +9,9 @@ export const renderElementAsync = (
 	{ code = '', scope = {} },
 	resultCallback: ResultCallback,
 	errorCallback: ErrorCallback,
-	domRef: React.RefObject<HTMLDivElement>
+	shadowRoot: React.MutableRefObject<ShadowRoot | null>
 ) => {
-	const render = (element: React.ReactNode) => {
+	const render = (cssText?: string) => (element: React.ReactNode) => {
 		if (element == null || element === '') {
 			errorCallback(new SyntaxError('`export default` must be called with valid JSX.'))
 			return
@@ -23,14 +23,14 @@ export const renderElementAsync = (
 			typeof element === 'boolean' ||
 			Array.isArray(element)
 		) {
-			errorBoundary(element, errorCallback, domRef)
+			errorBoundary(element, errorCallback, shadowRoot, cssText)
 			resultCallback()
 			return
 		}
 		if (typeof element === 'function') {
 			if (isClass(element)) {
 				if (element.prototype.isReactComponent) {
-					errorBoundary(element, errorCallback, domRef)
+					errorBoundary(element, errorCallback, shadowRoot, cssText)
 					resultCallback()
 					return
 				}
@@ -45,7 +45,7 @@ export const renderElementAsync = (
 						typeof returnBack === 'boolean' ||
 						Array.isArray(returnBack))
 				) {
-					errorBoundary(element, errorCallback, domRef)
+					errorBoundary(element, errorCallback, shadowRoot, cssText)
 					resultCallback()
 					return
 				}
@@ -55,9 +55,9 @@ export const renderElementAsync = (
 	}
 
 	transform(code)
-		.then(({ result, imports, error }) => {
+		.then(({ result, imports, error, cssText }) => {
 			if (error) throw error
-			evalCode(result, { ...scope, ...imports, render })
+			evalCode(result, { ...scope, ...imports, render: render(cssText) })
 		})
 		.catch((err) => {
 			errorCallback(err)

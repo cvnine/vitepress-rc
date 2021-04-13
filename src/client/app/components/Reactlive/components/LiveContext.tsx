@@ -4,7 +4,7 @@ export interface IContext {
 	code: string
 	disabled: boolean
 	error: string | null
-	domRef: React.RefObject<HTMLDivElement> | null
+	shadowRoot?: React.MutableRefObject<ShadowRoot | null>
 	onChange: (code: string) => void
 }
 
@@ -12,7 +12,6 @@ const LiveContext = createContext<IContext>({
 	code: '',
 	disabled: false,
 	error: '',
-	domRef: null,
 	onChange: () => {},
 })
 

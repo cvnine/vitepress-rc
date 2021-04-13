@@ -3,7 +3,7 @@ import LiveContext, { IContext } from './LiveContext'
 import Editor from 'react-simple-code-editor'
 import Highlight, { defaultProps } from 'prism-react-renderer'
 
-interface ICodeEditor extends Omit<IContext, 'error' | 'element' | 'domRef'> {
+interface ICodeEditor extends Omit<IContext, 'error' | 'element' | 'shadowRoot'> {
 	[key: string]: any
 }
 
