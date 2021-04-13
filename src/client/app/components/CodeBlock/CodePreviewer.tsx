@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react'
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'vitepress-rc'
+import { CodeIcon, CopyIcon, SandboxIcon } from './icon'
 import { CodeViewWrap, PreviewerWarp } from './style'
-import { mdx } from '@mdx-js/react'
 
 interface CodeBlockProps {
 	code: string
@@ -10,11 +10,19 @@ interface CodeBlockProps {
 export const CodePreviewer: FC<CodeBlockProps> = ({ code }) => {
 	return (
 		<PreviewerWarp>
-			<LiveProvider code={code} scope={{ mdx }}>
+			<LiveProvider code={code} scope={{}}>
 				<div className="code-preview-wrap">
 					<LivePreview />
 				</div>
-				<div className="code-actions"></div>
+				<div className="code-actions">
+					<div>
+						<SandboxIcon />
+					</div>
+					<div>
+						<CopyIcon />
+						<CodeIcon />
+					</div>
+				</div>
 				<CodeViewWrap className="code-editor-wrap">
 					<LiveEditor className="code-editor" />
 				</CodeViewWrap>

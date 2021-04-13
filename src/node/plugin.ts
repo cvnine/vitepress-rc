@@ -63,6 +63,8 @@ export function createVitePlugin(
 								<html>
 									<head>
 									<meta charset="utf-8">
+									<link rel="prefetch" href="https://jspm.dev/@babel/standalone">
+									<link rel="prefetch" href="https://jspm.dev/gogocode@0.2.9">
 									<script type="module" src="/@vite/client"></script>
 									<script type="module">
 										import RefreshRuntime from "/@react-refresh"

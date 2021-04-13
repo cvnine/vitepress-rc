@@ -196,18 +196,5 @@ export const PreviewerWarp = styled.div`
 		padding: 0 1em;
 		align-items: center;
 		border-top: 1px dashed #ebedf1;
-		button {
-			position: relative;
-			display: inline-block;
-			width: 16px;
-			height: 16px;
-			padding: 0;
-			border: 0;
-			box-sizing: border-box;
-			cursor: pointer;
-			opacity: 0.6;
-			outline: none;
-			transition: opacity 0.2s, background 0.2s;
-		}
 	}
 `
