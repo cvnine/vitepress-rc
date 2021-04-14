@@ -4,45 +4,6 @@
 VitePress is early WIP! Currently the focus is on making Vite stable and feature complete first. It is not recommended to use this for anything serious yet.
 :::
 
-
-```jsx live=true
-
-import React from 'react'
-
-import {Breadcrumb} from 'antd'
-import 'https://unpkg.com/antd@4.15.1/dist/antd.css';
-
-const Title = () => (
- <Breadcrumb>
-    <Breadcrumb.Item>Home</Breadcrumb.Item>
-    <Breadcrumb.Item>
-      <a href="">Application Center</a>
-    </Breadcrumb.Item>
-    <Breadcrumb.Item>
-      <a href="">Application List</a>
-    </Breadcrumb.Item>
-    <Breadcrumb.Item>An Application</Breadcrumb.Item>
-  </Breadcrumb>
-)
-
-export default Title
-```
-
-
-```jsx live=true
-
-import React from 'react'
-
-import {Input} from 'antd'
-import 'https://unpkg.com/antd@4.15.1/dist/antd.css';
-
-const Title = () => (
- <Input placeholder="Basic usage" />
-)
-
-export default Title
-```
- 
 VitePress is [VuePress](https://vuepress.vuejs.org/)' little brother, built on top of [Vite](https://github.com/vitejs/vite).
 
 ## Motivation
@@ -89,8 +50,4 @@ VitePress is future oriented: VitePress only targets browsers that support nativ
 ## Will This Become The Next VuePress in The Future?
 
 Probably not. It's currently under a different name so that we don't over commit to the compatibility with the current VuePress ecosystem (mostly themes and plugins). We'll see how close we can get without compromising the design goals listed above. But the overall idea is that VitePress will have a drastically more minimal theming API (preferring JavaScript APIs instead of file layout conventions) and likely no plugins (all customization is done in themes).
-
-## API
-
-<API export="Column"></API>
 

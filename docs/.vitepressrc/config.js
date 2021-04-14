@@ -28,7 +28,8 @@ module.exports = {
     },
 
     nav: [
-      { text: 'Guide', link: '/', activeMatch: '^/$|^/guide/' },
+      { text: 'Test', link: '/', activeMatch: '^/$|^/local/' },
+      { text: 'Guide', link: '/guide', activeMatch: '^/$|^/guide/' },
       {
         text: 'Config Reference',
         link: '/config/basics',
@@ -41,19 +42,28 @@ module.exports = {
     ],
 
     sidebar: {
+      '/local/': getLocalSidebar(),
       '/guide/': getGuideSidebar(),
       '/config/': getConfigSidebar(),
-      '/': getGuideSidebar()
+      '/': getLocalSidebar()
     }
   }
 }
 
+function getLocalSidebar(){
+	return [
+		{
+			text: 'Test',
+			children: [
+				{ text: 'Todo List', link: '/local/todo' },
+				{ text: 'Difference', link: '/local/dif' },
+			]
+		},
+	]
+}
+
 function getGuideSidebar() {
   return [
-	{
-		text: 'Todo',
-		children: [{ text: 'Todo List', link: '/guide/todo' }]
-	},
     {
       text: 'Introduction',
       children: [
