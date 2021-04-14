@@ -14,7 +14,7 @@ interface ImportValue {
 	isDestructing: boolean
 }
 
-const makeRender = (defaultFn: React.ComponentType) => {
+function makeRender(defaultFn: React.ComponentType) {
 	return ['', 'render(', defaultFn, ')'].join('\n')
 }
 

@@ -11,18 +11,12 @@ export const renderElementAsync = (
 	errorCallback: ErrorCallback,
 	shadowRoot: React.MutableRefObject<ShadowRoot | null>
 ) => {
-	const render = (cssText?: string) => (element: React.ReactNode) => {
+	const render = (cssText?: string) => (element: any) => {
 		if (element == null || element === '') {
 			errorCallback(new SyntaxError('`export default` must be called with valid JSX.'))
 			return
 		}
-		if (
-			React.isValidElement(element) ||
-			typeof element === 'string' ||
-			typeof element === 'number' ||
-			typeof element === 'boolean' ||
-			Array.isArray(element)
-		) {
+		if (isReactElement(element)) {
 			errorBoundary(element, errorCallback, shadowRoot, cssText)
 			resultCallback()
 			return
@@ -36,15 +30,7 @@ export const renderElementAsync = (
 				}
 			} else {
 				const returnBack = element()
-				if (
-					returnBack != null &&
-					returnBack !== '' &&
-					(React.isValidElement(returnBack) ||
-						typeof returnBack === 'string' ||
-						typeof returnBack === 'number' ||
-						typeof returnBack === 'boolean' ||
-						Array.isArray(returnBack))
-				) {
+				if (returnBack != null && returnBack !== '' && isReactElement(returnBack)) {
 					errorBoundary(element, errorCallback, shadowRoot, cssText)
 					resultCallback()
 					return
@@ -71,4 +57,14 @@ function isClass(fn: any) {
 		return false
 	}
 	return true
+}
+
+function isReactElement(element: any): boolean {
+	return (
+		React.isValidElement(element) ||
+		typeof element === 'string' ||
+		typeof element === 'number' ||
+		typeof element === 'boolean' ||
+		Array.isArray(element)
+	)
 }
