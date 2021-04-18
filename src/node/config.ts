@@ -3,13 +3,13 @@ import fs from 'fs-extra'
 import path from 'path'
 import globby from 'globby'
 import { APP_PATH, DEFAULT_THEME_PATH, resolveAliases } from './paths'
-import { SiteData, UserConfig } from '../types/types'
+import { SiteConfig, SiteData, UserConfig } from '../types/types'
 
 const resolve = (root: string, file: string) => {
 	return path.resolve(root, `.vitepressrc`, file)
 }
 
-export async function resolveConfig(root: string = process.cwd()) {
+export async function resolveConfig(root: string = process.cwd()): Promise<SiteConfig> {
 	const userConfig = await resolveUserConfig(root)
 	const siteData = await resolveSiteData(root)
 

@@ -34,6 +34,7 @@ export interface SiteConfig<ThemeConfig = DefaultTheme.Config> {
 	siteData: SiteData<ThemeConfig>
 	themeDir: string
 	outDir: string
+	tempDir: string
 	pages: string[]
 	plugin?: MdxVitePluginOption
 }
