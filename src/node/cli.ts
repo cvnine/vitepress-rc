@@ -2,6 +2,7 @@ import minimist from 'minimist'
 import chalk from 'chalk'
 import { createServer } from './server'
 import { build } from './build'
+import { serve } from './serve'
 
 const argv: any = minimist(process.argv.slice(2))
 
@@ -30,6 +31,10 @@ if (!command || command === 'dev') {
 		process.exit(1)
 	})
 } else if (command === 'serve') {
+	serve(argv).catch((err) => {
+		console.error(chalk.red(`failed to start server. error:\n`), err)
+		process.exit(1)
+	})
 } else {
 	console.log(chalk.red(`unknown command "${command}".`))
 	process.exit(1)

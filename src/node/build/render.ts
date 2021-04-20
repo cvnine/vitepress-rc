@@ -16,14 +16,12 @@ export async function renderPage(
 	pageToHashMap: Record<string, string>,
 	hashMapString: string
 ) {
-	const { createApp } = require(path.join(config.tempDir, `app.js`))
-	const { app, router } = createApp()
+	const { render } = require(path.join(config.tempDir, `app.js`))
 	const routePath = `/${page.replace(/\.md$/, '')}`
 	// const siteData = resolveSiteDataByRoute(config.site, routePath)
 	const siteData = config.siteData
-	router.go(routePath)
 	// lazy require server-renderer for production build
-	const content = await require('@vue/server-renderer').renderToString(app)
+	const content = await render(routePath)
 
 	const pageName = page.replace(/\//g, '_')
 	// server build doesn't need hash

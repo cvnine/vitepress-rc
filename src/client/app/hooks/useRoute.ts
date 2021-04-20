@@ -23,7 +23,7 @@ interface PageModule {
 	default: ComponentType<any>
 }
 
-export function useRoute(fallbackComponent?: ComponentType<any>) {
+export function useRoute(fallbackComponent?: ComponentType<any>, ssrHref?: string) {
 	const [route, setRoute] = useState(getDefaultRoute)
 
 	const latestPendingPathRef = useRef<string | null>(null)
@@ -32,7 +32,7 @@ export function useRoute(fallbackComponent?: ComponentType<any>) {
 	const initialPath = useRef<string>('')
 
 	useEffect(() => {
-		function go(href: string = inBrowser ? window.location.href : '/') {
+		function go(href: string = inBrowser ? window.location.href : ssrHref ? ssrHref : '/') {
 			// ensure correct deep link so page refresh lands on correct files.
 			const url = new URL(href, fakeHost)
 			if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.html')) {

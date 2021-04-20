@@ -23,7 +23,7 @@ export async function bundle(
 	// the loading is done via filename conversion rules so that the
 	// metadata doesn't need to be included in the main chunk.
 	const input: Record<string, string> = {
-		app: path.resolve(APP_PATH, 'index.js'),
+		app: path.resolve(APP_PATH, 'entry-server.js'),
 	}
 	config.pages.forEach((file) => {
 		// page filename conversion
@@ -61,7 +61,6 @@ export async function bundle(
 						? {}
 						: {
 								chunkFileNames(chunk): string {
-									console.log('chunk :>> ', chunk)
 									if (!chunk.isEntry && /runtime/.test(chunk.name)) {
 										return `assets/framework.[hash].js`
 									}

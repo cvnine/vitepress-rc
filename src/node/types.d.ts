@@ -30,3 +30,7 @@ declare module 'mdast-util-mdx' {
 }
 
 declare module 'unist-util-find' {}
+declare module 'compression' {
+	const fn: () => any
+	export = fn
+}
