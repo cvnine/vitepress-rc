@@ -1,7 +1,10 @@
 import fs from 'fs-extra'
-import { BuildOptions } from 'vite'
+import type { BuildOptions } from 'vite'
+import type { OutputChunk, OutputAsset } from 'rollup'
 import { resolveConfig } from '../config'
-import { bundle } from './bundle'
+import { bundle, failMark, okMark } from './bundle'
+import ora from 'ora'
+import { renderPage } from './render'
 
 export async function build(root: string, buildOptions: BuildOptions = {}) {
 	const start = Date.now()
@@ -10,6 +13,38 @@ export async function build(root: string, buildOptions: BuildOptions = {}) {
 	const siteConfig = await resolveConfig(root)
 
 	try {
-		const [] = await bundle(siteConfig, buildOptions)
-	} catch (err) {}
+		const [clientResult, , pageToHashMap] = await bundle(siteConfig, buildOptions)
+		const spinner = ora()
+		spinner.start('rendering pages...')
+
+		try {
+			const appChunk = clientResult.output.find((chunk) => chunk.type === 'chunk' && chunk.isEntry) as OutputChunk
+
+			const cssChunk = clientResult.output.find(
+				(chunk) => chunk.type === 'asset' && chunk.fileName.endsWith('.css')
+			) as OutputAsset
+
+			// We embed the hash map string into each page directly so that it doesn't
+			// alter the main chunk's hash on every build. It's also embedded as a
+			// string and JSON.parsed from the client because it's faster than embedding
+			// as JS object literal.
+			const hashMapString = JSON.stringify(JSON.stringify(pageToHashMap))
+
+			for (const page of siteConfig.pages) {
+				await renderPage(siteConfig, page, clientResult, appChunk, cssChunk, pageToHashMap, hashMapString)
+			}
+		} catch (e) {
+			spinner.stopAndPersist({
+				symbol: failMark,
+			})
+			throw e
+		}
+		spinner.stopAndPersist({
+			symbol: okMark,
+		})
+	} finally {
+		await fs.remove(siteConfig.tempDir)
+	}
+
+	console.log(`build complete in ${((Date.now() - start) / 1000).toFixed(2)}s.`)
 }

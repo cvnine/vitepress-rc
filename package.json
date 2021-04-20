@@ -13,8 +13,11 @@
         "dev": "run-p dev-client dev-node",
         "dev-client": "tsc -w -p src/client",
         "dev-node": "tsc -w -p src/node",
+        "build": "rimraf -rf dist && tsc -p src/client && tsc -p src/node",
         "docs": "run-p dev docs-dev",
         "docs-dev": "node ./bin/index.js dev docs",
+        "docs-build": "yarn build && node ./bin/index build docs",
+        "docs-serve": "node ./bin/index serve docs",
         "lint": "prettier --write ./src/**/* && eslint --fix"
     },
     "engines": {
@@ -55,6 +58,8 @@
         "lint-staged": "^10.5.4",
         "npm-run-all": "^4.1.5",
         "prettier": "^2.2.1",
+        "rimraf": "^3.0.2",
+        "rollup": "^2.45.2",
         "typescript": "^4.2.3"
     },
     "dependencies": {

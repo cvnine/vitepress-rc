@@ -41,7 +41,7 @@ export async function bundle(
 		plugins: createVitePlugin(root, config, ssr, pageToHashMap),
 		// @ts-ignore
 		ssr: {
-			noExternal: ['vitepress'],
+			noExternal: ['vitepress-rc'],
 		},
 		build: {
 			...options,
@@ -61,6 +61,7 @@ export async function bundle(
 						? {}
 						: {
 								chunkFileNames(chunk): string {
+									console.log('chunk :>> ', chunk)
 									if (!chunk.isEntry && /runtime/.test(chunk.name)) {
 										return `assets/framework.[hash].js`
 									}

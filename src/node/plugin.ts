@@ -7,6 +7,14 @@ import { APP_PATH, SPECIAL_IMPORT_SITE_DATA } from './paths'
 import { resolveSiteData } from './config'
 import slash from 'slash'
 import { cacher } from './transform/plugins/api/cache'
+import type { OutputAsset, OutputChunk } from 'rollup'
+
+const hashRE = /\.(\w+)\.js$/
+const staticStripRE = /__VP_STATIC_START__.*?__VP_STATIC_END__/g
+const staticRestoreRE = /__VP_STATIC_(START|END)__/g
+
+const isPageChunk = (chunk: OutputAsset | OutputChunk): chunk is OutputChunk & { facadeModuleId: string } =>
+	!!(chunk.type === 'chunk' && chunk.isEntry && chunk.facadeModuleId && chunk.facadeModuleId.endsWith('.md'))
 
 export function createVitePlugin(
 	root: string,
@@ -131,6 +139,38 @@ export function createVitePlugin(
 							},
 						],
 					})
+				}
+			}
+		},
+		generateBundle(_options, bundle) {
+			console.log('bundle :>> ', bundle)
+			if (ssr) {
+				// ssr build:
+				// delete all asset chunks
+				for (const name in bundle) {
+					if (bundle[name].type === 'asset') {
+						delete bundle[name]
+					}
+				}
+			} else {
+				// client build:
+				// for each .md entry chunk, adjust its name to its correct path.
+				for (const name in bundle) {
+					const chunk = bundle[name]
+					if (isPageChunk(chunk)) {
+						// record page -> hash relations
+						const hash = chunk.fileName.match(hashRE)![1]
+						pageToHashMap![chunk.name.toLowerCase()] = hash
+
+						// inject another chunk with the content stripped
+						bundle[name + '-lean'] = {
+							...chunk,
+							fileName: chunk.fileName.replace(/\.js$/, '.lean.js'),
+							code: chunk.code.replace(staticStripRE, ``),
+						}
+						// remove static markers from original code
+						chunk.code = chunk.code.replace(staticRestoreRE, '')
+					}
 				}
 			}
 		},
