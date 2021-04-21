@@ -23,7 +23,8 @@ export async function bundle(
 	// the loading is done via filename conversion rules so that the
 	// metadata doesn't need to be included in the main chunk.
 	const input: Record<string, string> = {
-		app: path.resolve(APP_PATH, 'entry-server.js'),
+		__app: path.resolve(APP_PATH, 'entry-server.js'),
+		__entry: path.resolve(APP_PATH, 'index.js'),
 	}
 	config.pages.forEach((file) => {
 		// page filename conversion
@@ -41,7 +42,7 @@ export async function bundle(
 		plugins: createVitePlugin(root, config, ssr, pageToHashMap),
 		// @ts-ignore
 		ssr: {
-			noExternal: ['vitepress-rc'],
+			noExternal: ['vitepress-rc', 'copy-text-to-clipboard'],
 		},
 		build: {
 			...options,
@@ -61,6 +62,7 @@ export async function bundle(
 						? {}
 						: {
 								chunkFileNames(chunk): string {
+									//todo
 									if (!chunk.isEntry && /runtime/.test(chunk.name)) {
 										return `assets/framework.[hash].js`
 									}

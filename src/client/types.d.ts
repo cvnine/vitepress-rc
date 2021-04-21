@@ -5,10 +5,14 @@ declare module '@virtual-module/siteData' {
 
 declare const __VP_HASH_MAP__: Record<string, string>
 
-declare module 'https://*'
+declare module '//*'
 
 namespace JSX {
 	interface IntrinsicElements {
 		'element-shadow': React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLElement> // Normal web component
 	}
+}
+
+interface CSSStyleDeclaration {
+	contain: 'strict' | 'none' | 'content' | 'size' | 'layout' | 'style' | 'paint'
 }

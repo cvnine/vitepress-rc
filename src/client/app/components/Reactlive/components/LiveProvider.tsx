@@ -27,7 +27,7 @@ export default function LiveProvider({ code: prevCode, disabled, scope, transfor
 		}
 		const errorCallback = (err: Error) => {
 			setError(err.toString())
-			import('https://jspm.dev/react-dom').then(({ default: ReactDomFetch }) => {
+			import(/* @vite-ignore */ '//jspm.dev/react-dom').then(({ default: ReactDomFetch }) => {
 				ReactDomFetch.unmountComponentAtNode(shadowRoot.current)
 			})
 		}

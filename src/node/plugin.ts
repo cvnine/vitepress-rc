@@ -10,8 +10,6 @@ import { cacher } from './transform/plugins/api/cache'
 import type { OutputAsset, OutputChunk } from 'rollup'
 
 const hashRE = /\.(\w+)\.js$/
-const staticStripRE = /__VP_STATIC_START__.*?__VP_STATIC_END__/g
-const staticRestoreRE = /__VP_STATIC_(START|END)__/g
 
 const isPageChunk = (chunk: OutputAsset | OutputChunk): chunk is OutputChunk & { facadeModuleId: string } =>
 	!!(chunk.type === 'chunk' && chunk.isEntry && chunk.facadeModuleId && chunk.facadeModuleId.endsWith('.md'))
@@ -143,7 +141,6 @@ export function createVitePlugin(
 			}
 		},
 		generateBundle(_options, bundle) {
-			console.log('bundle :>> ', bundle)
 			if (ssr) {
 				// ssr build:
 				// delete all asset chunks
@@ -161,15 +158,6 @@ export function createVitePlugin(
 						// record page -> hash relations
 						const hash = chunk.fileName.match(hashRE)![1]
 						pageToHashMap![chunk.name.toLowerCase()] = hash
-
-						// inject another chunk with the content stripped
-						bundle[name + '-lean'] = {
-							...chunk,
-							fileName: chunk.fileName.replace(/\.js$/, '.lean.js'),
-							code: chunk.code.replace(staticStripRE, ``),
-						}
-						// remove static markers from original code
-						chunk.code = chunk.code.replace(staticRestoreRE, '')
 					}
 				}
 			}

@@ -32,8 +32,8 @@ function isDestructing(tokens: any, start: number) {
 async function transform(code: string): Promise<ITransform> {
 	try {
 		const [{ default: $ }, babel] = await Promise.all([
-			import('https://jspm.dev/gogocode@0.2.9'),
-			import('https://jspm.dev/@babel/standalone'),
+			import('//jspm.dev/gogocode@0.2.9'),
+			import('//jspm.dev/@babel/standalone'),
 		])
 
 		let _code = code
@@ -60,10 +60,10 @@ async function transform(code: string): Promise<ITransform> {
 		try {
 			const r = await Promise.all(
 				entriesImports.map((x) => {
-					if (x[0].startsWith('http')) {
+					if (x[0].startsWith('//') || x[0].startsWith('http')) {
 						return import(/* @vite-ignore */ `${x[0]}`)
 					} else {
-						return import(/* @vite-ignore */ `https://jspm.dev/${x[0]}`)
+						return import(/* @vite-ignore */ `//jspm.dev/${x[0]}`)
 					}
 				})
 			)

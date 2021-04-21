@@ -34,3 +34,5 @@ declare module 'compression' {
 	const fn: () => any
 	export = fn
 }
+
+declare module 'escape-html'

@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { Language } from 'prism-react-renderer'
 import { CodeView } from './CodeView'
-// import { CodePreviewer } from './CodePreviewer'
+import { CodePreviewer } from './CodePreviewer'
 
 interface CodeBlockProps {
 	className?: string
@@ -28,21 +28,9 @@ export const CodeBlock: FC<CodeBlockProps> = ({ children, className, live, ...re
 
 	const [language, lineNumbers] = parseClassName(className)
 
-	// if (live) {
-	// 	return (
-	// 		<Wrap>
-	// 			<LiveProvider code={children} scope={{ mdx }}>
-	// 				<LivePreview />
-	// 				<LiveEditor />
-	// 				<LiveError />
-	// 			</LiveProvider>
-	// 		</Wrap>
-	// 	)
-	// }
-
-	// if (live && (language === 'jsx' || language === 'tsx')) {
-	// 	return <CodePreviewer code={code} />
-	// }
+	if (live && (language === 'jsx' || language === 'tsx')) {
+		return <CodePreviewer code={code} />
+	}
 
 	return <CodeView code={code} language={language} lineNumbers={lineNumbers} />
 }

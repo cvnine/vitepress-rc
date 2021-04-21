@@ -13,10 +13,9 @@ export async function renderPage(
 	result: RollupOutput,
 	appChunk: OutputChunk,
 	cssChunk: OutputAsset,
-	pageToHashMap: Record<string, string>,
 	hashMapString: string
 ) {
-	const { render } = require(path.join(config.tempDir, `app.js`))
+	const { render } = require(path.join(config.tempDir, `__app.js`))
 	const routePath = `/${page.replace(/\.md$/, '')}`
 	// const siteData = resolveSiteDataByRoute(config.site, routePath)
 	const siteData = config.siteData
@@ -26,10 +25,6 @@ export async function renderPage(
 	const pageName = page.replace(/\//g, '_')
 	// server build doesn't need hash
 	const pageServerJsFileName = pageName + '.js'
-	// for any initial page load, we only need the lean version of the page js
-	// since the static content is already on the page!
-	const pageHash = pageToHashMap[pageName.toLowerCase()]
-	const pageClientJsFileName = `assets/${pageName}.${pageHash}.lean.js`
 
 	// resolve page data so we can render head tags
 	const { __pageData } = require(path.join(config.tempDir, pageServerJsFileName))
@@ -41,7 +36,6 @@ export async function renderPage(
 		// them as well so we fetch everything as early as possible without having
 		// to wait for entry chunks to parse
 		...resolvePageImports(config, page, result, appChunk),
-		pageClientJsFileName,
 		appChunk.fileName,
 	]
 		.map((file) => {

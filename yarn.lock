@@ -1007,7 +1007,7 @@ convert-source-map@^1.7.0:
 
 copy-text-to-clipboard@^3.0.1:
   version "3.0.1"
-  resolved "https://registry.npm.taobao.org/copy-text-to-clipboard/download/copy-text-to-clipboard-3.0.1.tgz#8cbf8f90e0a47f12e4a24743736265d157bce69c"
+  resolved "http://10.67.17.250/copy-text-to-clipboard/-/copy-text-to-clipboard-3.0.1.tgz#8cbf8f90e0a47f12e4a24743736265d157bce69c"
   integrity sha1-jL+PkOCkfxLkokdDc2Jl0Ve85pw=
 
 core-js-pure@^3.0.0:

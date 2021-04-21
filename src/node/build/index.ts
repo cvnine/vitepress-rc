@@ -5,6 +5,9 @@ import { resolveConfig } from '../config'
 import { bundle, failMark, okMark } from './bundle'
 import ora from 'ora'
 import { renderPage } from './render'
+import slash from 'slash'
+import path from 'path'
+import { APP_PATH } from '../paths'
 
 export async function build(root: string, buildOptions: BuildOptions = {}) {
 	const start = Date.now()
@@ -18,7 +21,12 @@ export async function build(root: string, buildOptions: BuildOptions = {}) {
 		spinner.start('rendering pages...')
 
 		try {
-			const appChunk = clientResult.output.find((chunk) => chunk.type === 'chunk' && chunk.isEntry) as OutputChunk
+			const appChunk = clientResult.output.find(
+				(chunk) =>
+					chunk.type === 'chunk' &&
+					chunk.isEntry &&
+					chunk.facadeModuleId === slash(path.resolve(APP_PATH, 'index.js'))
+			) as OutputChunk
 
 			const cssChunk = clientResult.output.find(
 				(chunk) => chunk.type === 'asset' && chunk.fileName.endsWith('.css')
@@ -31,7 +39,7 @@ export async function build(root: string, buildOptions: BuildOptions = {}) {
 			const hashMapString = JSON.stringify(JSON.stringify(pageToHashMap))
 
 			for (const page of siteConfig.pages) {
-				await renderPage(siteConfig, page, clientResult, appChunk, cssChunk, pageToHashMap, hashMapString)
+				await renderPage(siteConfig, page, clientResult, appChunk, cssChunk, hashMapString)
 			}
 		} catch (e) {
 			spinner.stopAndPersist({

@@ -9,8 +9,8 @@ const errorBoundary = async (
 	cssText?: string
 ) => {
 	const [{ default: ReactFetch }, { default: ReactDomFetch }] = await Promise.all([
-		import('https://jspm.dev/react'),
-		import('https://jspm.dev/react-dom'),
+		import(/* @vite-ignore */ '//jspm.dev/react'),
+		import(/* @vite-ignore */ '//jspm.dev/react-dom'),
 	])
 
 	class ErrorBoundary extends (ReactFetch as typeof React).Component {

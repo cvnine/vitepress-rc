@@ -57,7 +57,7 @@ export function useRoute(fallbackComponent?: ComponentType<any>, ssrHref?: strin
 				}
 
 				if (isInitialPageLoad || initialPath.current === pageFilePath) {
-					pageFilePath = pageFilePath.replace(/\.js$/, '.lean.js')
+					// pageFilePath = pageFilePath.replace(/\.js$/, '.lean.js')
 				}
 
 				let page = null
