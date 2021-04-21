@@ -1,6 +1,8 @@
 # Todo List
 
 - [ ] 打包
+	- [x] 普通打包
+	- [ ] ssr 需要修改 useEffect 的逻辑
 - [ ] 导航下拉
 - [ ] 多语言
 - [ ] 对比vitepress的一些注入全局变量/方法，以及配置项完善，例如`$withBase`，`themeConfig`
