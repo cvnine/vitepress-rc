@@ -1,5 +1,7 @@
 import React from 'react'
 
+const fakeHost = `https://a.com`
+
 interface ITransform {
 	result: string
 	imports: {
@@ -32,8 +34,8 @@ function isDestructing(tokens: any, start: number) {
 async function transform(code: string): Promise<ITransform> {
 	try {
 		const [{ default: $ }, babel] = await Promise.all([
-			import('//jspm.dev/gogocode@0.2.9'),
-			import('//jspm.dev/@babel/standalone'),
+			import(/* @vite-ignore */ new URL('//jspm.dev/gogocode@0.2.9', fakeHost).href),
+			import(/* @vite-ignore */ new URL('//jspm.dev/@babel/standalone', fakeHost).href),
 		])
 
 		let _code = code
@@ -61,9 +63,9 @@ async function transform(code: string): Promise<ITransform> {
 			const r = await Promise.all(
 				entriesImports.map((x) => {
 					if (x[0].startsWith('//') || x[0].startsWith('http')) {
-						return import(/* @vite-ignore */ `${x[0]}`)
+						return import(/* @vite-ignore */ new URL(`${x[0]}`, fakeHost).href)
 					} else {
-						return import(/* @vite-ignore */ `//jspm.dev/${x[0]}`)
+						return import(/* @vite-ignore */ new URL(`//jspm.dev/${x[0]}`, fakeHost).href)
 					}
 				})
 			)

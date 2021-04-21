@@ -1,5 +1,7 @@
 import type React from 'react'
 
+const fakeHost = `https://a.com`
+
 export type ErrorCallback = (err: Error) => void
 
 const errorBoundary = async (
@@ -9,8 +11,8 @@ const errorBoundary = async (
 	cssText?: string
 ) => {
 	const [{ default: ReactFetch }, { default: ReactDomFetch }] = await Promise.all([
-		import(/* @vite-ignore */ '//jspm.dev/react'),
-		import(/* @vite-ignore */ '//jspm.dev/react-dom'),
+		import(/* @vite-ignore */ new URL('//jspm.dev/react', fakeHost).href),
+		import(/* @vite-ignore */ new URL('//jspm.dev/react-dom', fakeHost).href),
 	])
 
 	class ErrorBoundary extends (ReactFetch as typeof React).Component {

@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 import LiveContext from './LiveContext'
 import { renderElementAsync } from '../transpile'
 
+const fakeHost = `https://a.com`
+
 export interface ILiveProvider {
 	code: string
 	disabled: boolean
@@ -27,9 +29,11 @@ export default function LiveProvider({ code: prevCode, disabled, scope, transfor
 		}
 		const errorCallback = (err: Error) => {
 			setError(err.toString())
-			import(/* @vite-ignore */ '//jspm.dev/react-dom').then(({ default: ReactDomFetch }) => {
-				ReactDomFetch.unmountComponentAtNode(shadowRoot.current)
-			})
+			import(/* @vite-ignore */ new URL('//jspm.dev/react-dom', fakeHost).href).then(
+				({ default: ReactDomFetch }) => {
+					ReactDomFetch.unmountComponentAtNode(shadowRoot.current)
+				}
+			)
 		}
 		const renderElement = () => {
 			setError(null)

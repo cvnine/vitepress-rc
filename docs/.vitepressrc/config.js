@@ -28,8 +28,8 @@ module.exports = {
     },
 
     nav: [
-      { text: 'Test', link: '/', activeMatch: '^/$|^/local/' },
-      { text: 'Guide', link: '/guide', activeMatch: '^/$|^/guide/' },
+      { text: 'Guide', link: '/', activeMatch: '^/$|^/guide/' },
+      { text: 'Test', link: '/local/todo', activeMatch: '^/$|^/local/' },
       {
         text: 'Config Reference',
         link: '/config/basics',
@@ -42,10 +42,10 @@ module.exports = {
     ],
 
     sidebar: {
-      '/local/': getLocalSidebar(),
       '/guide/': getGuideSidebar(),
+      '/local/': getLocalSidebar(),
       '/config/': getConfigSidebar(),
-      '/': getLocalSidebar()
+      '/': getGuideSidebar()
     }
   }
 }
@@ -67,11 +67,7 @@ function getGuideSidebar() {
     {
       text: 'Introduction',
       children: [
-        { text: 'What is VitePress?', link: '/',
-	
-	// children:[ { text: 'Getting Started', link: '/guide/getting-started' },
-	// { text: 'Configuration', link: '/guide/configuration' },]
-},
+        { text: 'What is VitePress?', link: '/'},
         { text: 'Getting Started', link: '/guide/getting-started' },
         { text: 'Configuration', link: '/guide/configuration' },
         { text: 'Asset Handling', link: '/guide/assets' },
