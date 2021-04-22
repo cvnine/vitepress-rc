@@ -33,9 +33,11 @@ function isDestructing(tokens: any, start: number) {
 
 async function transform(code: string): Promise<ITransform> {
 	try {
+		const url_gogocode = new URL('//jspm.dev/gogocode@0.2.9', fakeHost).href
+		const url_babel = new URL('//jspm.dev/@babel/standalone', fakeHost).href
 		const [{ default: $ }, babel] = await Promise.all([
-			import(/* @vite-ignore */ new URL('//jspm.dev/gogocode@0.2.9', fakeHost).href),
-			import(/* @vite-ignore */ new URL('//jspm.dev/@babel/standalone', fakeHost).href),
+			import(/* @vite-ignore */ url_gogocode),
+			import(/* @vite-ignore */ url_babel),
 		])
 
 		let _code = code
@@ -62,11 +64,13 @@ async function transform(code: string): Promise<ITransform> {
 		try {
 			const r = await Promise.all(
 				entriesImports.map((x) => {
+					let url
 					if (x[0].startsWith('//') || x[0].startsWith('http')) {
-						return import(/* @vite-ignore */ new URL(`${x[0]}`, fakeHost).href)
+						url = new URL(`${x[0]}`, fakeHost).href
 					} else {
-						return import(/* @vite-ignore */ new URL(`//jspm.dev/${x[0]}`, fakeHost).href)
+						url = new URL(`//jspm.dev/${x[0]}`, fakeHost).href
 					}
+					return import(/* @vite-ignore */ url)
 				})
 			)
 			for (let index = 0; index < entriesImports.length; index++) {

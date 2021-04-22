@@ -27,7 +27,7 @@ export default Title
 ```
 
 
-```jsx live
+```jsx
 
 import React from 'react'
 

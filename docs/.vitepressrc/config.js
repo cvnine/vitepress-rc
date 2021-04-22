@@ -29,7 +29,7 @@ module.exports = {
 
     nav: [
       { text: 'Guide', link: '/', activeMatch: '^/$|^/guide/' },
-      { text: 'Test', link: '/local/todo', activeMatch: '^/$|^/local/' },
+      { text: 'Test', link: '/local/todo', activeMatch: '^/local/' },
       {
         text: 'Config Reference',
         link: '/config/basics',

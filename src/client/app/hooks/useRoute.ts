@@ -28,9 +28,6 @@ export function useRoute(fallbackComponent?: ComponentType<any>, ssrHref?: strin
 
 	const latestPendingPathRef = useRef<string | null>(null)
 
-	const isInitialPageLoad = useRef<boolean>(inBrowser)
-	const initialPath = useRef<string>('')
-
 	useEffect(() => {
 		function go(href: string = inBrowser ? window.location.href : ssrHref ? ssrHref : '/') {
 			// ensure correct deep link so page refresh lands on correct files.
@@ -52,18 +49,9 @@ export function useRoute(fallbackComponent?: ComponentType<any>, ssrHref?: strin
 			const pendingPath = (latestPendingPathRef.current = targetLoc.pathname)
 			try {
 				let pageFilePath = pathToFile(pendingPath)
-				if (isInitialPageLoad) {
-					initialPath.current = pageFilePath
-				}
-
-				if (isInitialPageLoad || initialPath.current === pageFilePath) {
-					// pageFilePath = pageFilePath.replace(/\.js$/, '.lean.js')
-				}
 
 				let page = null
 				if (inBrowser) {
-					isInitialPageLoad.current = false
-
 					page = await import(/* @vite-ignore */ pageFilePath)
 				} else {
 					page = require(pageFilePath)

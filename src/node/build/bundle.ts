@@ -23,8 +23,8 @@ export async function bundle(
 	// the loading is done via filename conversion rules so that the
 	// metadata doesn't need to be included in the main chunk.
 	const input: Record<string, string> = {
-		__app: path.resolve(APP_PATH, 'entry-server.js'),
-		__entry: path.resolve(APP_PATH, 'index.js'),
+		__server__: path.resolve(APP_PATH, 'entry-server.js'),
+		__entry__: path.resolve(APP_PATH, 'index.js'),
 	}
 	config.pages.forEach((file) => {
 		// page filename conversion

@@ -10,9 +10,11 @@ const errorBoundary = async (
 	shadowRoot: React.MutableRefObject<ShadowRoot | null>,
 	cssText?: string
 ) => {
+	const url_react = new URL('//jspm.dev/react', fakeHost).href
+	const url_react_dom = new URL('//jspm.dev/react-dom', fakeHost).href
 	const [{ default: ReactFetch }, { default: ReactDomFetch }] = await Promise.all([
-		import(/* @vite-ignore */ new URL('//jspm.dev/react', fakeHost).href),
-		import(/* @vite-ignore */ new URL('//jspm.dev/react-dom', fakeHost).href),
+		import(/* @vite-ignore */ url_react),
+		import(/* @vite-ignore */ url_react_dom),
 	])
 
 	class ErrorBoundary extends (ReactFetch as typeof React).Component {

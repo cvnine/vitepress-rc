@@ -15,7 +15,7 @@ export async function renderPage(
 	cssChunk: OutputAsset,
 	hashMapString: string
 ) {
-	const { render } = require(path.join(config.tempDir, `__app.js`))
+	const { render } = require(path.join(config.tempDir, `__server__.js`))
 	const routePath = `/${page.replace(/\.md$/, '')}`
 	// const siteData = resolveSiteDataByRoute(config.site, routePath)
 	const siteData = config.siteData

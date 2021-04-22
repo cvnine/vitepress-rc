@@ -29,11 +29,10 @@ export default function LiveProvider({ code: prevCode, disabled, scope, transfor
 		}
 		const errorCallback = (err: Error) => {
 			setError(err.toString())
-			import(/* @vite-ignore */ new URL('//jspm.dev/react-dom', fakeHost).href).then(
-				({ default: ReactDomFetch }) => {
-					ReactDomFetch.unmountComponentAtNode(shadowRoot.current)
-				}
-			)
+			const url = new URL('//jspm.dev/react-dom', fakeHost).href
+			import(/* @vite-ignore */ url).then(({ default: ReactDomFetch }) => {
+				ReactDomFetch.unmountComponentAtNode(shadowRoot.current)
+			})
 		}
 		const renderElement = () => {
 			setError(null)

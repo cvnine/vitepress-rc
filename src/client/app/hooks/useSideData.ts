@@ -1,6 +1,6 @@
 import serialized from '@virtual-module/siteData'
 import React, { useEffect, useState } from 'react'
-import { SiteData } from '@types'
+import type { SiteData } from '@types'
 
 export const useSideData = () => {
 	const [siteData, setSiteData] = useState<SiteData>(JSON.parse(serialized))
