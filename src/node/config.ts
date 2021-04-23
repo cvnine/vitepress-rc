@@ -26,7 +26,7 @@ export async function resolveConfig(root: string = process.cwd()): Promise<SiteC
 		outDir: resolve(root, 'dist'),
 		alias: resolveAliases(themeDir, userConfig),
 		tempDir: path.resolve(APP_PATH, 'temp'),
-		plugin: userConfig.plugin,
+		md: userConfig.md,
 	}
 
 	return config

@@ -27,8 +27,12 @@ const errorBoundary = async (
 		}
 	}
 	if (shadowRoot.current) {
-		ReactDomFetch.unmountComponentAtNode(shadowRoot.current)
-		ReactDomFetch.render(<ErrorBoundary />, shadowRoot.current)
+		try {
+			ReactDomFetch.unmountComponentAtNode(shadowRoot.current)
+			ReactDomFetch.render(<ErrorBoundary />, shadowRoot.current)
+		} catch (error) {
+			errorCallback(error)
+		}
 		const style = document.createElement('style')
 		style.textContent = cssText || ''
 		shadowRoot.current.appendChild(style)

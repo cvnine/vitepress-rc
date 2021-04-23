@@ -8,6 +8,12 @@ module.exports = {
 	'root': path.resolve(__dirname, '../')
   },
 
+  md:{
+	  codeScope: {
+		  'demo-c': path.resolve(__dirname, '../components/index.tsx')
+	  }
+  },
+
   themeConfig: {
     repo: 'vuejs/vitepress',
     docsDir: 'docs',

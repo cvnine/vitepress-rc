@@ -16,7 +16,7 @@ const isPageChunk = (chunk: OutputAsset | OutputChunk): chunk is OutputChunk & {
 
 export function createVitePlugin(
 	root: string,
-	{ configPath, alias, plugin: userPlugin, siteData, pages, themeDir }: SiteConfig,
+	{ configPath, alias, md, siteData, pages, themeDir }: SiteConfig,
 	ssr = false,
 	pageToHashMap?: Record<string, string>
 ) {
@@ -44,7 +44,7 @@ export function createVitePlugin(
 
 		async transform(code, id, ssr) {
 			if (/\.md?$/.test(id)) {
-				let { code: _code } = await mdxTransform(code, id, { root, alias }, userPlugin)
+				let { code: _code } = await mdxTransform(code, id, { root, alias }, md ? md.plugin : undefined)
 				const refreshResult = await reactRefreshPlugin.transform!.call(this, _code, id + '.js', ssr)
 				//reactRefreshPlugin会检测导出的都必须是react组件，增加了pageData的导出会导致热更新失败，这里hack掉
 				if (refreshResult && typeof refreshResult !== 'string') {

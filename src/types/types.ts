@@ -15,7 +15,10 @@ export interface UserConfig<ThemeConfig = DefaultTheme.Config> {
 	head?: HeadConfig[]
 	description?: string
 	themeConfig?: ThemeConfig
-	plugin?: MdxVitePluginOption
+	md?: {
+		plugin?: MdxVitePluginOption
+		codeScope?: Record<string, string>
+	}
 }
 
 export interface SiteData<ThemeConfig = DefaultTheme.Config> {
@@ -36,7 +39,10 @@ export interface SiteConfig<ThemeConfig = DefaultTheme.Config> {
 	outDir: string
 	tempDir: string
 	pages: string[]
-	plugin?: MdxVitePluginOption
+	md?: {
+		plugin?: MdxVitePluginOption
+		codeScope?: Record<string, string>
+	}
 }
 
 export type HeadConfig = [string, Record<string, string>] | [string, Record<string, string>, string]
