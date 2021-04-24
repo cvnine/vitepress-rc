@@ -6,16 +6,17 @@ import { useCopy } from './hooks'
 
 interface CodeBlockProps {
 	code: string
+	local: boolean
 }
 
-export const CodePreviewer: FC<CodeBlockProps> = ({ code }) => {
+export const CodePreviewer: FC<CodeBlockProps> = ({ code, local }) => {
 	const [showCode, setShowCode] = useState(false)
 	const [currentCode, setCurrentCode] = useState(code)
 	const [copy, status] = useCopy()
 
 	return (
 		<PreviewerWarp>
-			<LiveProvider code={currentCode} scope={{}}>
+			<LiveProvider code={currentCode} local={local} scope={{}}>
 				<div className="code-preview-wrap">
 					<LivePreview />
 				</div>

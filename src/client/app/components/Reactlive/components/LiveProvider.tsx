@@ -1,20 +1,25 @@
 import React, { useEffect, useRef, useState } from 'react'
 import LiveContext from './LiveContext'
 import { renderElementAsync } from '../transpile'
-
-const fakeHost = `https://a.com`
+import { getReactDom } from '../transpile/render'
 
 export interface ILiveProvider {
 	code: string
 	disabled: boolean
-	scope: {
-		[key: string]: any
-	}
+	scope: Record<string, any>
+	local: boolean
 	transformCode: (code: string) => string
 	children: React.ReactNode
 }
 
-export default function LiveProvider({ code: prevCode, disabled, scope, transformCode, children }: ILiveProvider) {
+export default function LiveProvider({
+	code: prevCode,
+	local,
+	scope,
+	disabled,
+	transformCode,
+	children,
+}: ILiveProvider) {
 	const [error, setError] = useState<string | null>('')
 	const shadowRoot = useRef<ShadowRoot | null>(null)
 
@@ -26,13 +31,14 @@ export default function LiveProvider({ code: prevCode, disabled, scope, transfor
 		const input = {
 			code: transformCode(code),
 			scope,
+			local,
 		}
-		const errorCallback = (err: Error) => {
+		const errorCallback = async (err: Error) => {
 			setError(err.toString())
-			const url = new URL('//jspm.dev/react-dom', fakeHost).href
-			import(/* @vite-ignore */ url).then(({ default: ReactDomFetch }) => {
-				ReactDomFetch.unmountComponentAtNode(shadowRoot.current)
-			})
+			if (shadowRoot.current) {
+				const ReactDom_P = await getReactDom(local)
+				ReactDom_P.unmountComponentAtNode(shadowRoot.current)
+			}
 		}
 		const renderElement = () => {
 			setError(null)
@@ -47,7 +53,7 @@ export default function LiveProvider({ code: prevCode, disabled, scope, transfor
 
 	useEffect(() => {
 		transpile({ code: prevCode, scope, transformCode })
-	}, [prevCode, scope, transformCode])
+	}, [prevCode, local ? scope : null, transformCode])
 
 	return (
 		<LiveContext.Provider
@@ -67,5 +73,6 @@ export default function LiveProvider({ code: prevCode, disabled, scope, transfor
 LiveProvider.defaultProps = {
 	disabled: false,
 	scope: {},
+	local: true,
 	transformCode: (code: string) => code,
 }

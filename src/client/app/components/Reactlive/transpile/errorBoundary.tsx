@@ -1,23 +1,20 @@
 import type React from 'react'
-
-const fakeHost = `https://a.com`
+import { getReact, getReactDom } from './render'
 
 export type ErrorCallback = (err: Error) => void
 
-const errorBoundary = async (
-	Element: React.ReactNode,
-	errorCallback: ErrorCallback,
-	shadowRoot: React.MutableRefObject<ShadowRoot | null>,
-	cssText?: string
-) => {
-	const url_react = new URL('//jspm.dev/react', fakeHost).href
-	const url_react_dom = new URL('//jspm.dev/react-dom', fakeHost).href
-	const [{ default: ReactFetch }, { default: ReactDomFetch }] = await Promise.all([
-		import(/* @vite-ignore */ url_react),
-		import(/* @vite-ignore */ url_react_dom),
-	])
+interface IErrorBoundary {
+	Element: React.ReactNode
+	errorCallback: ErrorCallback
+	shadowRoot: React.MutableRefObject<ShadowRoot | null>
+	cssText: string | undefined
+	local: boolean
+}
 
-	class ErrorBoundary extends (ReactFetch as typeof React).Component {
+const errorBoundary = async ({ Element, errorCallback, shadowRoot, cssText, local }: IErrorBoundary) => {
+	const [React_P, ReactDom_P] = await Promise.all([getReact(local), getReactDom(local)])
+
+	class ErrorBoundary extends React_P.Component {
 		componentDidCatch(error: Error) {
 			errorCallback(error)
 		}
@@ -28,8 +25,8 @@ const errorBoundary = async (
 	}
 	if (shadowRoot.current) {
 		try {
-			ReactDomFetch.unmountComponentAtNode(shadowRoot.current)
-			ReactDomFetch.render(<ErrorBoundary />, shadowRoot.current)
+			ReactDom_P.unmountComponentAtNode(shadowRoot.current)
+			ReactDom_P.render(<ErrorBoundary />, shadowRoot.current)
 		} catch (error) {
 			errorCallback(error)
 		}

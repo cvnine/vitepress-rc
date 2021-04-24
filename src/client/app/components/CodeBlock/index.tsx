@@ -29,7 +29,8 @@ export const CodeBlock: FC<CodeBlockProps> = ({ children, className, live, ...re
 	const [language, lineNumbers] = parseClassName(className)
 
 	if (live && (language === 'jsx' || language === 'tsx')) {
-		return <CodePreviewer code={code} />
+		let local = live
+		return <CodePreviewer code={code} local={local} />
 	}
 
 	return <CodeView code={code} language={language} lineNumbers={lineNumbers} />

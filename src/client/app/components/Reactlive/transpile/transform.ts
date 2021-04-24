@@ -3,10 +3,14 @@ import React from 'react'
 const fakeHost = `https://a.com`
 
 interface ITransform {
+	code: string
+	local: boolean
+	scope: Record<string, any>
+}
+
+interface TransformReturnType {
 	result: string
-	imports: {
-		[key: string]: any
-	}
+	imports: Record<string, any>
 	error?: Error
 	cssText?: string
 }
@@ -16,8 +20,8 @@ interface ImportValue {
 	isDestructing: boolean
 }
 
-function makeRender(defaultFn: React.ComponentType) {
-	return ['', 'render(', defaultFn, ')'].join('\n')
+function makeRender(_code: string, defaultFn: React.ComponentType) {
+	return [_code, '', 'render(', defaultFn, ')'].join('\n')
 }
 
 function isDestructing(tokens: any, start: number) {
@@ -31,7 +35,15 @@ function isDestructing(tokens: any, start: number) {
 	return false
 }
 
-async function transform(code: string): Promise<ITransform> {
+function errorReturn(err: string) {
+	return {
+		result: '',
+		imports: {},
+		error: new SyntaxError(err),
+	}
+}
+
+async function transform({ code, local, scope }: ITransform): Promise<TransformReturnType> {
 	try {
 		const url_gogocode = new URL('//jspm.dev/gogocode@0.2.9', fakeHost).href
 		const url_babel = new URL('//jspm.dev/@babel/standalone', fakeHost).href
@@ -44,7 +56,7 @@ async function transform(code: string): Promise<ITransform> {
 
 		/* import */
 		let tmpImportMap: Record<string, ImportValue[]> = {}
-		let importJs: { [key: string]: any } = {}
+		let importJs: Record<string, any> = {}
 
 		$(_code)
 			.find(`import $_$1 from '$_$2'`)
@@ -61,33 +73,33 @@ async function transform(code: string): Promise<ITransform> {
 			})
 
 		const entriesImports: [string, ImportValue[]][] = Object.entries(tmpImportMap)
-		try {
-			const r = await Promise.all(
-				entriesImports.map((x) => {
-					let url
-					if (x[0].startsWith('//') || x[0].startsWith('http')) {
-						url = new URL(`${x[0]}`, fakeHost).href
-					} else {
-						url = new URL(`//jspm.dev/${x[0]}`, fakeHost).href
-					}
-					return import(/* @vite-ignore */ url)
-				})
-			)
-			for (let index = 0; index < entriesImports.length; index++) {
-				let [key, val] = entriesImports[index]
-				for (const variable of val) {
-					if (variable.isDestructing) {
-						importJs[variable.value] = r[index].default[variable.value]
-					} else {
-						importJs[variable.value] = r[index].default
+
+		if (local) {
+		} else {
+			try {
+				const r = await Promise.all(
+					entriesImports.map((x) => {
+						let url
+						if (x[0].startsWith('//') || x[0].startsWith('http')) {
+							url = new URL(`${x[0]}`, fakeHost).href
+						} else {
+							url = new URL(`//jspm.dev/${x[0]}`, fakeHost).href
+						}
+						return import(/* @vite-ignore */ url)
+					})
+				)
+				for (let index = 0; index < entriesImports.length; index++) {
+					let [, val] = entriesImports[index]
+					for (const variable of val) {
+						if (variable.isDestructing) {
+							importJs[variable.value] = r[index].default[variable.value]
+						} else {
+							importJs[variable.value] = r[index].default
+						}
 					}
 				}
-			}
-		} catch (err) {
-			return {
-				result: '',
-				imports: {},
-				error: new SyntaxError('Failed to fetch dynamically imported module. Please check out your modules'),
+			} catch (err) {
+				return errorReturn('Failed to fetch dynamically imported module. Please check out your modules')
 			}
 		}
 
@@ -103,35 +115,31 @@ async function transform(code: string): Promise<ITransform> {
 				}
 			})
 
-		try {
-			const r = await Promise.all(importCss.map((x) => fetch(/* @vite-ignore */ `${x}`).then((x) => x.text())))
-			cssText = r.join('\n')
-		} catch (err) {}
+		if (local) {
+		} else {
+			try {
+				const r = await Promise.all(
+					importCss.map((x) => fetch(/* @vite-ignore */ `${x}`).then((x) => x.text()))
+				)
+				cssText = r.join('\n')
+			} catch (err) {}
+		}
 
 		/* export default */
 		const exportDefault = $(_code).find(`export default $_$`)
 
 		if (exportDefault.length === 0) {
-			return {
-				result: '',
-				imports: {},
-				error: new SyntaxError('`export default` must be called'),
-			}
+			return errorReturn('`export default` must be called')
 		} else if (exportDefault.length > 1) {
-			return {
-				result: '',
-				imports: {},
-				error: new SyntaxError('multiple `export default` error'),
-			}
+			return errorReturn('multiple `export default` error')
 		}
 
-		let match = exportDefault[0].match
-		let defaultFn = match[0][0].value
+		let defaultFn = exportDefault[0].match[0][0].value
 
 		//移除import export 影响
 		_code = $(_code).replace(`import '$_$'`, '').replace(`export default $_$`, '').generate()
 
-		const babelResult = babel.transform(_code + makeRender(defaultFn), {
+		const babelResult = babel.transform(makeRender(_code, defaultFn), {
 			filename: 'transformedCode.ts',
 			presets: [
 				'react',
