@@ -24,7 +24,8 @@ export interface IColumnPr {
 	props?: string
 }
 function A(props: IColumnPr) {
-	return '这是react A'
+	const [x, setX] = React.useState(1)
+	return <div>{x} --- 1</div>
 }
 
 export class Column extends Component<IC, {}> {
