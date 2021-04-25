@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'vitepress-rc'
 import { CodeIcon, CopyIcon, CopyOk, RestoreIcon, SandboxIcon } from './icon'
 import { CodeViewWrap, PreviewerWarp } from './style'
@@ -15,6 +15,10 @@ export const CodePreviewer: FC<CodeBlockProps> = ({ code, local }) => {
 	const [showCode, setShowCode] = useState(false)
 	const [currentCode, setCurrentCode] = useState(code)
 	const [copy, status] = useCopy()
+
+	useEffect(() => {
+		setCurrentCode(code)
+	}, [code])
 
 	return (
 		<PreviewerWarp>

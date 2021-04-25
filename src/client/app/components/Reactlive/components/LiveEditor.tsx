@@ -12,6 +12,16 @@ type ILiveEditor = {
 	[key: string]: any
 }
 
+function throttle(fn: Function, delay: number = 100) {
+	let timer: NodeJS.Timeout | undefined = undefined
+	return (...args: any[]) => {
+		clearTimeout((timer as unknown) as number)
+		timer = setTimeout(() => {
+			fn(...args)
+		}, delay)
+	}
+}
+
 const CodeEditor: FC<ICodeEditor> = ({ code: prevCode, onChange, style, onCodeChange, ...res }) => {
 	const [code, setCode] = React.useState(prevCode)
 

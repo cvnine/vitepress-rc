@@ -37,7 +37,7 @@ const A = styled.div`
 `
 
 const Title = () => (
- <A>123</A>
+ <><A>12e23</A><Button /></>
 )
 
 export default Title
