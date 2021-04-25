@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import LiveContext from './LiveContext'
 import { renderElementAsync } from '../transpile'
 import { getReactDom } from '../transpile/render'
+import { RemoveShadowRootSkeleton } from '../transpile/errorBoundary'
 
 export interface ILiveProvider {
 	code: string
@@ -37,7 +38,12 @@ export default function LiveProvider({
 			setError(err.toString())
 			if (shadowRoot.current) {
 				const ReactDom_P = await getReactDom(local)
-				ReactDom_P.unmountComponentAtNode(shadowRoot.current)
+				RemoveShadowRootSkeleton(shadowRoot.current)
+				let reactRenderDom = shadowRoot.current.querySelector('.react-render')
+				if (reactRenderDom) {
+					ReactDom_P.unmountComponentAtNode(reactRenderDom)
+				}
+				shadowRoot.current.innerHTML = ''
 			}
 		}
 		const renderElement = () => {

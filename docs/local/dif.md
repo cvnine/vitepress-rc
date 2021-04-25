@@ -3,7 +3,7 @@
 ## Code live
 
 
-```jsx live
+```jsx 
 
 import React from 'react'
 
@@ -27,15 +27,17 @@ export default Title
 ```
 
 
-```jsx
+```jsx live=local
 
 import React from 'react'
-
-import {Input} from 'antd'
-import 'https://unpkg.com/antd@4.15.1/dist/antd.css';
+import styled from 'styled-components'
+import {Button} from 'demo-c'
+const A = styled.div`
+  color:red;
+`
 
 const Title = () => (
- <Input placeholder="Basic usage" />
+ <A>123</A>
 )
 
 export default Title

@@ -75,6 +75,18 @@ async function transform({ code, local, scope }: ITransform): Promise<TransformR
 		const entriesImports: [string, ImportValue[]][] = Object.entries(tmpImportMap)
 
 		if (local) {
+			for (let index = 0; index < entriesImports.length; index++) {
+				let [key, val] = entriesImports[index]
+				if (scope[key]) {
+					for (const variable of val) {
+						if (variable.isDestructing) {
+							importJs[variable.value] = scope[key][variable.value]
+						} else {
+							importJs[variable.value] = scope[key]
+						}
+					}
+				}
+			}
 		} else {
 			try {
 				const r = await Promise.all(

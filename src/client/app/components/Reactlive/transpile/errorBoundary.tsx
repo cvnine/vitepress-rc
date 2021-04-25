@@ -1,5 +1,6 @@
 import type React from 'react'
 import { getReact, getReactDom } from './render'
+import { StyleSheetManager } from 'styled-components'
 
 export type ErrorCallback = (err: Error) => void
 
@@ -9,6 +10,17 @@ interface IErrorBoundary {
 	shadowRoot: React.MutableRefObject<ShadowRoot | null>
 	cssText: string | undefined
 	local: boolean
+}
+
+export function RemoveShadowRootSkeleton(root: ShadowRoot) {
+	const span = root.querySelector('.shadow-skeleton')
+	if (span) {
+		root.removeChild(span)
+	}
+	const style = root.querySelector('style[data-shadow-skeleton="y"]')
+	if (style) {
+		root.removeChild(style)
+	}
 }
 
 const errorBoundary = async ({ Element, errorCallback, shadowRoot, cssText, local }: IErrorBoundary) => {
@@ -25,14 +37,43 @@ const errorBoundary = async ({ Element, errorCallback, shadowRoot, cssText, loca
 	}
 	if (shadowRoot.current) {
 		try {
-			ReactDom_P.unmountComponentAtNode(shadowRoot.current)
-			ReactDom_P.render(<ErrorBoundary />, shadowRoot.current)
+			RemoveShadowRootSkeleton(shadowRoot.current)
+			let reactRenderDom = shadowRoot.current.querySelector('.react-render')
+			if (reactRenderDom) {
+				ReactDom_P.unmountComponentAtNode(reactRenderDom)
+			} else {
+				reactRenderDom = document.createElement('div')
+				reactRenderDom.classList.add('react-render')
+				shadowRoot.current.appendChild(reactRenderDom)
+			}
+
+			let style = shadowRoot.current.querySelector('style[data-shadow-style="y"]')
+			if (style) {
+				style.textContent = cssText || ''
+			} else {
+				style = document.createElement('style')
+				style.setAttribute('data-shadow-style', 'y')
+				style.textContent = cssText || ''
+				shadowRoot.current.appendChild(style)
+			}
+
+			let styleContainer = shadowRoot.current.querySelector('div.shadow-sheet') as HTMLElement
+			if (styleContainer) {
+				shadowRoot.current.removeChild(styleContainer)
+			}
+			styleContainer = document.createElement('div')
+			styleContainer.classList.add('shadow-sheet')
+			shadowRoot.current.appendChild(styleContainer)
+
+			ReactDom_P.render(
+				<StyleSheetManager target={styleContainer}>
+					<ErrorBoundary />
+				</StyleSheetManager>,
+				reactRenderDom
+			)
 		} catch (error) {
 			errorCallback(error)
 		}
-		const style = document.createElement('style')
-		style.textContent = cssText || ''
-		shadowRoot.current.appendChild(style)
 	}
 }
 

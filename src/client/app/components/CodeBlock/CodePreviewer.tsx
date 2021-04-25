@@ -3,6 +3,8 @@ import { LiveProvider, LiveEditor, LiveError, LivePreview } from 'vitepress-rc'
 import { CodeIcon, CopyIcon, CopyOk, RestoreIcon, SandboxIcon } from './icon'
 import { CodeViewWrap, PreviewerWarp } from './style'
 import { useCopy } from './hooks'
+import codeScope from '@virtual-module/codeScope'
+import styled from 'styled-components'
 
 interface CodeBlockProps {
 	code: string
@@ -16,7 +18,11 @@ export const CodePreviewer: FC<CodeBlockProps> = ({ code, local }) => {
 
 	return (
 		<PreviewerWarp>
-			<LiveProvider code={currentCode} local={local} scope={{}}>
+			<LiveProvider
+				code={currentCode}
+				local={local}
+				scope={{ ...codeScope, react: React, 'styled-components': styled }}
+			>
 				<div className="code-preview-wrap">
 					<LivePreview />
 				</div>
@@ -40,9 +46,9 @@ export const CodePreviewer: FC<CodeBlockProps> = ({ code, local }) => {
 								}}
 							/>
 						</CodeViewWrap>
-						<LiveError className="code-error-wrap" />
 					</>
 				)}
+				<LiveError className="code-error-wrap" />
 			</LiveProvider>
 		</PreviewerWarp>
 	)

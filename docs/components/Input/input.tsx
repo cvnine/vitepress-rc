@@ -1,7 +1,11 @@
 import React from 'react'
 
 const Input = (props) => {
-	return <input />
+	return (
+		<div style={{ color: 'red' }}>
+			<input />
+		</div>
+	)
 }
 
 export default Input

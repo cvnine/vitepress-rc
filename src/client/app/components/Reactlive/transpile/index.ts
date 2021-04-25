@@ -62,7 +62,7 @@ export const renderElementAsync = (
 	transform({ code, local, scope })
 		.then(({ result, imports, error, cssText }) => {
 			if (error) throw error
-			evalCode(result, { ...scope, ...imports, render: render(cssText) })
+			evalCode(result, { ...imports, render: render(cssText) })
 		})
 		.catch((err) => {
 			errorCallback(err)

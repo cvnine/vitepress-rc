@@ -3,7 +3,7 @@ import reactRefresh from '@vitejs/plugin-react-refresh'
 import { Plugin as VitePlugin } from 'vite'
 import type { SiteConfig } from '../types/types'
 import { mdxTransform } from './transform'
-import { APP_PATH, SPECIAL_IMPORT_SITE_DATA } from './paths'
+import { APP_PATH, SPECIAL_IMPORT_CODE_SCOPE, SPECIAL_IMPORT_SITE_DATA } from './paths'
 import { resolveSiteData } from './config'
 import slash from 'slash'
 import { cacher } from './transform/plugins/api/cache'
@@ -35,10 +35,28 @@ export function createVitePlugin(
 			if (id === SPECIAL_IMPORT_SITE_DATA) {
 				return SPECIAL_IMPORT_SITE_DATA
 			}
+			if (id === SPECIAL_IMPORT_CODE_SCOPE) {
+				return SPECIAL_IMPORT_CODE_SCOPE
+			}
 		},
 		async load(id) {
 			if (id === SPECIAL_IMPORT_SITE_DATA) {
 				return `export default ${JSON.stringify(JSON.stringify(siteData))}`
+			}
+			if (id === SPECIAL_IMPORT_CODE_SCOPE) {
+				if (md && md.codeScope) {
+					let str: string = ``,
+						exportScope: string = ``
+					Object.entries(md.codeScope).forEach(([key, val], index) => {
+						str += `import * as codeScope_${index} from '${`/${slash(path.relative(root, val))}`}';\n`
+						exportScope = exportScope
+							? exportScope + `, ${JSON.stringify(key)}: codeScope_${index}`
+							: `${JSON.stringify(key)}: codeScope_${index}`
+					})
+
+					return str + `export default {${exportScope}}`
+				}
+				return `export default {}`
 			}
 		},
 
@@ -96,6 +114,7 @@ export function createVitePlugin(
 		async handleHotUpdate(ctx) {
 			// handle config hmr
 			const { file, server, read, modules } = ctx
+			console.log('file :>> ', file)
 			if (file === slash(configPath)) {
 				const newData = await resolveSiteData(root)
 				if (newData.base !== siteData.base) {

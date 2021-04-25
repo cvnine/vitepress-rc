@@ -15,8 +15,10 @@ export default function LivePreview({ Component, ...rest }: ILivePreview) {
 							if (!shadowRoot || shadowRoot.current) return
 							const root = host!.attachShadow({ mode: 'open' })
 							const span = document.createElement('span')
+							span.classList.add('shadow-skeleton')
 
 							const style = document.createElement('style')
+							style.setAttribute('data-shadow-skeleton', 'y')
 							style.textContent = `
 								span {
 									display: block;
