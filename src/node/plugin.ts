@@ -1,6 +1,6 @@
 import path from 'path'
 import reactRefresh from '@vitejs/plugin-react-refresh'
-import { Plugin as VitePlugin } from 'vite'
+import { Plugin as VitePlugin, ViteDevServer } from 'vite'
 import type { SiteConfig } from '../types/types'
 import { mdxTransform } from './transform'
 import { APP_PATH, SPECIAL_IMPORT_CODE_SCOPE, SPECIAL_IMPORT_SITE_DATA } from './paths'
@@ -22,6 +22,7 @@ export function createVitePlugin(
 ) {
 	const reactRefreshPlugin = reactRefresh()
 
+	let _server: ViteDevServer
 	const vitePluginPressRc: VitePlugin = {
 		name: 'vite-plugin-press-rc',
 		config() {
@@ -59,8 +60,11 @@ export function createVitePlugin(
 				return `export default {}`
 			}
 		},
-
 		async transform(code, id, ssr) {
+			if (/\.css?$/.test(id)) {
+				console.log(_server)
+			}
+
 			if (/\.md?$/.test(id)) {
 				let { code: _code } = await mdxTransform(code, id, { root, alias }, md ? md.plugin : undefined)
 				const refreshResult = await reactRefreshPlugin.transform!.call(this, _code, id + '.js', ssr)
@@ -77,6 +81,7 @@ export function createVitePlugin(
 		},
 
 		configureServer(server) {
+			_server = server
 			// serve our index.html after vite history fallback
 			return () => {
 				server.middlewares.use((req, res, next) => {
@@ -114,7 +119,10 @@ export function createVitePlugin(
 		async handleHotUpdate(ctx) {
 			// handle config hmr
 			const { file, server, read, modules } = ctx
-			console.log('file :>> ', file)
+
+			if (file.endsWith('.css')) {
+				console.log('modules :>> ', modules)
+			}
 			if (file === slash(configPath)) {
 				const newData = await resolveSiteData(root)
 				if (newData.base !== siteData.base) {
