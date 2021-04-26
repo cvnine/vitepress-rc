@@ -1,6 +1,6 @@
-import { ComponentType } from 'react'
+import type { ComponentType } from 'react'
 import type { Plugin as UnifiedPlugin } from 'unified'
-import { Alias } from 'vite'
+import type { Alias } from 'vite'
 
 export interface MdxVitePluginOption {
 	remarkPlugins?: UnifiedPlugin[]

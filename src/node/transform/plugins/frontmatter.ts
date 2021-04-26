@@ -1,6 +1,6 @@
-import { IPluginTransformer, VFileData } from '../index'
 import visit from 'unist-util-visit'
-import { YAML } from 'mdast'
+import type { IPluginTransformer, VFileData } from '../index'
+import type { YAML } from 'mdast'
 
 interface PluginProps {
 	id: string

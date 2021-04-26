@@ -1,5 +1,5 @@
-import { IPluginTransformer, VFileData } from '../index'
 import visit from 'unist-util-visit'
+import type { IPluginTransformer } from '../index'
 
 interface PluginProps {
 	id: string

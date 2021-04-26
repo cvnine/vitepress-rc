@@ -1,7 +1,7 @@
-import { IPluginTransformer, VFileData } from '../index'
 import visit from 'unist-util-visit'
-import { Link } from 'mdast'
-import { Node } from 'unist'
+import type { IPluginTransformer, VFileData } from '../index'
+import type { Link } from 'mdast'
+import type { Node } from 'unist'
 
 interface PluginProps {
 	id: string

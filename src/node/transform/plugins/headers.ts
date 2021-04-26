@@ -1,8 +1,8 @@
-import { Heading } from 'mdast'
 import visit from 'unist-util-visit'
 import find from 'unist-util-find'
-import { IPluginTransformer } from '../index'
-import { Node } from 'unist'
+import type { Heading } from 'mdast'
+import type { IPluginTransformer } from '../index'
+import type { Node } from 'unist'
 
 interface PluginProps {
 	id: string

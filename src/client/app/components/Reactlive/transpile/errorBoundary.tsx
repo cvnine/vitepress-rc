@@ -1,6 +1,6 @@
-import type React from 'react'
 import { getReact, getReactDom } from './render'
 import { StyleSheetManager } from 'styled-components'
+import type React from 'react'
 
 export type ErrorCallback = (err: Error) => void
 

@@ -1,9 +1,9 @@
-const evalCode = (
+export default function evalCode(
 	code: string,
 	scope: {
 		[key: string]: any
 	}
-) => {
+) {
 	const scopeKeys = Object.keys(scope)
 	const scopeValues = scopeKeys.map((key) => scope[key])
 
@@ -11,5 +11,3 @@ const evalCode = (
 	const res = new Function(...scopeKeys, code)
 	return res(...scopeValues)
 }
-
-export default evalCode

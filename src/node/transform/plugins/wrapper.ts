@@ -1,7 +1,7 @@
-import { IPluginTransformer } from '../index'
 import visit from 'unist-util-visit'
-import { Node } from 'unist'
-import { Root, Element, Comment, Text } from 'hast'
+import type { IPluginTransformer } from '../index'
+import type { Node } from 'unist'
+import type { Root, Element, Comment, Text } from 'hast'
 
 interface PluginProps {
 	id: string

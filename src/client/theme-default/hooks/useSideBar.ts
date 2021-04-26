@@ -1,6 +1,6 @@
-import { DefaultTheme, Header, Route } from '@types'
 import React, { useContext } from 'react'
 import { useSideData, Context } from 'vitepress-rc'
+import type { DefaultTheme, Header } from '@types'
 
 export type FlatSidebar = {
 	text: string

@@ -1,12 +1,12 @@
 import path from 'path'
 import reactRefresh from '@vitejs/plugin-react-refresh'
-import { Plugin as VitePlugin, ViteDevServer } from 'vite'
-import type { SiteConfig } from '../types/types'
 import { mdxTransform } from './transform'
 import { APP_PATH, SPECIAL_IMPORT_CODE_SCOPE, SPECIAL_IMPORT_SITE_DATA } from './paths'
 import { resolveSiteData } from './config'
 import slash from 'slash'
 import { cacher } from './transform/plugins/api/cache'
+import type { Plugin as VitePlugin, ViteDevServer } from 'vite'
+import type { SiteConfig } from '../types/types'
 import type { OutputAsset, OutputChunk } from 'rollup'
 
 const hashRE = /\.(\w+)\.js$/

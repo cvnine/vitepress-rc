@@ -1,7 +1,7 @@
-import { DefaultTheme } from '@types'
 import React, { FC } from 'react'
 import { OutboundLink } from '../Icons/OutboundLink'
 import { useNavLink } from '../../hooks/useNavLink'
+import type { DefaultTheme } from '@types'
 
 interface BaseLinkProps {
 	nav: DefaultTheme.NavItemWithLink

@@ -2,8 +2,8 @@ import React from 'react'
 import { Wrap } from './style'
 import { useSideData, joinPath } from 'vitepress-rc'
 import { NavLink } from '../Link'
-import { DefaultTheme } from '@types'
 import SlugMenu from '../SlugMenu'
+import type { DefaultTheme } from '@types'
 import type { FlatSidebar } from '../../hooks/useSidebar'
 
 export default function SideMenu(props: { mobileMenuCollapsed: boolean; sideBarItems: FlatSidebar[] }) {

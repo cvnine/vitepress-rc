@@ -1,15 +1,14 @@
-import { IPluginTransformer } from '../../index'
 import visit from 'unist-util-visit'
 import path from 'path'
 import fs from 'fs-extra'
 import Parser from './parse'
-import { Alias } from 'vite'
-
 import fromMarkdown from 'mdast-util-from-markdown'
 import syntax from 'micromark-extension-mdxjs'
 import mdx from 'mdast-util-mdx'
 import slash from 'slash'
 import { cacher } from './cache'
+import type { Alias } from 'vite'
+import type { IPluginTransformer } from '../../index'
 
 interface PluginProps {
 	id: string
@@ -20,6 +19,44 @@ interface Attributes {
 	type: 'mdxJsxAttribute'
 	name: string
 	value: string
+}
+
+function getParseFilePath({ id, alias }: PluginProps, src?: string) {
+	let componentPath = src
+	if (!componentPath) {
+		componentPath = path.resolve(path.parse(id).dir, './index')
+		let filePath =
+			isExist(id, `${componentPath}.tsx`) ||
+			isExist(id, `${componentPath}.jsx`) ||
+			isExist(id, `${componentPath}.ts`) ||
+			isExist(id, `${componentPath}.js`)
+		return filePath ? slash(filePath) : null
+	} else {
+		let filePath = isExist(id, componentPath)
+		if (filePath) {
+			return slash(filePath)
+		} else {
+			for (const item of alias) {
+				if (typeof item.find === 'string') {
+					filePath = isExist(item.replacement, componentPath.replace(item.find, item.replacement))
+					if (filePath) {
+						return slash(filePath)
+					}
+				}
+			}
+			return null
+		}
+	}
+}
+
+function isExist(id: string, componentPath: string) {
+	let filePath = path.resolve(path.parse(id).dir, componentPath)
+
+	if (fs.existsSync(filePath)) {
+		return filePath
+	} else {
+		return null
+	}
 }
 
 export default function plugin({ id, alias }: PluginProps): IPluginTransformer {
@@ -73,43 +110,5 @@ export default function plugin({ id, alias }: PluginProps): IPluginTransformer {
 		})
 
 		cacher.setHmrCache(id, [...new Set(filePaths)])
-	}
-}
-
-function getParseFilePath({ id, alias }: PluginProps, src?: string) {
-	let componentPath = src
-	if (!componentPath) {
-		componentPath = path.resolve(path.parse(id).dir, './index')
-		let filePath =
-			isExist(id, `${componentPath}.tsx`) ||
-			isExist(id, `${componentPath}.jsx`) ||
-			isExist(id, `${componentPath}.ts`) ||
-			isExist(id, `${componentPath}.js`)
-		return filePath ? slash(filePath) : null
-	} else {
-		let filePath = isExist(id, componentPath)
-		if (filePath) {
-			return slash(filePath)
-		} else {
-			for (const item of alias) {
-				if (typeof item.find === 'string') {
-					filePath = isExist(item.replacement, componentPath.replace(item.find, item.replacement))
-					if (filePath) {
-						return slash(filePath)
-					}
-				}
-			}
-			return null
-		}
-	}
-}
-
-function isExist(id: string, componentPath: string) {
-	let filePath = path.resolve(path.parse(id).dir, componentPath)
-
-	if (fs.existsSync(filePath)) {
-		return filePath
-	} else {
-		return null
 	}
 }

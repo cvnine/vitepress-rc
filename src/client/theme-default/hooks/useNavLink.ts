@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Context, useSideData, joinPath } from 'vitepress-rc'
-import { DefaultTheme } from '@types'
+import type { DefaultTheme } from '@types'
 
 function normalizePath(path: string): string {
 	return path
