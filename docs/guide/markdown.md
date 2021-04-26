@@ -148,10 +148,28 @@ This is a tip
 
 ::: warning
 This is a warning
+### Header
+测试
+
+```js
+js
+```
+## 测试2
+
+测试实施**十分**
+
 :::
 
 ::: danger
 This is a dangerous warning
+:::
+
+::: danger
+This is a dangerous warning
+This is a dangerous warning
+
+This is a dangerous warning
+
 :::
 
 ### Custom Title

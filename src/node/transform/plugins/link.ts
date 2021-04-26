@@ -11,26 +11,6 @@ interface IhProperties {
 	[key: string]: any
 }
 
-export default function plugin({ id }: PluginProps): IPluginTransformer {
-	return (tree, vfile) => {
-		visit(tree, ['link', 'linkReference'], function visitor(node: Link & Node) {
-			const url = node.url
-
-			let data = node.data || (node.data = {})
-			let props = (data.hProperties || (data.hProperties = {})) as IhProperties
-
-			if (url) {
-				if (/^[a-zA-Z][a-zA-Z\d+\-.]*:/.test(url)) {
-					props.target = '_blank'
-					props.rel = 'noopener noreferrer'
-				} else if (!url.startsWith('#') && !url.startsWith('mailto:')) {
-					node.url = normalizeHref(node.url)
-				}
-			}
-		})
-	}
-}
-
 const indexRE = /(^|.*\/)index.md(#?.*)$/i
 
 function normalizeHref(href: string) {
@@ -60,4 +40,24 @@ function normalizeHref(href: string) {
 	}
 
 	return url
+}
+
+export default function plugin({ id }: PluginProps): IPluginTransformer {
+	return (tree, vfile) => {
+		visit(tree, ['link', 'linkReference'], function visitor(node: Link & Node) {
+			const url = node.url
+
+			let data = node.data || (node.data = {})
+			let props = (data.hProperties || (data.hProperties = {})) as IhProperties
+
+			if (url) {
+				if (/^[a-zA-Z][a-zA-Z\d+\-.]*:/.test(url)) {
+					props.target = '_blank'
+					props.rel = 'noopener noreferrer'
+				} else if (!url.startsWith('#') && !url.startsWith('mailto:')) {
+					node.url = normalizeHref(node.url)
+				}
+			}
+		})
+	}
 }
