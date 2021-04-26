@@ -2,6 +2,14 @@ import React, { useContext } from 'react'
 import { Context, useSideData, joinPath } from 'vitepress-rc'
 import { DefaultTheme } from '@types'
 
+function normalizePath(path: string): string {
+	return path
+		.replace(/#.*$/, '')
+		.replace(/\?.*$/, '')
+		.replace(/\.(html|md)$/, '')
+		.replace(/\/index$/, '/')
+}
+
 export function useNavLink(nav: DefaultTheme.NavItemWithLink) {
 	const route = useContext(Context)
 	const sideData = useSideData()
@@ -28,12 +36,4 @@ export function useNavLink(nav: DefaultTheme.NavItemWithLink) {
 		},
 		isExternal,
 	}
-}
-
-function normalizePath(path: string): string {
-	return path
-		.replace(/#.*$/, '')
-		.replace(/\?.*$/, '')
-		.replace(/\.(html|md)$/, '')
-		.replace(/\/index$/, '/')
 }

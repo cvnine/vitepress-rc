@@ -62,7 +62,9 @@ export function createVitePlugin(
 		},
 		async transform(code, id, ssr) {
 			if (/\.css?$/.test(id)) {
-				console.log(_server)
+				if (_server) {
+					//todo 组件代码内引用css的，注入shadow dom
+				}
 			}
 
 			if (/\.md?$/.test(id)) {
@@ -81,9 +83,9 @@ export function createVitePlugin(
 		},
 
 		configureServer(server) {
-			_server = server
 			// serve our index.html after vite history fallback
 			return () => {
+				_server = server
 				server.middlewares.use((req, res, next) => {
 					if (req.url!.endsWith('.html')) {
 						res.statusCode = 200
@@ -121,7 +123,7 @@ export function createVitePlugin(
 			const { file, server, read, modules } = ctx
 
 			if (file.endsWith('.css')) {
-				console.log('modules :>> ', modules)
+				//todo 组件代码内引用css的，注入shadow dom的热更新
 			}
 			if (file === slash(configPath)) {
 				const newData = await resolveSiteData(root)

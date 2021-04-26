@@ -10,39 +10,6 @@ export type FlatSidebar = {
 	children?: FlatSidebar[]
 }
 
-export function useSideBar() {
-	const route = useContext(Context)
-	const sideData = useSideData()
-
-	// at first, we'll check if we can find the sidebar setting in frontmatter.
-	const headers = route.data.headers
-	const frontSidebar = route.data.frontmatter.sidebar
-	const sidebarDepth = route.data.frontmatter.sidebarDepth
-
-	// if it's `false`, we'll just return an empty array here.
-	if (frontSidebar === false) {
-		return []
-	}
-
-	// if it's `atuo`, render headers of the current page
-	if (frontSidebar === 'auto') {
-		return resolveAutoSidebar(headers, sidebarDepth)
-	}
-
-	// now, there's no sidebar setting at frontmatter; let's see the configs
-	const themeSidebar = getSideBarConfig(sideData.themeConfig.sidebar || 'auto', route.data.relativePath)
-
-	if (themeSidebar === false) {
-		return []
-	}
-
-	if (themeSidebar === 'auto') {
-		return resolveAutoSidebar(headers, sidebarDepth)
-	}
-
-	return getSideMenu(themeSidebar, route.data.relativePath, resolveAutoSidebar(headers, sidebarDepth))
-}
-
 function resolveAutoSidebar(headers: Header[], depth: number): FlatSidebar[] {
 	if (headers === undefined) {
 		return []
@@ -91,6 +58,39 @@ function getSideMenu(sidebar: DefaultTheme.SideBarItem[], relativePath: string, 
 	}
 
 	return result
+}
+
+export function useSideBar() {
+	const route = useContext(Context)
+	const sideData = useSideData()
+
+	// at first, we'll check if we can find the sidebar setting in frontmatter.
+	const headers = route.data.headers
+	const frontSidebar = route.data.frontmatter.sidebar
+	const sidebarDepth = route.data.frontmatter.sidebarDepth
+
+	// if it's `false`, we'll just return an empty array here.
+	if (frontSidebar === false) {
+		return []
+	}
+
+	// if it's `atuo`, render headers of the current page
+	if (frontSidebar === 'auto') {
+		return resolveAutoSidebar(headers, sidebarDepth)
+	}
+
+	// now, there's no sidebar setting at frontmatter; let's see the configs
+	const themeSidebar = getSideBarConfig(sideData.themeConfig.sidebar || 'auto', route.data.relativePath)
+
+	if (themeSidebar === false) {
+		return []
+	}
+
+	if (themeSidebar === 'auto') {
+		return resolveAutoSidebar(headers, sidebarDepth)
+	}
+
+	return getSideMenu(themeSidebar, route.data.relativePath, resolveAutoSidebar(headers, sidebarDepth))
 }
 
 /**

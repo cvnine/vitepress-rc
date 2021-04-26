@@ -1,39 +1,5 @@
 import React, { useEffect, useState } from 'react'
 
-export function useActiveSlug() {
-	const [activeHash, setActiveHash] = useState<string | null>(null)
-
-	function setActiveLink(): void {
-		const anchors = getAnchors()
-
-		if (isReachBottom()) return
-
-		for (let i = 0; i < anchors.length; i++) {
-			const anchor = anchors[i]
-			const nextAnchor = anchors[i + 1]
-
-			const [isActive, hash] = isAnchorActive(i, anchor, nextAnchor)
-
-			if (isActive) {
-				window.history.replaceState(null, document.title, hash ? hash : ' ')
-				setActiveHash(hash)
-				return
-			}
-		}
-	}
-
-	useEffect(() => {
-		const onScroll = throttleAndDebounce(setActiveLink, 300)
-		window.addEventListener('scroll', onScroll)
-
-		return () => {
-			window.removeEventListener('scroll', onScroll)
-		}
-	}, [])
-
-	return [activeHash, setActiveHash] as const
-}
-
 function isReachBottom() {
 	return window.pageYOffset + window.innerHeight >= document.documentElement.scrollHeight
 }
@@ -89,4 +55,38 @@ function throttleAndDebounce(fn: () => void, delay: number): () => void {
 			timeout = window.setTimeout(fn, delay)
 		}
 	}
+}
+
+export function useActiveSlug() {
+	const [activeHash, setActiveHash] = useState<string | null>(null)
+
+	function setActiveLink(): void {
+		const anchors = getAnchors()
+
+		if (isReachBottom()) return
+
+		for (let i = 0; i < anchors.length; i++) {
+			const anchor = anchors[i]
+			const nextAnchor = anchors[i + 1]
+
+			const [isActive, hash] = isAnchorActive(i, anchor, nextAnchor)
+
+			if (isActive) {
+				window.history.replaceState(null, document.title, hash ? hash : ' ')
+				setActiveHash(hash)
+				return
+			}
+		}
+	}
+
+	useEffect(() => {
+		const onScroll = throttleAndDebounce(setActiveLink, 300)
+		window.addEventListener('scroll', onScroll)
+
+		return () => {
+			window.removeEventListener('scroll', onScroll)
+		}
+	}, [])
+
+	return [activeHash, setActiveHash] as const
 }

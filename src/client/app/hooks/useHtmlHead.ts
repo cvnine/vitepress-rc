@@ -5,7 +5,7 @@ import { useSideData } from './useSideData'
 
 let isFirstUpdate = true
 
-const updateHeadTags = (newTags: HeadConfig[]) => {
+function updateHeadTags(newTags: HeadConfig[]) {
 	if (import.meta.env.PROD && isFirstUpdate) {
 		// in production, the initial meta tags are already pre-rendered so we
 		// skip the first update.
@@ -22,6 +22,25 @@ const updateHeadTags = (newTags: HeadConfig[]) => {
 			metaTags.push(el)
 		})
 	}
+}
+
+function createHeadElement([tag, attrs, innerHTML]: HeadConfig) {
+	const el = document.createElement(tag)
+	for (const key in attrs) {
+		el.setAttribute(key, attrs[key])
+	}
+	if (innerHTML) {
+		el.innerHTML = innerHTML
+	}
+	return el
+}
+
+function isMetaDescription(headConfig: HeadConfig) {
+	return headConfig[0] === 'meta' && headConfig[1] && headConfig[1].name === 'description'
+}
+
+function filterOutHeadDescription(head: HeadConfig[]) {
+	return head.filter((h) => !isMetaDescription(h))
 }
 
 export function useHtmlHead(route: Route) {
@@ -55,23 +74,4 @@ export function useHtmlHead(route: Route) {
 			...((frontmatterHead && filterOutHeadDescription(frontmatterHead)) || []),
 		])
 	}, [route.data, siteData])
-}
-
-function createHeadElement([tag, attrs, innerHTML]: HeadConfig) {
-	const el = document.createElement(tag)
-	for (const key in attrs) {
-		el.setAttribute(key, attrs[key])
-	}
-	if (innerHTML) {
-		el.innerHTML = innerHTML
-	}
-	return el
-}
-
-function isMetaDescription(headConfig: HeadConfig) {
-	return headConfig[0] === 'meta' && headConfig[1] && headConfig[1].name === 'description'
-}
-
-function filterOutHeadDescription(head: HeadConfig[]) {
-	return head.filter((h) => !isMetaDescription(h))
 }

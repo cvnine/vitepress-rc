@@ -44,12 +44,6 @@ async function jsxToES2019(code_jsx: string) {
 		target: 'es2019',
 	})
 
-	// TODO stabilize this bugfix
-	// code_es2019 = code_es2019.replace(
-	// 	'export default function MDXContent',
-	// 	'export default MDXContent; function MDXContent'
-	// )
-
 	return code_es2019
 }
 
@@ -62,6 +56,42 @@ function injectImports(code_es2019: string, pageData: object) {
 		'',
 		`export const __pageData = ${JSON.stringify(JSON.stringify(pageData))}`,
 	].join('\n')
+}
+
+function inferTitle(frontmatter: Record<string, any>, headers: Header[]) {
+	if (frontmatter.home) {
+		return 'Home'
+	}
+	if (frontmatter.title) {
+		return deeplyParseHeader(frontmatter.title)
+	}
+	const match = headers[0]
+	if (match) {
+		return match.title
+	}
+	return ''
+}
+
+function inferDescription(frontmatter: Record<string, any>) {
+	const { description, head } = frontmatter
+
+	if (description !== undefined) {
+		return description
+	}
+
+	return (head && getHeadMetaContent(head, 'description')) || ''
+}
+
+function getHeadMetaContent(head: HeadConfig[], name: string): string | undefined {
+	if (!head || !head.length) {
+		return undefined
+	}
+
+	const meta = head.find(([tag, attrs = {}]) => {
+		return tag === 'meta' && attrs.name === name && attrs.content
+	})
+
+	return meta && meta[1].content
 }
 
 async function mdxTransform(
@@ -111,8 +141,6 @@ async function mdxTransform(
 		rehypePlugins: [([pluginWrapper, { id }] as unknown) as Plugin, ...userRehypePlugins],
 	}).process(code_mdx)
 
-	const relativePath = slash(path.relative(root, id))
-
 	const _data = code_vFile.data as VFileData
 
 	let _frontmatter = _data.frontmatter ?? {}
@@ -122,7 +150,7 @@ async function mdxTransform(
 		title: inferTitle(_frontmatter, _headers),
 		description: inferDescription(_frontmatter),
 
-		relativePath,
+		relativePath: slash(path.relative(root, id)),
 		headers: _headers,
 		frontmatter: _frontmatter,
 		lastUpdated: Math.round(fs.statSync(id).mtimeMs),
@@ -131,42 +159,6 @@ async function mdxTransform(
 	const code_es2019 = await jsxToES2019(String(code_vFile))
 	const code_final = injectImports(code_es2019, pageData)
 	return { code: code_final, pageData }
-}
-
-const inferTitle = (frontmatter: Record<string, any>, headers: Header[]) => {
-	if (frontmatter.home) {
-		return 'Home'
-	}
-	if (frontmatter.title) {
-		return deeplyParseHeader(frontmatter.title)
-	}
-	const match = headers[0]
-	if (match) {
-		return match.title
-	}
-	return ''
-}
-
-const inferDescription = (frontmatter: Record<string, any>) => {
-	const { description, head } = frontmatter
-
-	if (description !== undefined) {
-		return description
-	}
-
-	return (head && getHeadMetaContent(head, 'description')) || ''
-}
-
-const getHeadMetaContent = (head: HeadConfig[], name: string): string | undefined => {
-	if (!head || !head.length) {
-		return undefined
-	}
-
-	const meta = head.find(([tag, attrs = {}]) => {
-		return tag === 'meta' && attrs.name === name && attrs.content
-	})
-
-	return meta && meta[1].content
 }
 
 export { mdxTransform }
