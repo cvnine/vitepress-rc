@@ -2287,17 +2287,6 @@ mdast-util-definitions@^4.0.0:
   dependencies:
     unist-util-visit "^2.0.0"
 
-mdast-util-directive@^1.0.0:
-  version "1.0.1"
-  resolved "http://10.67.17.250/mdast-util-directive/-/mdast-util-directive-1.0.1.tgz#bc2aea94eee5b89f2d11bf4546d40453e0b34cc6"
-  integrity sha1-vCrqlO7luJ8tEb9FRtQEU+CzTMY=
-  dependencies:
-    mdast-util-to-markdown "^0.6.0"
-    parse-entities "^2.0.0"
-    repeat-string "^1.0.0"
-    stringify-entities "^3.1.0"
-    unist-util-visit-parents "^3.0.0"
-
 mdast-util-find-and-replace@^1.1.0:
   version "1.1.1"
   resolved "https://registry.npm.taobao.org/mdast-util-find-and-replace/download/mdast-util-find-and-replace-1.1.1.tgz?cache=0&sync_timestamp=1612889952441&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fmdast-util-find-and-replace%2Fdownload%2Fmdast-util-find-and-replace-1.1.1.tgz#b7db1e873f96f66588c321f1363069abf607d1b5"
@@ -2456,14 +2445,6 @@ merge2@^1.3.0:
   version "1.4.1"
   resolved "https://registry.npm.taobao.org/merge2/download/merge2-1.4.1.tgz#4368892f885e907455a6fd7dc55c0c9d404990ae"
   integrity sha1-Q2iJL4hekHRVpv19xVwMnUBJkK4=
-
-micromark-extension-directive@^1.0.0:
-  version "1.3.0"
-  resolved "http://10.67.17.250/micromark-extension-directive/-/micromark-extension-directive-1.3.0.tgz#8b9214d7bf9177f866214a6c745c27a0917503fd"
-  integrity sha1-i5IU17+Rd/hmIUpsdFwnoJF1A/0=
-  dependencies:
-    micromark "~2.11.0"
-    parse-entities "^2.0.0"
 
 micromark-extension-frontmatter@^0.2.0:
   version "0.2.2"
@@ -3152,14 +3133,6 @@ rehype-minify-whitespace@^4.0.0:
     hast-util-is-element "^1.0.0"
     hast-util-whitespace "^1.0.4"
     unist-util-is "^4.0.0"
-
-remark-directive@^1.0.1:
-  version "1.0.1"
-  resolved "http://10.67.17.250/remark-directive/-/remark-directive-1.0.1.tgz#13356db9c893d16ad15406e4b77a389525c4bdf9"
-  integrity sha1-EzVtuciT0WrRVAbkt3o4lSXEvfk=
-  dependencies:
-    mdast-util-directive "^1.0.0"
-    micromark-extension-directive "^1.0.0"
 
 remark-emoji@^2.1.0:
   version "2.2.0"
