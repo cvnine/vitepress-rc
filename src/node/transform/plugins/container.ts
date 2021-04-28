@@ -11,10 +11,10 @@ type NodeWithChildren = Node & { children: NodeWithChildren[] }
 type TYPE = 'tip' | 'warning' | 'danger'
 
 // const reg = /^\s*:::\s*(\w+)(.*?)[\n\r]([\s\S]+?)\s*:::\s*?/
-const reg = /^:::[ \t]+((tip|warning|danger)+)/
+const reg = /^:::[ \t]+(tip|warning|danger)(.*)/
 const selfReg = /^:::[ \t]+((tip|warning|danger)+)(.*?)[\n\r]([\s\S]+?)[\n\r]:::$/
 
-const endReg = /[\n\r]:::$/
+const endReg = /([\s\S]*)[\n\r]:::$/
 
 const TypeMap: Record<TYPE, string> = {
 	tip: 'TIP',
@@ -87,6 +87,7 @@ export default function plugin({ id }: PluginProps): IPluginTransformer {
 								}
 							}
 
+							//结束标签在子级里带 \r\n:::
 							let lastChildValue = item.children[item.children.length - 1].value as string
 							if (lastChildValue.match(endReg)) {
 							} else {

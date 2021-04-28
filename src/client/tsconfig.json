@@ -13,5 +13,5 @@
 		"@types": ["../types/types.ts"],
 	  }
 	},
-	"include": [".", "../types/types.ts"]
+	"include": ["../types/types.ts"]
   }
