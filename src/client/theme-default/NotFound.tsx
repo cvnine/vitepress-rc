@@ -53,9 +53,7 @@ const WrapNotFound = styled.main`
 		top: 80px;
 		left: 50%;
 		animation: 7s smallmove infinite cubic-bezier(1, 0.22, 0.71, 0.98);
-		-webkit-animation: 7s smallmove infinite cubic-bezier(1, 0.22, 0.71, 0.98);
 		animation-delay: 1.2s;
-		-webkit-animation-delay: 1.2s;
 	}
 
 	.circles .circle.med {
@@ -68,9 +66,7 @@ const WrapNotFound = styled.main`
 		top: 0;
 		left: 10%;
 		animation: 7s medmove infinite cubic-bezier(0.32, 0.04, 0.15, 0.75);
-		-webkit-animation: 7s medmove infinite cubic-bezier(0.32, 0.04, 0.15, 0.75);
 		animation-delay: 0.4s;
-		-webkit-animation-delay: 0.4s;
 	}
 
 	.circles .circle.big {
@@ -83,9 +79,7 @@ const WrapNotFound = styled.main`
 		top: 200px;
 		right: 0;
 		animation: 8s bigmove infinite;
-		-webkit-animation: 8s bigmove infinite;
 		animation-delay: 3s;
-		-webkit-animation-delay: 1s;
 	}
 
 	@-webkit-keyframes smallmove {
