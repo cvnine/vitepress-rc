@@ -1,5 +1,5 @@
 import serialized from '@virtual-module/siteData'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { SiteData } from '@types'
 
 export function useSideData() {

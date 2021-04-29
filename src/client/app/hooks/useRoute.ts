@@ -1,4 +1,4 @@
-import { PageData, Route } from '@types'
+import { Route } from '@types'
 import { ComponentType, useEffect, useRef, useState } from 'react'
 import { inBrowser } from 'vitepress-rc'
 

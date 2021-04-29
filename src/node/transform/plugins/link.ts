@@ -21,7 +21,7 @@ function normalizeHref(href: string) {
 		const [, path, hash] = indexMatch
 		url = path + hash
 	} else {
-		let cleanUrl = url.replace(/\#.*$/, '').replace(/\?.*$/, '')
+		let cleanUrl = url.replace(/#.*$/, '').replace(/\?.*$/, '')
 		// .md -> .html
 		if (cleanUrl.endsWith('.md')) {
 			cleanUrl = cleanUrl.replace(/\.md$/, '.html')

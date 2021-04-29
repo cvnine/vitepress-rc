@@ -1,17 +1,17 @@
 {
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
-	  "baseUrl": ".",
-	  "outDir": "../../dist",
-	  "target": "esnext",
-	  "module": "esnext",
-	  "lib": ["ESNext", "DOM"],
-	  "types": ["vite/client"],
-	  "paths": {
-		"vitepress-rc": ["index.ts"],
-		"@virtual-module/theme/*": ["theme-default/*"],
-		"@types": ["../types/types.ts"],
-	  }
+		"baseUrl": ".",
+		"outDir": "../../dist",
+		"target": "esnext",
+		"module": "esnext",
+		"lib": ["ESNext", "DOM"],
+		"types": ["vite/client"],
+		"paths": {
+			"vitepress-rc": ["index.ts"],
+			"@virtual-module/theme/*": ["theme-default/*"],
+			"@types": ["../types/types.ts"]
+		}
 	},
-	"include": ["../types/types.ts"]
-  }
+	"include": [".", "../types/types.ts"]
+}

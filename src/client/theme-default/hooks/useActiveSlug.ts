@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 function isReachBottom() {
 	return window.pageYOffset + window.innerHeight >= document.documentElement.scrollHeight

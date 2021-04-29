@@ -176,6 +176,25 @@ export const Wrap = styled.div`
 		img {
 			max-width: 100%;
 		}
+
+		.remark-container {
+			background-color: #f3f5f7;
+			border-color: var(--doc-primary);
+			margin: 16px 0;
+			border-left: 4px solid;
+			padding: 1px 24px;
+			&-danger {
+			}
+			&-warning {
+			}
+			&-title {
+				font-weight: 600;
+				margin: 24px;
+			}
+			&-content {
+				margin: 24px;
+			}
+		}
 	}
 
 	.code-live {

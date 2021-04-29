@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import { useContext } from 'react'
 import { Context, useSideData, joinPath } from 'vitepress-rc'
 import type { DefaultTheme } from '@types'
 

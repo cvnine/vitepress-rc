@@ -1,5 +1,5 @@
 {
-	"typescript.tsserver.experimental.enableProjectDiagnostics": false,
+	"typescript.tsserver.experimental.enableProjectDiagnostics": true,
 	"editor.insertSpaces": false,
     "editor.suggestSelection": "first",
 	"editor.codeActionsOnSave": {
