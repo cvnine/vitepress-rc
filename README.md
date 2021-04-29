@@ -24,7 +24,7 @@
 	- [ ] sandbox
 	- [ ] 优化：骨架 loading 卡顿，异步更新已卸载的React报错
 - [ ] 静态代码展示
-- [ ] 快捷提示支持 [remark-directive](https://github.com/remarkjs/remark-directive)
+- [x] 快捷提示支持
 - [ ] 站点模式（首页）
 - [ ] 自身Api文档，区别于vitepress
 - [ ] 发布，Test，CI等建设
