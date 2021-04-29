@@ -3,7 +3,7 @@ import { Context, Content } from 'vitepress-rc'
 import { Wrap, GlobalStyle, WrapMain } from './style'
 import Navbar from './components/Navbar'
 import SideMenu from './components/SideMenu'
-import { useSideBar } from './hooks/useSidebar'
+import { useSideBar } from './hooks/useSideBar'
 
 export default function Layout() {
 	const [menuCollapsed, setMenuCollapsed] = useState(true)

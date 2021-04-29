@@ -178,21 +178,32 @@ export const Wrap = styled.div`
 		}
 
 		.remark-container {
-			background-color: #f3f5f7;
-			border-color: var(--doc-primary);
 			margin: 16px 0;
 			border-left: 4px solid;
-			padding: 1px 24px;
+			border-color: var(--doc-primary);
+			background-color: rgb(230 241 252 / 80%);
+			padding: 1px 16px;
+			box-shadow: 0 6px 16px -2px rgb(0 0 0 / 6%);
 			&-danger {
+				border-color: #ff3f3f;
+				background-color: rgb(255 230 230 / 80%);
+				.remark-container-title {
+					color: #b01717;
+				}
 			}
 			&-warning {
+				border-color: #ffdd35;
+				background-color: rgba(255, 229, 100, 0.3);
+				.remark-container-title {
+					color: #b29400;
+				}
 			}
 			&-title {
 				font-weight: 600;
-				margin: 24px;
+				margin: 16px 0;
 			}
 			&-content {
-				margin: 24px;
+				margin: 16px 0;
 			}
 		}
 	}

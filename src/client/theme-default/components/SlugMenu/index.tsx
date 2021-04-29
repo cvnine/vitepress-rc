@@ -1,7 +1,7 @@
 import React from 'react'
 import { WrapUl } from './style'
 import { useActiveSlug } from '../../hooks/useActiveSlug'
-import type { FlatSidebar } from '../../hooks/useSidebar'
+import type { FlatSidebar } from '../../hooks/useSideBar'
 
 export default function SlugMenu({ slugs, className }: { slugs: Omit<FlatSidebar, 'isActive'>[]; className?: string }) {
 	const [activeHash, setActiveHash] = useActiveSlug()

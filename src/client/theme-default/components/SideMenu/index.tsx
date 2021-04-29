@@ -4,7 +4,7 @@ import { useSideData, joinPath } from 'vitepress-rc'
 import { NavLink } from '../Link'
 import SlugMenu from '../SlugMenu'
 import type { DefaultTheme } from '@types'
-import type { FlatSidebar } from '../../hooks/useSidebar'
+import type { FlatSidebar } from '../../hooks/useSideBar'
 
 export default function SideMenu(props: { mobileMenuCollapsed: boolean; sideBarItems: FlatSidebar[] }) {
 	const sideData = useSideData()
