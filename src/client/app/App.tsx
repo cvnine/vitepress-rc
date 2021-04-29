@@ -14,7 +14,7 @@ export function App({ ssrHref }: { ssrHref?: string }) {
 
 	return (
 		<Context.Provider value={route}>
-			<Theme.NotFound />
+			<Theme.Layout />
 		</Context.Provider>
 	)
 }
