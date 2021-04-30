@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { OutboundLink } from '../Icons/OutboundLink'
 import { useNavLink } from '../../hooks/useNavLink'
-import type { DefaultTheme } from '@types'
+import type { DefaultTheme } from '@vitepress-rc/types'
 
 interface BaseLinkProps {
 	nav: DefaultTheme.NavItemWithLink

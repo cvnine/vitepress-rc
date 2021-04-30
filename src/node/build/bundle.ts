@@ -4,7 +4,7 @@ import slash from 'slash'
 import { RollupOutput } from 'rollup'
 import { build, BuildOptions, UserConfig as ViteUserConfig } from 'vite'
 import { APP_PATH } from '../paths'
-import type { SiteConfig } from '../../types/types'
+import type { SiteConfig } from '../../../types/types'
 import { createVitePlugin } from '../plugin'
 
 export const okMark = '\x1b[32m✓\x1b[0m'

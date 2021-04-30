@@ -1,7 +1,7 @@
 import path from 'path'
 import fs from 'fs-extra'
 // import { resolveSiteDataByRoute } from '../config'
-import type { SiteConfig, HeadConfig } from '../../types/types'
+import type { SiteConfig, HeadConfig } from '../../../types/types'
 import slash from 'slash'
 import type { RollupOutput, OutputChunk, OutputAsset } from 'rollup'
 

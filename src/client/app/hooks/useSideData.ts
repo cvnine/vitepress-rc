@@ -1,6 +1,6 @@
 import serialized from '@virtual-module/siteData'
 import { useEffect, useState } from 'react'
-import type { SiteData } from '@types'
+import type { SiteData } from '@vitepress-rc/types'
 
 export function useSideData() {
 	const [siteData, setSiteData] = useState<SiteData>(JSON.parse(serialized))

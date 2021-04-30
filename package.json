@@ -9,6 +9,11 @@
     "bin": {
         "vitepress-rc": "bin/index.js"
     },
+	"files": [
+	  "bin",
+	  "dist",
+	  "types"
+	],
     "scripts": {
         "dev": "run-p dev-client dev-node",
         "dev-client": "tsc -w -p src/client",
