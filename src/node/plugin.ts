@@ -47,17 +47,24 @@ export function createVitePlugin(
 			if (id === SPECIAL_IMPORT_CODE_SCOPE) {
 				if (md && md.codeScope) {
 					let str: string = ``,
-						exportScope: string = ``
+						exportJsScope: string = ``,
+						exportCssScope: string = ``
 					Object.entries(md.codeScope).forEach(([key, val], index) => {
 						str += `import * as codeScope_${index} from '${`/${slash(path.relative(root, val))}`}';\n`
-						exportScope = exportScope
-							? exportScope + `, ${JSON.stringify(key)}: codeScope_${index}`
-							: `${JSON.stringify(key)}: codeScope_${index}`
+						if (val.endsWith('.css')) {
+							exportCssScope = exportCssScope
+								? exportCssScope + `, ${JSON.stringify(key)}: codeScope_${index}`
+								: `${JSON.stringify(key)}: codeScope_${index}`
+						} else {
+							exportJsScope = exportJsScope
+								? exportJsScope + `, ${JSON.stringify(key)}: codeScope_${index}`
+								: `${JSON.stringify(key)}: codeScope_${index}`
+						}
 					})
 
-					return str + `export default {${exportScope}}`
+					return str + `export default {"js": {${exportJsScope}}, "css":{${exportCssScope}}}`
 				}
-				return `export default {}`
+				return `export default {"js":{},"css":{}}`
 			}
 		},
 		async transform(code, id, ssr) {

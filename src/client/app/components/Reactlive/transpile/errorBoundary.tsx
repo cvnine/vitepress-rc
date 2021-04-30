@@ -1,5 +1,4 @@
-import { getReact, getReactDom } from './render'
-import { StyleSheetManager } from 'styled-components'
+import { getReact, getReactDom, getStyleSheetManager } from './render'
 import type React from 'react'
 
 export type ErrorCallback = (err: Error) => void
@@ -24,7 +23,11 @@ export function RemoveShadowRootSkeleton(root: ShadowRoot) {
 }
 
 const errorBoundary = async ({ Element, errorCallback, shadowRoot, cssText, local }: IErrorBoundary) => {
-	const [React_P, ReactDom_P] = await Promise.all([getReact(local), getReactDom(local)])
+	const [React_P, ReactDom_P, StyleSheetManager] = await Promise.all([
+		getReact(local),
+		getReactDom(local),
+		getStyleSheetManager(local),
+	])
 
 	class ErrorBoundary extends React_P.Component {
 		componentDidCatch(error: Error) {

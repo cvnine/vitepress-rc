@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDom from 'react-dom'
+import { StyleSheetManager } from 'styled-components'
 
 const fakeHost = `https://a.com`
 
@@ -20,5 +21,17 @@ export async function getReactDom(local = true): Promise<typeof ReactDom> {
 		const url_react_dom = new URL('//jspm.dev/react-dom', fakeHost).href
 		const { default: ReactDomFetch } = await import(/* @vite-ignore */ url_react_dom)
 		return ReactDomFetch
+	}
+}
+
+export async function getStyleSheetManager(local = true): Promise<typeof StyleSheetManager> {
+	if (local) {
+		return StyleSheetManager
+	} else {
+		const url_styled = new URL('//jspm.dev/styled-components', fakeHost).href
+		const {
+			default: { StyleSheetManager },
+		} = await import(/* @vite-ignore */ url_styled)
+		return StyleSheetManager
 	}
 }

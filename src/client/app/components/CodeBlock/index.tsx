@@ -6,6 +6,8 @@ import { CodePreviewer } from './CodePreviewer'
 interface CodeBlockProps {
 	className?: string
 	live?: string
+	transform?: string
+	compact?: string
 	children: string
 }
 
@@ -23,14 +25,19 @@ function parseClassName(className?: string) {
 	return (['js', []] as unknown) as [Language, number[][]]
 }
 
-export const CodeBlock: FC<CodeBlockProps> = ({ children, className, live, ...res }) => {
+export const CodeBlock: FC<CodeBlockProps> = ({ children, className, live, transform, compact, ...res }) => {
 	const code = children.replace(/\n$/, '')
 
 	const [language, lineNumbers] = parseClassName(className)
 
+	const codeOptions = {
+		transform: !!transform,
+		compact: !!compact,
+	}
+
 	if (live && (language === 'jsx' || language === 'tsx')) {
 		let local = live === 'local'
-		return <CodePreviewer code={code} local={local} />
+		return <CodePreviewer code={code} local={local} codeOptions={codeOptions} />
 	}
 
 	return <CodeView code={code} language={language} lineNumbers={lineNumbers} />

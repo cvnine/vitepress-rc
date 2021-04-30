@@ -7,8 +7,8 @@
 
 import React from 'react'
 
-import {Breadcrumb} from 'antd'
-import 'https://unpkg.com/antd@4.15.1/dist/antd.css';
+import {Breadcrumb} from 'antd@4.14.0'
+// import 'https://unpkg.com/antd@4.15.1/dist/antd.css';
 
 const Title = () => (
  <Breadcrumb>
