@@ -11,7 +11,6 @@ module.exports = {
   md:{
 	  codeScope: {
 		  'demo-c': path.resolve(__dirname, '../components/index.tsx'),
-		  'demo-css': path.resolve(__dirname, '../components/a.css'),
 	  }
   },
 

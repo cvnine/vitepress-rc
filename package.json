@@ -31,7 +31,10 @@
     "keywords": [
         "vite",
         "react",
-        "doc"
+        "doc",
+		"vue",
+		"vuepress",
+		"vitepress"
     ],
     "lint-staged": {
         "**/*.(js|jsx|ts|tsx)": [
