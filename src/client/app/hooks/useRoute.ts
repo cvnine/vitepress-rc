@@ -1,6 +1,6 @@
-import { Route } from '@types'
 import { ComponentType, useEffect, useRef, useState } from 'react'
 import { inBrowser } from 'vitepress-rc'
+import type { Route } from '@vitepress-rc/types'
 
 export interface Router {
 	route: Route

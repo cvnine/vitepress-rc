@@ -4,6 +4,7 @@ import { Wrap, GlobalStyle, WrapMain } from './style'
 import Navbar from './components/Navbar'
 import SideMenu from './components/SideMenu'
 import { useSideBar } from './hooks/useSideBar'
+import ContentFooter from './components/ContentFooter'
 
 export default function Layout() {
 	const [menuCollapsed, setMenuCollapsed] = useState(true)
@@ -29,7 +30,14 @@ export default function Layout() {
 			<SideMenu mobileMenuCollapsed={menuCollapsed} sideBarItems={sideBarItems} />
 
 			<WrapMain hiddenMenus={sideBarItems.length === 0}>
-				<Content>{Comp ? <Comp /> : null}</Content>
+				<Content>
+					{Comp ? (
+						<>
+							<Comp />
+							<ContentFooter />
+						</>
+					) : null}
+				</Content>
 			</WrapMain>
 		</Wrap>
 	)

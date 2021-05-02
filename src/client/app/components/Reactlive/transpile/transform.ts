@@ -77,12 +77,12 @@ async function transform({ code, local, scope }: ITransform): Promise<TransformR
 		if (local) {
 			for (let index = 0; index < entriesImports.length; index++) {
 				let [key, val] = entriesImports[index]
-				if (scope[key]) {
+				if (scope['js'][key]) {
 					for (const variable of val) {
 						if (variable.isDestructing) {
-							importJs[variable.value] = scope[key][variable.value]
+							importJs[variable.value] = scope['js'][key][variable.value]
 						} else {
-							importJs[variable.value] = scope[key]
+							importJs[variable.value] = scope['js'][key]
 						}
 					}
 				}
@@ -116,8 +116,8 @@ async function transform({ code, local, scope }: ITransform): Promise<TransformR
 		}
 
 		/* import css */
-		let importCss: string[] = []
 		let cssText: string = ''
+		let importCss: string[] = []
 		$(_code)
 			.find(`import '$_$'`)
 			.each((item: any) => {
@@ -128,6 +128,12 @@ async function transform({ code, local, scope }: ITransform): Promise<TransformR
 			})
 
 		if (local) {
+			//TODO 临时解决，后续 通过组件依赖来自动引入css
+			let localImportCss = []
+			for (const [key, val] of Object.entries(scope['css'])) {
+				localImportCss.push((val as { default: string }).default)
+			}
+			cssText = localImportCss.join('\n')
 		} else {
 			try {
 				const r = await Promise.all(

@@ -3,7 +3,7 @@ import { Wrap } from './style'
 import { NavLink, BaseLink } from '../Link'
 import { useSideData } from 'vitepress-rc'
 // import SearchBar from '../SearchBar'
-import type { DefaultTheme } from '@types'
+import type { DefaultTheme } from '@vitepress-rc/types'
 
 interface NavbarProps {
 	onMobileMenuClick: (ev: React.MouseEvent<HTMLButtonElement>) => void

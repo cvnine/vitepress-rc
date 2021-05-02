@@ -3,7 +3,7 @@
 ## Code live
 
 
-```jsx 
+```jsx live
 
 import React from 'react'
 
@@ -37,7 +37,7 @@ const A = styled.div`
 `
 
 const Title = () => (
- <><A>12e23</A><Button /></>
+ <><A>test</A><Button /></>
 )
 
 export default Title

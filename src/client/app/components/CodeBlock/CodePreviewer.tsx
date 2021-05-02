@@ -6,12 +6,27 @@ import { useCopy } from './hooks'
 import codeScope from '@virtual-module/codeScope'
 import styled from 'styled-components'
 
+interface ICodeOptions {
+	transform: boolean
+	compact: boolean
+}
+
 interface CodeBlockProps {
 	code: string
 	local: boolean
+	codeOptions: ICodeOptions
 }
 
-export const CodePreviewer: FC<CodeBlockProps> = ({ code, local }) => {
+function getStyle({ transform, compact }: ICodeOptions) {
+	let transformStyle = transform ? { transform: 'translate(0px, 0px)' } : {}
+	let compactStyle = compact ? { padding: '0' } : {}
+	return {
+		...transformStyle,
+		...compactStyle,
+	}
+}
+
+export const CodePreviewer: FC<CodeBlockProps> = ({ code, local, codeOptions }) => {
 	const [showCode, setShowCode] = useState(false)
 	const [currentCode, setCurrentCode] = useState(code)
 	const [copy, status] = useCopy()
@@ -25,15 +40,13 @@ export const CodePreviewer: FC<CodeBlockProps> = ({ code, local }) => {
 			<LiveProvider
 				code={currentCode}
 				local={local}
-				scope={{ ...codeScope, react: React, 'styled-components': styled }}
+				scope={{ js: { ...codeScope['js'], react: React, 'styled-components': styled }, css: codeScope['css'] }}
 			>
-				<div className="code-preview-wrap">
+				<div className="code-preview-wrap" style={getStyle(codeOptions)}>
 					<LivePreview />
 				</div>
 				<div className="code-actions">
-					<div>
-						<SandboxIcon onClick={() => setShowCode((val) => !val)} />
-					</div>
+					<div>{/* <SandboxIcon onClick={() => setShowCode((val) => !val)} /> */}</div>
 					<div className="code-actions--right">
 						<RestoreIcon onClick={() => setCurrentCode(code)} />
 						{status === 'ready' ? <CopyIcon onClick={() => copy(currentCode)} /> : <CopyOk />}

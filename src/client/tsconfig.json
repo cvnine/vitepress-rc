@@ -2,7 +2,7 @@
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
 		"baseUrl": ".",
-		"outDir": "../../dist",
+		"outDir": "../../dist/client",
 		"target": "esnext",
 		"module": "esnext",
 		"lib": ["ESNext", "DOM"],
@@ -10,8 +10,8 @@
 		"paths": {
 			"vitepress-rc": ["index.ts"],
 			"@virtual-module/theme/*": ["theme-default/*"],
-			"@types": ["../types/types.ts"]
+			"@vitepress-rc/types": ["../../types/types.d.ts"]
 		}
 	},
-	"include": [".", "../types/types.ts"]
+	"include": [".", "../../types/types.ts"]
 }

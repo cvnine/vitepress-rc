@@ -19,7 +19,7 @@ import pluginWrapper from './plugins/wrapper'
 import { deeplyParseHeader } from './utils'
 import type { Alias } from 'vite'
 import type { Plugin, Transformer } from 'unified'
-import type { HeadConfig, Header, MdxVitePluginOption } from '../../types/types'
+import type { HeadConfig, Header, MdxVitePluginOption } from '../../../types/types'
 
 type ExcludesFalse = <T>(x: T | false) => x is T
 

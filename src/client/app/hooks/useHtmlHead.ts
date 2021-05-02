@@ -1,7 +1,7 @@
-import { HeadConfig, Route } from '@types'
 import { inBrowser } from 'vitepress-rc'
 import { useEffect } from 'react'
 import { useSideData } from './useSideData'
+import type { HeadConfig, Route } from '@vitepress-rc/types'
 
 let isFirstUpdate = true
 
