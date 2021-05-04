@@ -1,6 +1,6 @@
 {
     "name": "vitepress-rc",
-    "version": "0.0.1",
+    "version": "0.0.5",
     "description": "react doc tools base on vitepress",
     "repository": "https://github.com/cvnine/vitepress-rc.git",
     "author": "ihupoo <840499492@qq.com>",
@@ -9,11 +9,11 @@
     "bin": {
         "vitepress-rc": "bin/index.js"
     },
-	"files": [
-	  "bin",
-	  "dist",
-	  "types"
-	],
+    "files": [
+        "bin",
+        "dist",
+        "types"
+    ],
     "scripts": {
         "dev": "run-p dev-client dev-node",
         "dev-client": "tsc -w -p src/client",
@@ -32,9 +32,9 @@
         "vite",
         "react",
         "doc",
-		"vue",
-		"vuepress",
-		"vitepress"
+        "vue",
+        "vuepress",
+        "vitepress"
     ],
     "lint-staged": {
         "**/*.(js|jsx|ts|tsx)": [
@@ -47,6 +47,10 @@
         "hooks": {
             "pre-commit": "lint-staged"
         }
+    },
+    "peerDependencies": {
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2"
     },
     "devDependencies": {
         "@types/es-module-lexer": "^0.3.0",
@@ -66,9 +70,10 @@
         "lint-staged": "^10.5.4",
         "npm-run-all": "^4.1.5",
         "prettier": "^2.2.1",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
         "rimraf": "^3.0.2",
-        "rollup": "^2.45.2",
-        "typescript": "^4.2.3"
+        "rollup": "^2.45.2"
     },
     "dependencies": {
         "@mdx-js/mdx": "^2.0.0-next.9",
@@ -90,9 +95,7 @@
         "ora": "^5.4.0",
         "polka": "^0.5.2",
         "prism-react-renderer": "^1.2.0",
-        "react": "^17.0.1",
         "react-docgen-typescript": "^1.21.0",
-        "react-dom": "^17.0.1",
         "react-simple-code-editor": "^0.11.0",
         "remark-emoji": "^2.1.0",
         "remark-frontmatter": "^3.0.0",
@@ -102,6 +105,7 @@
         "sirv": "^1.0.11",
         "slash": "^3.0.0",
         "styled-components": "^5.2.1",
+        "typescript": "^4.2.4",
         "unified": "^9.2.1",
         "unist-util-find": "^1.0.2",
         "unist-util-visit": "^2.0.3",

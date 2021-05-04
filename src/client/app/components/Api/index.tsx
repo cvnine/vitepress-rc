@@ -24,7 +24,7 @@ const TEXT = {
 }
 
 export const API: FC<APIProps> = ({ export: expt, identifier }) => {
-	const renderMap = getRenderMap(expt, identifier)
+	const renderMap = getRenderMap(expt, identifier) ?? null
 
 	return (
 		renderMap && (
