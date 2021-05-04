@@ -227,7 +227,7 @@ export const Wrap = styled.div<WrapProps>`
 	}
 
 	@media (max-width: 767px) {
-		left: -var(--doc-menu-mobile-width);
+		left: calc(0px - var(--doc-menu-mobile-width));
 		top: var(--doc-mobile-nav-height);
 		display: block !important;
 		width: var(--doc-menu-mobile-width);
