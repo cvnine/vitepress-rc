@@ -3,10 +3,6 @@ import type { IPluginTransformer, VFileData } from '../index'
 import type { Link } from 'mdast'
 import type { Node } from 'unist'
 
-interface PluginProps {
-	id: string
-}
-
 interface IhProperties {
 	[key: string]: any
 }
@@ -42,7 +38,7 @@ function normalizeHref(href: string) {
 	return url
 }
 
-export default function plugin({ id }: PluginProps): IPluginTransformer {
+export default function plugin(): IPluginTransformer {
 	return (tree, vfile) => {
 		visit(tree, ['link', 'linkReference'], function visitor(node: Link & Node) {
 			const url = node.url

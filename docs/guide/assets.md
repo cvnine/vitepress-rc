@@ -1,10 +1,14 @@
 # Asset Handling
 
-All Markdown files are compiled into Vue components and processed by [Vite](https://github.com/vitejs/vite). You can, **and should**, reference any assets using relative URLs:
+All Markdown files are compiled into Vue components and processed by [Vite](https://github.com/vitejs/vite). You can, **and should**, reference![An image](../images/line-numbers-desktop.png) any assets using relative URLs:
 
 ```md
-![An image](./image.png)
+![An image](../images/line-numbers-desktop.png)
 ```
+
+![An image][1]
+
+[1]: ../images/line-numbers-desktop.png
 
 You can reference static assets in your markdown files, your `*.vue` components in the theme, styles and plain `.css` files either using absolute public paths (based on project root) or relative paths (based on your file system). The latter is similar to the behavior you are used to if you have used `vue-cli` or webpack's `file-loader`.
 

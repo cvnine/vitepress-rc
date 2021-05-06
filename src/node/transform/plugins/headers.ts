@@ -4,11 +4,7 @@ import type { Heading } from 'mdast'
 import type { IPluginTransformer } from '../index'
 import type { Node } from 'unist'
 
-interface PluginProps {
-	id: string
-}
-
-export default function plugin({ id }: PluginProps): IPluginTransformer {
+export default function plugin(): IPluginTransformer {
 	return (tree, vfile) => {
 		visit(tree, 'heading', function visitor(node: Heading & Node) {
 			const textNode = find(node, { type: 'text' })

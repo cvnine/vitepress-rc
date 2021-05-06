@@ -13,13 +13,12 @@ import pluginFrontmatter from './plugins/frontmatter'
 import pluginHeaders from './plugins/headers'
 import pluginLink from './plugins/link'
 import pluginApi from './plugins/api'
-import pluginCode from './plugins/code'
 import pluginContainer from './plugins/container'
 import pluginWrapper from './plugins/wrapper'
+import pluginImg from './plugins/img'
 import { deeplyParseHeader } from './utils'
-import type { Alias } from 'vite'
 import type { Plugin, Transformer } from 'unified'
-import type { HeadConfig, Header, MdxVitePluginOption } from '../../../types/types'
+import type { HeadConfig, Header, MdxVitePluginOption, SiteConfig } from '@vitepress-rc/types'
 
 type ExcludesFalse = <T>(x: T | false) => x is T
 
@@ -98,16 +97,16 @@ function getHeadMetaContent(head: HeadConfig[], name: string): string | undefine
 async function mdxTransform(
 	code_mdx: string,
 	id: string,
-	{ root, alias }: { root: string; alias: Alias[] },
+	{ root, alias, siteData }: Pick<SiteConfig, 'root' | 'alias' | 'siteData'>,
 	userPlugin?: MdxVitePluginOption
 ) {
 	const userRemarkPlugins = ((userPlugin?.remarkPlugins
 		?.map((x) => {
 			if (Array.isArray(x)) {
-				return [x[0], { ...x[1], id }]
+				return [x[0], { ...x[1], id, alias, siteData }]
 			}
 			if (typeof x === 'function') {
-				return [x, { id }]
+				return [x, { id, alias, siteData }]
 			}
 			return false
 		})
@@ -116,10 +115,10 @@ async function mdxTransform(
 	const userRehypePlugins = ((userPlugin?.rehypePlugins
 		?.map((x) => {
 			if (Array.isArray(x)) {
-				return [x[0], { ...x[1], id }]
+				return [x[0], { ...x[1], id, alias, siteData }]
 			}
 			if (typeof x === 'function') {
-				return [x, { id }]
+				return [x, { id, alias, siteData }]
 			}
 			return false
 		})
@@ -132,15 +131,14 @@ async function mdxTransform(
 			remarkSlug,
 			remarkTable,
 			remarkEmoji,
-			[pluginFrontmatter, { id }],
-			[pluginHeaders, { id }],
-			[pluginLink, { id }],
+			pluginFrontmatter,
+			pluginHeaders,
+			pluginLink,
 			[pluginApi, { id, alias }],
-			[pluginCode, { id }],
-			[pluginContainer, { id }] as any,
+			pluginContainer,
 			...userRemarkPlugins,
 		],
-		rehypePlugins: [([pluginWrapper, { id }] as unknown) as Plugin, ...userRehypePlugins],
+		rehypePlugins: [pluginWrapper as any, [pluginImg, { id, siteData }], ...userRehypePlugins],
 	}).process(code_mdx)
 
 	const _data = code_vFile.data as VFileData

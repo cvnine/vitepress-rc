@@ -1,6 +1,6 @@
 import path from 'path'
 import type { Alias } from 'vite'
-import type { UserConfig } from '../../types/types'
+import type { UserConfig } from '@vitepress-rc/types'
 
 export const APP_PATH = path.join(__dirname, '../client/app')
 export const DEFAULT_THEME_PATH = path.join(__dirname, '../client/theme-default')

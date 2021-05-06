@@ -6,7 +6,7 @@ import { resolveSiteData } from './config'
 import slash from 'slash'
 import { cacher } from './transform/plugins/api/cache'
 import type { Plugin as VitePlugin, ViteDevServer } from 'vite'
-import type { SiteConfig } from '../../types/types'
+import type { SiteConfig } from '@vitepress-rc/types'
 import type { OutputAsset, OutputChunk } from 'rollup'
 
 const hashRE = /\.(\w+)\.js$/
@@ -16,7 +16,7 @@ const isPageChunk = (chunk: OutputAsset | OutputChunk): chunk is OutputChunk & {
 
 export function createVitePlugin(
 	root: string,
-	{ configPath, alias, md, siteData, pages, themeDir }: SiteConfig,
+	{ configPath, alias, md, siteData, pages }: SiteConfig,
 	ssr = false,
 	pageToHashMap?: Record<string, string>
 ) {
@@ -75,7 +75,12 @@ export function createVitePlugin(
 			}
 
 			if (/\.md?$/.test(id)) {
-				let { code: _code } = await mdxTransform(code, id, { root, alias }, md ? md.plugin : undefined)
+				let { code: _code } = await mdxTransform(
+					code,
+					id,
+					{ root, alias, siteData },
+					md ? md.plugin : undefined
+				)
 				const refreshResult = await reactRefreshPlugin.transform!.call(this, _code, id + '.js', ssr)
 				//reactRefreshPlugin会检测导出的都必须是react组件，增加了pageData的导出会导致热更新失败，这里hack掉
 				if (refreshResult && typeof refreshResult !== 'string') {
@@ -101,9 +106,9 @@ export function createVitePlugin(
 								<html>
 									<head>
 									<meta charset="utf-8">
-									<script type="module" src="/@vite/client"></script>
+									<script type="module" src="${siteData.base}@vite/client"></script>
 									<script type="module">
-										import RefreshRuntime from "/@react-refresh"
+										import RefreshRuntime from "${siteData.base}@react-refresh"
 										RefreshRuntime.injectIntoGlobalHook(window)
 										window.$RefreshReg$ = () => {}
 										window.$RefreshSig$ = () => (type) => type
@@ -144,7 +149,7 @@ export function createVitePlugin(
 			// hot reload .md files
 			if (file.endsWith('.md')) {
 				const content = await read()
-				const { pageData } = await mdxTransform(content, file, { root, alias })
+				const { pageData } = await mdxTransform(content, file, { root, alias, siteData })
 
 				// notify the client to update page data
 				server.ws.send({

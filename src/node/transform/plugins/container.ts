@@ -2,10 +2,6 @@ import visit from 'unist-util-visit'
 import type { IPluginTransformer } from '../index'
 import type { Node } from 'unist'
 
-interface PluginProps {
-	id: string
-}
-
 type NodeWithChildren = Node & { children: NodeWithChildren[] }
 
 type TYPE = 'tip' | 'warning' | 'danger'
@@ -60,7 +56,7 @@ function getChildrenNode({ type, title, children }: { type: TYPE; title: string;
 	}
 }
 
-export default function plugin({ id }: PluginProps): IPluginTransformer {
+export default function plugin(): IPluginTransformer {
 	return (tree, vfile) => {
 		visit(tree, 'root', function visitor(node: NodeWithChildren) {
 			if (node.children) {

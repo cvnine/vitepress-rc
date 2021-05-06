@@ -3,7 +3,7 @@ import fs from 'fs-extra'
 import path from 'path'
 import globby from 'globby'
 import { APP_PATH, DEFAULT_THEME_PATH, resolveAliases } from './paths'
-import type { SiteConfig, SiteData, UserConfig } from '../../types/types'
+import type { SiteConfig, SiteData, UserConfig } from '@vitepress-rc/types'
 
 const resolve = (root: string, file: string) => {
 	return path.resolve(root, `.vitepressrc`, file)

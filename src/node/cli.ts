@@ -26,6 +26,7 @@ if (!command || command === 'dev') {
 			process.exit(1)
 		})
 } else if (command === 'build') {
+	process.env.NODE_ENV = 'build'
 	build(root, argv).catch((err) => {
 		console.error(chalk.red(`build error:\n`), err)
 		process.exit(1)

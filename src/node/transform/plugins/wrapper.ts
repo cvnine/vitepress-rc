@@ -3,11 +3,7 @@ import type { IPluginTransformer } from '../index'
 import type { Node } from 'unist'
 import type { Root, Element, Comment, Text } from 'hast'
 
-interface PluginProps {
-	id: string
-}
-
-export default function plugin({ id }: PluginProps): IPluginTransformer {
+export default function plugin(): IPluginTransformer {
 	return (tree, vfile) => {
 		visit(tree, 'root', function visitor(node: Node & Root) {
 			node.children = node.children.reduce((result, item) => {
