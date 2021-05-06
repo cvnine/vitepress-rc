@@ -13,5 +13,5 @@
 			"@vitepress-rc/types": ["../../types/types.d.ts"]
 		}
 	},
-	"include": [".", "../../types/types.ts"]
+	"include": [".", "../../types/types.d.ts"]
 }

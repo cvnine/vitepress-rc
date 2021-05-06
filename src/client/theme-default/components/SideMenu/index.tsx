@@ -1,8 +1,9 @@
 import React from 'react'
 import { Wrap } from './style'
-import { useSideData, joinPath } from 'vitepress-rc'
+import { useSideData } from 'vitepress-rc'
 import { NavLink } from '../Link'
 import SlugMenu from '../SlugMenu'
+import { resolveLink } from '../../utils'
 import type { DefaultTheme } from '@vitepress-rc/types'
 import type { FlatSidebar } from '../../hooks/useSideBar'
 
@@ -52,17 +53,4 @@ export default function SideMenu(props: { mobileMenuCollapsed: boolean; sideBarI
 			</div>
 		</Wrap>
 	)
-}
-
-function resolveLink(base: string, path?: string): string | undefined {
-	if (path === undefined) {
-		return path
-	}
-
-	// keep relative hash to the same page
-	if (path.startsWith('#')) {
-		return path
-	}
-
-	return joinPath(base, path)
 }

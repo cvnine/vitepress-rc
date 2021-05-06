@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { useSideData, Context } from 'vitepress-rc'
+import { getSideBarConfig } from '../utils'
 import type { DefaultTheme, Header } from '@vitepress-rc/types'
 
 export type FlatSidebar = {
@@ -60,6 +61,23 @@ function getSideMenu(sidebar: DefaultTheme.SideBarItem[], relativePath: string, 
 	return result
 }
 
+export function normalize(path: string): string {
+	const hashRE = /#.*$/
+	const extRE = /(index)?\.(md|html)$/
+	return decodeURI(path).replace(hashRE, '').replace(extRE, '')
+}
+
+export function isActiveRoute(relativePath: string, path?: string): boolean {
+	if (path === undefined) {
+		return false
+	}
+
+	const routePath = normalize(`/${relativePath}`)
+	const pagePath = normalize(path)
+
+	return routePath === pagePath
+}
+
 export function useSideBar() {
 	const route = useContext(Context)
 	const sideData = useSideData()
@@ -91,85 +109,4 @@ export function useSideBar() {
 	}
 
 	return getSideMenu(themeSidebar, route.data.relativePath, resolveAutoSidebar(headers, sidebarDepth))
-}
-
-/**
- * Get the `SideBarConfig` from sidebar option. This method will ensure to get
- * correct sidebar config from `MultiSideBarConfig` with various path
- * combinations such as matching `guide/` and `/guide/`. If no matching config
- * was found, it will return `auto` as a fallback.
- */
-export function getSideBarConfig(
-	sidebar: DefaultTheme.SideBarConfig | DefaultTheme.MultiSideBarConfig,
-	relativePath: string
-): DefaultTheme.SideBarConfig {
-	if (isSideBarConfig(sidebar)) {
-		return sidebar
-	}
-
-	relativePath = ensureStartingSlash(relativePath)
-
-	for (const dir in sidebar) {
-		// make sure the multi sidebar key starts with slash too
-		if (relativePath.startsWith(ensureStartingSlash(dir))) {
-			return sidebar[dir]
-		}
-	}
-
-	return 'auto'
-}
-
-/**
- * Get flat sidebar links from the sidebar items. This method is useful for
- * creating the "next and prev link" feature. It will ignore any items that
- * don't have `link` property and removes `.md` or `.html` extension if a
- * link contains it.
- */
-export function getFlatSideBarLinks(sidebar: DefaultTheme.SideBarItem[]): DefaultTheme.SideBarLink[] {
-	return sidebar.reduce<DefaultTheme.SideBarLink[]>((links, item) => {
-		if (item.link) {
-			links.push({ text: item.text, link: removeExtention(item.link) })
-		}
-
-		if (isSideBarGroup(item)) {
-			links = [...links, ...getFlatSideBarLinks(item.children)]
-		}
-
-		return links
-	}, [])
-}
-
-export function isSideBarConfig(
-	sidebar: DefaultTheme.SideBarConfig | DefaultTheme.MultiSideBarConfig
-): sidebar is DefaultTheme.SideBarConfig {
-	return sidebar === false || sidebar === 'auto' || Array.isArray(sidebar)
-}
-
-export function isSideBarGroup(item: DefaultTheme.SideBarItem): item is DefaultTheme.SideBarGroup {
-	return (item as DefaultTheme.SideBarGroup).children !== undefined
-}
-
-export function ensureStartingSlash(path: string): string {
-	return /^\//.test(path) ? path : `/${path}`
-}
-
-export function removeExtention(path: string): string {
-	return path.replace(/(index)?(\.(md|html))?$/, '') || '/'
-}
-
-export function normalize(path: string): string {
-	const hashRE = /#.*$/
-	const extRE = /(index)?\.(md|html)$/
-	return decodeURI(path).replace(hashRE, '').replace(extRE, '')
-}
-
-export function isActiveRoute(relativePath: string, path?: string): boolean {
-	if (path === undefined) {
-		return false
-	}
-
-	const routePath = normalize(`/${relativePath}`)
-	const pagePath = normalize(path)
-
-	return routePath === pagePath
 }

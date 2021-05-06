@@ -23,7 +23,8 @@
         "docs-dev": "node ./bin/index.js dev docs",
         "docs-build": "yarn build && node ./bin/index build docs",
         "docs-serve": "node ./bin/index serve docs",
-        "lint": "prettier --write ./src/**/* && eslint --fix"
+        "lint": "prettier --write ./src/**/* && eslint --fix",
+		"deploy": "yarn docs-build && node scripts/deploy.js"
     },
     "engines": {
         "node": ">=12.0.0"
@@ -66,6 +67,7 @@
         "eslint-config-cv": "^0.1.0",
         "eslint-config-prettier": "^8.1.0",
         "eslint-plugin-prettier": "^3.3.1",
+        "gh-pages": "^3.1.0",
         "husky": "^5.2.0",
         "lint-staged": "^10.5.4",
         "npm-run-all": "^4.1.5",

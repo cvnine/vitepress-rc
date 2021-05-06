@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { OutboundLink } from '../Icons/OutboundLink'
+import { OutboundLink } from '../Icons'
 import { useNavLink } from '../../hooks/useNavLink'
 import type { DefaultTheme } from '@vitepress-rc/types'
 

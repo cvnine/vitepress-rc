@@ -1,9 +1,10 @@
 const path = require('path')
 
 module.exports = {
-  lang: 'en-US',
-  title: 'VitePress',
-  description: 'Vite & Vue powered static site generator.',
+  lang: 'zh-CN',
+  title: 'VitePress-rc',
+  description: 'Vite & React powered static site generator.',
+  base: '/vitepress-rc',
   alias:{
 	'root': path.resolve(__dirname, '../')
   },
@@ -15,23 +16,18 @@ module.exports = {
   },
 
   themeConfig: {
-    repo: 'vuejs/vitepress',
+    repo: 'cvnine/vitepress-rc',
     docsDir: 'docs',
 
     editLinks: true,
-    editLinkText: 'Edit this page on GitHub',
-    lastUpdated: 'Last Updated',
+    editLinkText: '在 GitHub 上编辑此页',
+    lastUpdated: '最后更新时间',
 
     algolia: {
       apiKey: 'c57105e511faa5558547599f120ceeba',
       indexName: 'vitepress'
     },
 
-    carbonAds: {
-      carbon: 'CEBDT27Y',
-      custom: 'CKYD62QM',
-      placement: 'vuejsorg'
-    },
 
     nav: [
       { text: 'Guide', link: '/', activeMatch: '^/$|^/guide/' },
