@@ -1,5 +1,5 @@
 import visit from 'unist-util-visit'
-import type { IPluginTransformer, VFileData } from '../index'
+import type { IPluginTransformer } from '../index'
 import type { Link } from 'mdast'
 import type { Node } from 'unist'
 
@@ -47,7 +47,7 @@ export default function plugin(): IPluginTransformer {
 			let props = (data.hProperties || (data.hProperties = {})) as IhProperties
 
 			if (url) {
-				if (/^[a-zA-Z][a-zA-Z\d+\-.]*:/.test(url)) {
+				if (/^https?:/.test(url)) {
 					props.target = '_blank'
 					props.rel = 'noopener noreferrer'
 				} else if (!url.startsWith('#') && !url.startsWith('mailto:')) {

@@ -65,6 +65,7 @@ export const Wrap = styled.div`
 
 		h2 {
 			font-size: 24px;
+			border-bottom: 1px solid var(--doc-border);
 		}
 
 		h3 {

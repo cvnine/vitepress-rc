@@ -103,10 +103,10 @@ async function mdxTransform(
 	const userRemarkPlugins = ((userPlugin?.remarkPlugins
 		?.map((x) => {
 			if (Array.isArray(x)) {
-				return [x[0], { ...x[1], id, alias, siteData }]
+				return [x[0], { ...x[1], id, root, alias, siteData }]
 			}
 			if (typeof x === 'function') {
-				return [x, { id, alias, siteData }]
+				return [x, { id, root, alias, siteData }]
 			}
 			return false
 		})
@@ -115,10 +115,10 @@ async function mdxTransform(
 	const userRehypePlugins = ((userPlugin?.rehypePlugins
 		?.map((x) => {
 			if (Array.isArray(x)) {
-				return [x[0], { ...x[1], id, alias, siteData }]
+				return [x[0], { ...x[1], id, root, alias, siteData }]
 			}
 			if (typeof x === 'function') {
-				return [x, { id, alias, siteData }]
+				return [x, { id, root, alias, siteData }]
 			}
 			return false
 		})
@@ -138,7 +138,7 @@ async function mdxTransform(
 			pluginContainer,
 			...userRemarkPlugins,
 		],
-		rehypePlugins: [pluginWrapper as any, [pluginImg, { id, siteData }], ...userRehypePlugins],
+		rehypePlugins: [pluginWrapper as any, [pluginImg, { id, root, siteData }], ...userRehypePlugins],
 	}).process(code_mdx)
 
 	const _data = code_vFile.data as VFileData

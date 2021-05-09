@@ -10,6 +10,8 @@ All Markdown files are compiled into Vue components and processed by [Vite](http
 
 [1]: ../images/line-numbers-desktop.png
 
+![An image](/images/line-numbers-desktop.png)
+
 You can reference static assets in your markdown files, your `*.vue` components in the theme, styles and plain `.css` files either using absolute public paths (based on project root) or relative paths (based on your file system). The latter is similar to the behavior you are used to if you have used `vue-cli` or webpack's `file-loader`.
 
 Common image, media, and font filetypes are detected and included as assets automatically.
@@ -18,7 +20,7 @@ All referenced assets, including those using absolute paths, will be copied to t
 
 All **static** path references, including absolute paths, should be based on your working directory structure.
 
-## Public Files @#$%^& Iлｔèｒｎåｔïｏｎɑｌíƶ :dog: <ss></ss>
+## Public Files
 
 Sometimes you may need to provide static assets that are not directly referenced in any of your Markdown or theme components (for example, favicons and PWA icons). The `public` directory under project root can be used as an escape hatch to provide static assets that either are never referenced in source code (e.g. `robots.txt`), or must retain the exact same file name (without hashing).
 
