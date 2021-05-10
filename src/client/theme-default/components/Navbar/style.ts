@@ -98,3 +98,5 @@ export const Wrap = styled.div`
 		}
 	}
 `
+
+export const DropDownWrap = styled.div``
