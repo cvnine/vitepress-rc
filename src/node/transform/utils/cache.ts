@@ -36,6 +36,16 @@ class FileCache {
 		}
 		return result
 	}
+
+	imgCache: Record<string, string> = {}
+
+	setImgCache(id: string, filePath: string) {
+		this.imgCache[id] = filePath
+	}
+
+	getImgCache(id: string): string | undefined {
+		return this.imgCache[id]
+	}
 }
 
 export const cacher = new FileCache()

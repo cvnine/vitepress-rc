@@ -1,13 +1,14 @@
 import fs from 'fs-extra'
-import type { BuildOptions } from 'vite'
-import type { OutputChunk, OutputAsset } from 'rollup'
-import { resolveConfig } from '../config'
-import { bundle, failMark, okMark } from './bundle'
 import ora from 'ora'
-import { renderPage } from './render'
 import slash from 'slash'
 import path from 'path'
+import { resolveConfig } from '../config'
+import { bundle, failMark, okMark } from './bundle'
+import { renderPage } from './render'
 import { APP_PATH } from '../paths'
+import { cacher } from '../transform/utils/cache'
+import type { BuildOptions } from 'vite'
+import type { OutputChunk, OutputAsset } from 'rollup'
 
 export async function build(root: string, buildOptions: BuildOptions = {}) {
 	const start = Date.now()
@@ -40,6 +41,11 @@ export async function build(root: string, buildOptions: BuildOptions = {}) {
 
 			for (const page of siteConfig.pages) {
 				await renderPage(siteConfig, page, clientResult, appChunk, cssChunk, hashMapString)
+			}
+
+			//md的内联img
+			for (const [fromPath, name] of Object.entries(cacher.imgCache)) {
+				await fs.copyFile(fromPath, path.join(siteConfig.outDir, './assets/', name))
 			}
 		} catch (e) {
 			spinner.stopAndPersist({

@@ -6,7 +6,7 @@ import fromMarkdown from 'mdast-util-from-markdown'
 import syntax from 'micromark-extension-mdxjs'
 import mdx from 'mdast-util-mdx'
 import slash from 'slash'
-import { cacher } from './cache'
+import { cacher } from '../../utils/cache'
 import type { Alias } from 'vite'
 import type { IPluginTransformer } from '../../index'
 

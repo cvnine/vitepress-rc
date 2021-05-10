@@ -1,5 +1,5 @@
 import * as parser from 'react-docgen-typescript'
-import { cacher } from './cache'
+import { cacher } from '../../utils/cache'
 
 const DEFAULT_EXPORTS = [
 	'default',

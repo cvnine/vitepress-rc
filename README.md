@@ -29,6 +29,6 @@
 - [ ] 自身Api文档，区别于vitepress
 - [ ] 发布，Test，CI等建设
 - [ ] mobile预览支持
-- [ ] 其他优化，例如 markdown 编译后 p 标签内嵌 div 异常报错（虽不影响）,考虑移除 styled-components
+- [ ] 其他优化，例如 markdown 编译后 p 标签内嵌 div 异常报错（虽不影响）,考虑移除 styled-components(为了性能)
 
 
