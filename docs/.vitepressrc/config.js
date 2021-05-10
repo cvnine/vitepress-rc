@@ -4,7 +4,7 @@ module.exports = {
   lang: 'zh-CN',
   title: 'VitePress-rc',
   description: 'Vite & React powered static site generator.',
-  base: '/vitepress-rc',
+//   base: '/vitepress-rc',
   alias:{
 	'root': path.resolve(__dirname, '../')
   },
@@ -31,7 +31,7 @@ module.exports = {
 
     nav: [
       { text: 'Guide', link: '/', activeMatch: '^/$|^/guide/' },
-      { text: 'Test', link: '/local/todo', activeMatch: '^/local/' },
+      { text: 'Test', link: '/local/dif', activeMatch: '^/local/' },
       {
         text: 'Config Reference',
         link: '/config/basics',
@@ -39,7 +39,7 @@ module.exports = {
       },
       {
         text: 'Release Notes',
-        link: 'https://github.com/vuejs/vitepress/releases'
+        link: 'https://github.com/cvnine/vitepress-rc/releases'
       }
     ],
 
@@ -57,7 +57,6 @@ function getLocalSidebar(){
 		{
 			text: 'Test',
 			children: [
-				{ text: 'Todo List', link: '/local/todo' },
 				{ text: 'Difference', link: '/local/dif' },
 			]
 		},
