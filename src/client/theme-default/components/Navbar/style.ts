@@ -45,7 +45,7 @@ export const Wrap = styled.div`
 	nav {
 		> span {
 			position: relative;
-			margin-left: 40px;
+			margin-left: 34px;
 			display: inline-block;
 			color: var(--doc-text);
 			height: var(--doc-nav-height);
@@ -85,7 +85,7 @@ export const Wrap = styled.div`
 			}
 
 			+ *:not(a) {
-				margin-left: 40px;
+				margin-left: 34px;
 			}
 		}
 
@@ -98,5 +98,3 @@ export const Wrap = styled.div`
 		}
 	}
 `
-
-export const DropDownWrap = styled.div``

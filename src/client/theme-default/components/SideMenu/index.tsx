@@ -1,7 +1,7 @@
 import React from 'react'
 import { Wrap } from './style'
 import { useSideData } from 'vitepress-rc'
-import { NavLink } from '../Link'
+import { DropDownLink, NavLink } from '../Link'
 import SlugMenu from '../SlugMenu'
 import { resolveLink } from '../../utils'
 import type { DefaultTheme } from '@vitepress-rc/types'
@@ -18,7 +18,7 @@ export default function SideMenu(props: { mobileMenuCollapsed: boolean; sideBarI
 						<ul className="nav-list">
 							{sideData.themeConfig.nav.map((nav: DefaultTheme.NavItem) => {
 								if ('items' in nav) {
-									return <></>
+									return <DropDownLink key={nav.text} nav={nav} />
 								} else {
 									return (
 										<li key={nav.text}>

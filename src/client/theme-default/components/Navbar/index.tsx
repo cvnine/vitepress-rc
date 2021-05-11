@@ -1,7 +1,6 @@
 import React from 'react'
 import { Wrap } from './style'
-import { NavLink, BaseLink } from '../Link'
-import DropDown from './DropDown'
+import { NavLink, BaseLink, DropDownLink } from '../Link'
 import { useSideData } from 'vitepress-rc'
 // import SearchBar from '../SearchBar'
 import type { DefaultTheme } from '@vitepress-rc/types'
@@ -22,7 +21,7 @@ export default function Navbar(props: NavbarProps) {
 				{sideData.themeConfig.nav &&
 					sideData.themeConfig.nav.map((nav: DefaultTheme.NavItem) => {
 						if ('items' in nav) {
-							return <DropDown nav={nav} />
+							return <DropDownLink key={nav.text} nav={nav} />
 						} else {
 							return (
 								<span key={nav.text}>

@@ -32,6 +32,13 @@ module.exports = {
     nav: [
       { text: 'Guide', link: '/', activeMatch: '^/$|^/guide/' },
       { text: 'Test', link: '/local/dif', activeMatch: '^/local/' },
+      { text: 'test', items:[
+		{
+			text: 'Release Noteswww',
+			link: 'https://github.com/cvnine/vitepress-rc/releases'
+		  },
+		  { text: 'ee', link: '/local/dif', activeMatch: '^/local/' },
+	  ] },
       {
         text: 'Config Reference',
         link: '/config/basics',
