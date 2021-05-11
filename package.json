@@ -20,7 +20,7 @@
         "dev-node": "tsc -w -p src/node",
         "build": "rimraf -rf dist && tsc -p src/client && tsc -p src/node",
         "docs": "run-p dev docs-dev",
-        "docs-dev": "node ./bin/index.js dev docs",
+        "docs-dev": "node ./bin/index.js dev docs --fsServe.root ../",
         "docs-build": "yarn build && node ./bin/index build docs",
         "docs-serve": "node ./bin/index serve docs",
         "lint": "prettier --write ./src/**/* && eslint --fix",
@@ -111,6 +111,6 @@
         "unified": "^9.2.1",
         "unist-util-find": "^1.0.2",
         "unist-util-visit": "^2.0.3",
-        "vite": "^2.1.2"
+        "vite": "^2.3.0"
     }
 }

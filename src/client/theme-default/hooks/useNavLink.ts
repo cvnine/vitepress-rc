@@ -34,6 +34,7 @@ export function useNavLink(nav: DefaultTheme.NavItemWithLink) {
 			rel: nav.rel || isExternal ? `noopener noreferrer` : undefined,
 			'aria-label': nav.ariaLabel,
 		},
+		isActive,
 		isExternal,
 	}
 }

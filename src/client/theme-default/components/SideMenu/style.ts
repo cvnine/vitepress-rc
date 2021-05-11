@@ -76,6 +76,8 @@ export const Wrap = styled.div<WrapProps>`
 			margin-right: 10px;
 			> li {
 				line-height: 2;
+				text-align: left;
+				padding: 0 20px;
 			}
 		}
 

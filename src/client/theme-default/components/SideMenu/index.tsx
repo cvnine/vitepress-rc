@@ -18,7 +18,11 @@ export default function SideMenu(props: { mobileMenuCollapsed: boolean; sideBarI
 						<ul className="nav-list">
 							{sideData.themeConfig.nav.map((nav: DefaultTheme.NavItem) => {
 								if ('items' in nav) {
-									return <DropDownLink key={nav.text} nav={nav} />
+									return (
+										<li key={nav.text}>
+											<DropDownLink nav={nav} />
+										</li>
+									)
 								} else {
 									return (
 										<li key={nav.text}>

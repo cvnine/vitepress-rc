@@ -25,29 +25,29 @@ export default function plugin({ id, root, siteData }: PluginProps): IPluginTran
 	return (tree, vfile) => {
 		visit(tree, 'element', function visitor(node: Node & Element) {
 			if (node.tagName === 'img') {
-				// if (process.env.NODE_ENV === 'build') {
-				const src = node.properties!.src as string
-				if (/^https?:/.test(src) || src.startsWith('data:')) {
-				} else {
-					//md内联的图片路径 在build的时候不会处理，只能手动处理，统一复制图片到 assets目录下
-					let imgPath = ''
-					if (path.isAbsolute(src)) {
-						imgPath = path.join(path.resolve(root), src)
+				if (process.env.NODE_ENV === 'build') {
+					const src = node.properties!.src as string
+					if (/^https?:/.test(src) || src.startsWith('data:')) {
 					} else {
-						imgPath = path.resolve(path.parse(id).dir, src)
-					}
-					if (fs.pathExistsSync(imgPath)) {
-						let imgCacher = cacher.getImgCache(imgPath)
-						if (imgCacher) {
-							node.properties!.src = `${siteData.base}assets/${imgCacher}`
+						//md内联的图片路径 在build的时候不会处理，只能手动处理，统一复制图片到 assets目录下
+						let imgPath = ''
+						if (path.isAbsolute(src)) {
+							imgPath = path.join(path.resolve(root), src)
 						} else {
-							let hashName = getAssetHashName(imgPath)
-							node.properties!.src = `${siteData.base}assets/${hashName}`
-							cacher.setImgCache(imgPath, hashName)
+							imgPath = path.resolve(path.parse(id).dir, src)
+						}
+						if (fs.pathExistsSync(imgPath)) {
+							let imgCacher = cacher.getImgCache(imgPath)
+							if (imgCacher) {
+								node.properties!.src = `${siteData.base}assets/${imgCacher}`
+							} else {
+								let hashName = getAssetHashName(imgPath)
+								node.properties!.src = `${siteData.base}assets/${hashName}`
+								cacher.setImgCache(imgPath, hashName)
+							}
 						}
 					}
 				}
-				// }
 			}
 		})
 	}
