@@ -89,6 +89,8 @@ const DropDownLinkWrap = styled.div`
 			}
 			a {
 				color: #4d5164;
+				display: inline-block;
+				width: 100%;
 				&:hover,
 				&.active {
 					color: var(--doc-primary);

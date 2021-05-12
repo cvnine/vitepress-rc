@@ -100,7 +100,7 @@ async function mdxTransform(
 	{ root, alias, siteData }: Pick<SiteConfig, 'root' | 'alias' | 'siteData'>,
 	userPlugin?: MdxVitePluginOption
 ) {
-	const userRemarkPlugins = ((userPlugin?.remarkPlugins
+	const userRemarkPlugins = (userPlugin?.remarkPlugins
 		?.map((x) => {
 			if (Array.isArray(x)) {
 				return [x[0], { ...x[1], id, root, alias, siteData }]
@@ -110,9 +110,9 @@ async function mdxTransform(
 			}
 			return false
 		})
-		.filter((Boolean as any) as ExcludesFalse) ?? []) as any) as Plugin[]
+		.filter(Boolean as any as ExcludesFalse) ?? []) as any as Plugin[]
 
-	const userRehypePlugins = ((userPlugin?.rehypePlugins
+	const userRehypePlugins = (userPlugin?.rehypePlugins
 		?.map((x) => {
 			if (Array.isArray(x)) {
 				return [x[0], { ...x[1], id, root, alias, siteData }]
@@ -122,7 +122,7 @@ async function mdxTransform(
 			}
 			return false
 		})
-		.filter((Boolean as any) as ExcludesFalse) ?? []) as any) as Plugin[]
+		.filter(Boolean as any as ExcludesFalse) ?? []) as any as Plugin[]
 
 	const code_vFile = await createCompiler({
 		remarkPlugins: [

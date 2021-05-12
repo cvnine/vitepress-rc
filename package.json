@@ -20,11 +20,11 @@
         "dev-node": "tsc -w -p src/node",
         "build": "rimraf -rf dist && tsc -p src/client && tsc -p src/node",
         "docs": "run-p dev docs-dev",
-        "docs-dev": "node ./bin/index.js dev docs --fsServe.root ../",
+        "docs-dev": "node ./bin/index.js dev docs",
         "docs-build": "yarn build && node ./bin/index build docs",
         "docs-serve": "node ./bin/index serve docs",
         "lint": "prettier --write ./src/**/* && eslint --fix",
-		"deploy": "yarn docs-build && node scripts/deploy.js"
+        "deploy": "yarn docs-build && node scripts/deploy.js"
     },
     "engines": {
         "node": ">=12.0.0"
