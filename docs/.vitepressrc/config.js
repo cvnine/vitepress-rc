@@ -12,6 +12,9 @@ module.exports = {
   md:{
 	  codeScope: {
 		  'demo-c': path.resolve(__dirname, '../components/index.tsx'),
+	  },
+	  docgen:{
+		  
 	  }
   },
 

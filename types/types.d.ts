@@ -18,6 +18,7 @@ export interface UserConfig<ThemeConfig = DefaultTheme.Config> {
 	md?: {
 		plugin?: MdxVitePluginOption
 		codeScope?: Record<string, string>
+		docgen?: { [key: string]: any }
 	}
 }
 
@@ -39,9 +40,10 @@ export interface SiteConfig<ThemeConfig = DefaultTheme.Config> {
 	outDir: string
 	tempDir: string
 	pages: string[]
-	md?: {
+	md: {
 		plugin?: MdxVitePluginOption
 		codeScope?: Record<string, string>
+		docgen?: { [key: string]: any }
 	}
 }
 

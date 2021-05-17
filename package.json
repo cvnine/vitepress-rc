@@ -1,6 +1,6 @@
 {
     "name": "vitepress-rc",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "description": "react doc tools base on vitepress",
     "repository": "https://github.com/cvnine/vitepress-rc.git",
     "author": "ihupoo <840499492@qq.com>",

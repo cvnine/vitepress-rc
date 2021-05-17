@@ -13,6 +13,7 @@ import type { IPluginTransformer } from '../../index'
 interface PluginProps {
 	id: string
 	alias: Alias[]
+	docgen: { [key: string]: any }
 }
 
 interface Attributes {
@@ -21,7 +22,7 @@ interface Attributes {
 	value: string
 }
 
-function getParseFilePath({ id, alias }: PluginProps, src?: string) {
+function getParseFilePath({ id, alias }: Pick<PluginProps, 'id' | 'alias'>, src?: string) {
 	let componentPath = src
 	if (!componentPath) {
 		componentPath = path.resolve(path.parse(id).dir, './index')
@@ -59,7 +60,7 @@ function isExist(id: string, componentPath: string) {
 	}
 }
 
-export default function plugin({ id, alias }: PluginProps): IPluginTransformer {
+export default function plugin({ id, alias, docgen: docgenOptions }: PluginProps): IPluginTransformer {
 	return (tree, vfile) => {
 		let filePaths: string[] = []
 
@@ -77,7 +78,7 @@ export default function plugin({ id, alias }: PluginProps): IPluginTransformer {
 
 						try {
 							//测试时编译耗时近 3s，内置缓存
-							docgen = Parser(filePath)
+							docgen = Parser(filePath, docgenOptions)
 						} catch (err) {
 							console.log('error : ', err)
 						}

@@ -98,7 +98,7 @@ async function mdxTransform(
 	code_mdx: string,
 	id: string,
 	{ root, alias, siteData }: Pick<SiteConfig, 'root' | 'alias' | 'siteData'>,
-	userPlugin?: MdxVitePluginOption
+	{ plugin: userPlugin, docgen }: Pick<SiteConfig, 'md'>['md']
 ) {
 	const userRemarkPlugins = (userPlugin?.remarkPlugins
 		?.map((x) => {
@@ -134,7 +134,7 @@ async function mdxTransform(
 			pluginFrontmatter,
 			pluginHeaders,
 			pluginLink,
-			[pluginApi, { id, alias }],
+			[pluginApi, { id, alias, docgen }],
 			pluginContainer,
 			...userRemarkPlugins,
 		],

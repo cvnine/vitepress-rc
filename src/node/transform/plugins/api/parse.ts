@@ -37,7 +37,7 @@ export interface ApiProp {
 
 export type IApiDefinition = Record<string, ApiProp[]>
 
-export default function Parser(filePath: string) {
+export default function Parser(filePath: string, docgen: { [key: string]: any }) {
 	let definitions: IApiDefinition = cacher.get(filePath)
 
 	if (!definitions) {
@@ -52,6 +52,7 @@ export default function Parser(filePath: string) {
 					componentNameResolver: (source) => {
 						return DEFAULT_EXPORTS.includes(source.getName()) ? 'default' : undefined
 					},
+					...docgen,
 				}
 			)
 			.parse(filePath)
