@@ -68,6 +68,26 @@ const errorBoundary = async ({ Element, errorCallback, shadowRoot, cssText, loca
 			styleContainer.classList.add('shadow-sheet')
 			shadowRoot.current.appendChild(styleContainer)
 
+			let _CreatePortal = ReactDom_P.createPortal
+
+			ReactDom_P.createPortal = function (children: any, container, key) {
+				setTimeout(() => {
+					if (children._owner) {
+						let parent = children._owner.return
+						while (parent) {
+							if (parent.return === null) {
+								break
+							}
+							parent = parent.return
+						}
+						if (parent.stateNode && parent.stateNode.containerInfo === reactRenderDom) {
+							shadowRoot.current!.appendChild(container)
+						}
+					}
+				})
+				return _CreatePortal(children, container, key)
+			}
+
 			ReactDom_P.render(
 				<StyleSheetManager target={styleContainer}>
 					<ErrorBoundary />
