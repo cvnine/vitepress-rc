@@ -81,7 +81,18 @@ const errorBoundary = async ({ Element, errorCallback, shadowRoot, cssText, loca
 							parent = parent.return
 						}
 						if (parent.stateNode && parent.stateNode.containerInfo === reactRenderDom) {
-							shadowRoot.current!.appendChild(container)
+							let containerParent = container.parentNode
+							let needInsert = true
+							while (containerParent && containerParent !== document.querySelector('body')) {
+								if (containerParent === reactRenderDom) {
+									needInsert = false
+									break
+								}
+								containerParent = containerParent.parentNode
+							}
+							if (needInsert) {
+								shadowRoot.current?.appendChild(container)
+							}
 						}
 					}
 				})
