@@ -1,0 +1,1 @@
+import{b as e,j as o,a as r}from"./vendor.8ac4d6e3.js";import{A as s}from"./App.be346249.js";e.hydrate(o.exports.jsx(r.StrictMode,{children:o.exports.jsx(s,{},void 0)},void 0),document.getElementById("app"));
