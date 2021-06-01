@@ -9,6 +9,7 @@ export interface ILiveProvider {
 	disabled: boolean
 	scope: Record<string, any>
 	local: boolean
+	shadowDom: boolean
 	transformCode: (code: string) => string
 	children: React.ReactNode
 }
@@ -16,13 +17,14 @@ export interface ILiveProvider {
 export default function LiveProvider({
 	code: prevCode,
 	local,
+	shadowDom,
 	scope,
 	disabled,
 	transformCode,
 	children,
 }: ILiveProvider) {
 	const [error, setError] = useState<string | null>('')
-	const shadowRoot = useRef<ShadowRoot | null>(null)
+	const shadowRoot = useRef<ShadowRoot | HTMLDivElement | null>(null)
 
 	const onChange = (editCode: string) => {
 		transpile({ code: editCode, scope, transformCode })
@@ -51,7 +53,7 @@ export default function LiveProvider({
 		}
 
 		try {
-			renderElementAsync(input, renderElement, errorCallback, shadowRoot)
+			renderElementAsync(input, renderElement, errorCallback, shadowRoot, shadowDom)
 		} catch (error) {
 			errorCallback(error)
 		}
@@ -66,6 +68,7 @@ export default function LiveProvider({
 			value={{
 				code: prevCode,
 				disabled,
+				shadowDom,
 				shadowRoot,
 				error,
 				onChange,

@@ -10,7 +10,10 @@ interface IColumnProps {
 	prop3: () => void
 	/** prop4 description */
 	prop4: 'prop1' | 'prop2' | 'prop3'
-	/** prop5 description "s"" 's' */
+	/**
+	 * 可以这样写属性描述
+	 * @default           支持定义默认值
+	 */
 	prop5: 'prop5'
 }
 

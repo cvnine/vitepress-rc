@@ -7,6 +7,7 @@ interface CodeBlockProps {
 	className?: string
 	live?: string
 	transform?: string
+	shadowDom?: string
 	compact?: string
 	children: string
 }
@@ -22,10 +23,10 @@ function parseClassName(className?: string) {
 		return [result[1], lineNumbers] as [Language, number[][]]
 	}
 
-	return (['js', []] as unknown) as [Language, number[][]]
+	return ['js', []] as unknown as [Language, number[][]]
 }
 
-export const CodeBlock: FC<CodeBlockProps> = ({ children, className, live, transform, compact, ...res }) => {
+export const CodeBlock: FC<CodeBlockProps> = ({ children, className, live, transform, compact, shadowDom, ...res }) => {
 	const code = children.replace(/\n$/, '')
 
 	const [language, lineNumbers] = parseClassName(className)
@@ -33,6 +34,7 @@ export const CodeBlock: FC<CodeBlockProps> = ({ children, className, live, trans
 	const codeOptions = {
 		transform: !!transform,
 		compact: !!compact,
+		shadowDom: !!shadowDom,
 	}
 
 	if (live && (language === 'jsx' || language === 'tsx')) {

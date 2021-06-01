@@ -3,7 +3,7 @@ import LiveContext, { IContext } from './LiveContext'
 import Editor from 'react-simple-code-editor'
 import Highlight, { defaultProps } from 'prism-react-renderer'
 
-interface ICodeEditor extends Omit<IContext, 'error' | 'element' | 'shadowRoot'> {
+interface ICodeEditor extends Omit<IContext, 'error' | 'element' | 'shadowRoot' | 'shadowDom'> {
 	onCodeChange?: (code: string) => void
 	[key: string]: any
 }
@@ -15,7 +15,7 @@ type ILiveEditor = {
 function throttle(fn: Function, delay: number = 100) {
 	let timer: NodeJS.Timeout | undefined = undefined
 	return (...args: any[]) => {
-		clearTimeout((timer as unknown) as number)
+		clearTimeout(timer as unknown as number)
 		timer = setTimeout(() => {
 			fn(...args)
 		}, delay)

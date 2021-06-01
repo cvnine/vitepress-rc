@@ -4,7 +4,7 @@ module.exports = {
   lang: 'zh-CN',
   title: 'VitePress-rc',
   description: 'Vite & React powered static site generator.',
-//   base: '/vitepress-rc',
+  base: '/vitepress-rc',
   alias:{
 	'root': path.resolve(__dirname, '../')
   },

@@ -20,7 +20,8 @@ export const renderElementAsync = (
 	{ code = '', scope = {}, local = true },
 	resultCallback: ResultCallback,
 	errorCallback: ErrorCallback,
-	shadowRoot: React.MutableRefObject<ShadowRoot | null>
+	shadowRoot: React.MutableRefObject<ShadowRoot | Element | null>,
+	shadowDom: boolean
 ) => {
 	const render = (cssText: string | undefined) => (Element: any) => {
 		if (Element == null || Element === '') {
@@ -28,7 +29,7 @@ export const renderElementAsync = (
 			return
 		}
 		if (isReactElement(Element)) {
-			errorBoundary({ Element, errorCallback, shadowRoot, cssText, local })
+			errorBoundary({ Element, errorCallback, shadowDom, shadowRoot, cssText, local })
 			resultCallback()
 			return
 		}

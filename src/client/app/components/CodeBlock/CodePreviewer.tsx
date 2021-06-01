@@ -9,6 +9,7 @@ import styled from 'styled-components'
 interface ICodeOptions {
 	transform: boolean
 	compact: boolean
+	shadowDom: boolean
 }
 
 interface CodeBlockProps {
@@ -38,6 +39,7 @@ export const CodePreviewer: FC<CodeBlockProps> = ({ code, local, codeOptions }) 
 	return (
 		<PreviewerWarp>
 			<LiveProvider
+				shadowDom={codeOptions.shadowDom}
 				code={currentCode}
 				local={local}
 				scope={{ js: { ...codeScope['js'], react: React, 'styled-components': styled }, css: codeScope['css'] }}

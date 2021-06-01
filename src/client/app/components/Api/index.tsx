@@ -11,7 +11,7 @@ type RenderMap = {
 	identifier: string
 	type: string
 	description?: string
-	default?: string
+	defaultValue?: string
 	required?: string
 }[]
 
@@ -47,7 +47,7 @@ export const API: FC<APIProps> = ({ export: expt, identifier }) => {
 							</td>
 							<td>
 								<code>
-									{row.default?.replace(/%@%/g, '"') || (row.required && TEXT.required) || '--'}
+									{row.defaultValue?.replace(/%@%/g, '"') || (row.required && TEXT.required) || '--'}
 								</code>
 							</td>
 						</tr>
