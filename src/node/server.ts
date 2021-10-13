@@ -15,7 +15,6 @@ export async function createServer(root: string = process.cwd(), serverOptions: 
 				'react/jsx-runtime',
 				'react',
 				'react-dom',
-				'styled-components',
 				'@mdx-js/react',
 				'prism-react-renderer',
 				'react-simple-code-editor',
