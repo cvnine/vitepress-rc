@@ -8,7 +8,7 @@ export const useCopy = () => {
 	const handler = useCallback((text: string) => {
 		copyTextToClipboard(text)
 		setStatus('copied')
-		clearTimeout((timer as unknown) as number)
+		clearTimeout(timer as unknown as number)
 		setTimer(
 			setTimeout(() => {
 				setStatus('ready')

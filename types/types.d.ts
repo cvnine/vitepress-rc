@@ -1,6 +1,6 @@
 import type { ComponentType } from 'react'
 import type { Plugin as UnifiedPlugin } from 'unified'
-import type { Alias } from 'vite'
+import type { AliasOptions, ViteConfig } from 'vite'
 
 export interface MdxVitePluginOption {
 	remarkPlugins?: UnifiedPlugin[]
@@ -11,43 +11,75 @@ export interface UserConfig<ThemeConfig = DefaultTheme.Config> {
 	lang?: string
 	base?: string
 	title?: string
-	alias?: Record<string, string>
-	head?: HeadConfig[]
 	description?: string
+	head?: HeadConfig[]
 	themeConfig?: ThemeConfig
+	locales?: Record<string, LocaleConfig>
+	alias?: Record<string, string>
 	md?: {
 		plugin?: MdxVitePluginOption
 		codeScope?: Record<string, string>
 		docgen?: { [key: string]: any }
 	}
+	/**
+	 * Vite config
+	 */
+	vite?: ViteConfig
+	srcDir?: string
+	srcExclude?: string[]
+	shouldPreload?: (link: string, page: string) => boolean
+	mpa?: boolean
 }
 
-export interface SiteData<ThemeConfig = DefaultTheme.Config> {
-	lang: string
-	base: string
-	title: string
-	head: HeadConfig[]
-	description: string
-	themeConfig: ThemeConfig
-}
-
-export interface SiteConfig<ThemeConfig = DefaultTheme.Config> {
+export interface SiteConfig<ThemeConfig = DefaultTheme.Config>
+	extends Pick<UserConfig, 'md' | 'vite' | 'shouldPreload' | 'mpa'> {
 	root: string
-	alias: Alias[]
-	configPath: string
+	alias: AliasOptions
+	configPath?: string
 	siteData: SiteData<ThemeConfig>
 	themeDir: string
 	outDir: string
 	tempDir: string
 	pages: string[]
-	md: {
-		plugin?: MdxVitePluginOption
-		codeScope?: Record<string, string>
-		docgen?: { [key: string]: any }
-	}
 }
 
 export type HeadConfig = [string, Record<string, string>] | [string, Record<string, string>, string]
+
+export type RawConfigExports = UserConfig | Promise<UserConfig> | (() => UserConfig | Promise<UserConfig>)
+
+export interface LocaleConfig {
+	lang: string
+	title?: string
+	description?: string
+	head?: HeadConfig[]
+	label?: string
+	selectText?: string
+}
+
+export interface SiteData<ThemeConfig = DefaultTheme.Config> {
+	base: string
+	lang: string
+	title: string
+	head: HeadConfig[]
+	description: string
+	themeConfig: ThemeConfig
+	locales: Record<string, LocaleConfig>
+	langs: Record<
+		string,
+		{
+			/**
+			 * Lang attribute as set on the `<html>` element.
+			 * @example `en-US`, `zh-CN`
+			 */
+			lang: string
+			/**
+			 * Label to display in the language menu.
+			 * @example `English`, `简体中文`
+			 */
+			label: string
+		}
+	>
+}
 
 export interface PageData {
 	title: string

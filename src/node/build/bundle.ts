@@ -3,7 +3,7 @@ import path from 'path'
 import slash from 'slash'
 import { RollupOutput } from 'rollup'
 import { build, BuildOptions, UserConfig as ViteUserConfig } from 'vite'
-import { APP_PATH } from '../paths'
+import { APP_PATH } from '../alias'
 import { createVitePlugin } from '../plugin'
 import type { SiteConfig } from '@vitepress-rc/types'
 

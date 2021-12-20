@@ -1,8 +1,6 @@
 import minimist from 'minimist'
 import chalk from 'chalk'
-import { createServer } from './server'
-import { build } from './build'
-import { serve } from './serve'
+import { createServer, build, serve } from '.'
 
 const argv: any = minimist(process.argv.slice(2))
 
@@ -18,9 +16,7 @@ if (root) {
 
 if (!command || command === 'dev') {
 	createServer(root, argv)
-		.then((server) => {
-			server.listen()
-		})
+		.then((server) => server.listen())
 		.catch((err) => {
 			console.error(chalk.red(`failed to start server. error:\n`), err)
 			process.exit(1)

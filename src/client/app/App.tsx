@@ -1,11 +1,16 @@
 import React from 'react'
+
 import Theme from '@virtual-module/theme/index'
+
 import { useRoute } from './hooks/useRoute'
+
 import Context from './context'
+
 import { useHtmlHead } from './hooks/useHtmlHead'
 
 export function App({ ssrHref }: { ssrHref?: string }) {
 	const { route } = useRoute(Theme.NotFound, ssrHref)
+
 	useHtmlHead(route)
 
 	if (route.data === null) {

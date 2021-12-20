@@ -1,9 +1,9 @@
 import path from 'path'
-import reactRefresh from '@vitejs/plugin-react-refresh'
+import reactRefresh from '@vitejs/plugin-react'
 import { mdxTransform } from './transform'
-import { APP_PATH, SPECIAL_IMPORT_CODE_SCOPE, SPECIAL_IMPORT_SITE_DATA } from './paths'
+import { APP_PATH, SPECIAL_IMPORT_CODE_SCOPE, SPECIAL_IMPORT_SITE_DATA } from './alias'
 import { resolveSiteData } from './config'
-import slash from 'slash'
+import { slash } from './utils'
 import { cacher } from './transform/utils/cache'
 import type { Plugin as VitePlugin, ViteDevServer } from 'vite'
 import type { SiteConfig } from '@vitepress-rc/types'
@@ -76,16 +76,16 @@ export function createVitePlugin(
 
 			if (/\.md?$/.test(id)) {
 				let { code: _code } = await mdxTransform(code, id, { root, alias, siteData }, md)
-				const refreshResult = await reactRefreshPlugin.transform!.call(this, _code, id + '.js', ssr)
-				//reactRefreshPlugin会检测导出的都必须是react组件，增加了pageData的导出会导致热更新失败，这里hack掉
-				if (refreshResult && typeof refreshResult !== 'string') {
-					refreshResult.code = refreshResult.code!.replace(
-						'window.$RefreshSig$ = prevRefreshSig;',
-						['window.$RefreshSig$ = prevRefreshSig;', 'import.meta.hot.accept();'].join('\n')
-					)
-				}
+				// const refreshResult = await reactRefreshPlugin.transform!.call(this, _code, id + '.js', ssr)
+				// //reactRefreshPlugin会检测导出的都必须是react组件，增加了pageData的导出会导致热更新失败，这里hack掉
+				// if (refreshResult && typeof refreshResult !== 'string') {
+				// 	refreshResult.code = refreshResult.code!.replace(
+				// 		'window.$RefreshSig$ = prevRefreshSig;',
+				// 		['window.$RefreshSig$ = prevRefreshSig;', 'import.meta.hot.accept();'].join('\n')
+				// 	)
+				// }
 
-				return refreshResult || _code
+				return _code
 			}
 		},
 

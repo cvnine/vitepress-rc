@@ -14,7 +14,7 @@ module.exports = {
 		  'demo-c': path.resolve(__dirname, '../components/index.tsx'),
 	  },
 	  docgen:{
-		  
+
 	  }
   },
 

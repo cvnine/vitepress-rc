@@ -1,15 +1,15 @@
 {
 	"extends": "../../tsconfig.json",
 	"compilerOptions": {
-	  "target": "es2019",
-	  "baseUrl": ".",
-	  "outDir": "../../dist/node",
-	  "module": "commonjs",
-	  "lib": ["ESNext", "DOM"],
-	  "sourceMap": true,
-	  "paths": {
-		"@vitepress-rc/types": ["../../types/types.d.ts"]
-	}
+		"target": "es2019",
+		"baseUrl": ".",
+		"outDir": "../../dist/node",
+		"module": "commonjs",
+		"lib": ["ESNext", "DOM"],
+		"sourceMap": true,
+		"paths": {
+			"@vitepress-rc/types": ["../../types/types.d.ts"]
+		}
 	},
-	"include": [".", "./shim.d.ts","./types.d.ts"]
-  }
+	"include": [".", "./shim.d.ts", "./types.d.ts"]
+}
