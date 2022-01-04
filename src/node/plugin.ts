@@ -1,5 +1,6 @@
 import path from 'path'
 import reactRefresh from '@vitejs/plugin-react'
+import WindiCSS from 'vite-plugin-windicss'
 import { mdxTransform } from './transform'
 import { APP_PATH, SPECIAL_IMPORT_CODE_SCOPE, SPECIAL_IMPORT_SITE_DATA } from './alias'
 import { resolveSiteData } from './config'
@@ -24,7 +25,7 @@ export function createVitePlugin(
 
 	let _server: ViteDevServer
 	const vitePluginPressRc: VitePlugin = {
-		name: 'vite-plugin-press-rc',
+		name: 'vitepress-rc',
 		config() {
 			return {
 				resolve: {
@@ -200,5 +201,5 @@ export function createVitePlugin(
 		},
 	}
 
-	return [reactRefreshPlugin, vitePluginPressRc]
+	return [reactRefreshPlugin, vitePluginPressRc, WindiCSS()]
 }
