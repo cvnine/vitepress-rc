@@ -1,1 +1,0 @@
-import{R as r,j as o,a as s}from"./vendor.8ac4d6e3.js";import{A as e}from"./App.faf27bb3.js";function t(t){return r.renderToString(o.exports.jsx(s.StrictMode,{children:o.exports.jsx(e,{ssrHref:t},void 0)},void 0))}export{t as render};
