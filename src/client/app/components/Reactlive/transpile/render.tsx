@@ -28,7 +28,7 @@ export async function getStyleSheetManager(local = true): Promise<typeof StyleSh
 	if (local) {
 		return StyleSheetManager
 	} else {
-		const url_styled = new URL('//jspm.dev/styled-components', fakeHost).href
+		const url_styled = new URL('//jspm.dev/styled-components@5.3.1', fakeHost).href
 		const {
 			default: { StyleSheetManager },
 		} = await import(/* @vite-ignore */ url_styled)

@@ -20,3 +20,7 @@ namespace JSX {
 interface CSSStyleDeclaration {
 	contain: 'strict' | 'none' | 'content' | 'size' | 'layout' | 'style' | 'paint'
 }
+
+interface Window {
+	Babel
+}

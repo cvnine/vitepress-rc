@@ -3,7 +3,7 @@
 ## Code live
 
 
-```jsx live
+```jsx live=1
 
 import React, {useState}  from 'react'
 

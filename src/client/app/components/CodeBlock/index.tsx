@@ -5,7 +5,7 @@ import { CodePreviewer } from './CodePreviewer'
 
 interface CodeBlockProps {
 	className?: string
-	live?: string
+	live?: string | true
 	transform?: string
 	shadowDom?: string
 	compact?: string
@@ -38,7 +38,7 @@ export const CodeBlock: FC<CodeBlockProps> = ({ children, className, live, trans
 	}
 
 	if (live && (language === 'jsx' || language === 'tsx')) {
-		let local = live === 'local'
+		let local = live === 'local' || live === true
 		return <CodePreviewer code={code} local={local} codeOptions={codeOptions} />
 	}
 
