@@ -64,7 +64,7 @@ export default function plugin({ id, alias, docgen: docgenOptions }: PluginProps
 	return (tree, vfile) => {
 		let filePaths: string[] = []
 
-		visit(tree, 'mdxJsxFlowElement', function visitor(node, i, parent) {
+		visit(tree, 'mdxJsxFlowElement', function visitor(node: any, i, parent) {
 			if (node.name === 'API') {
 				if (node.attributes) {
 					let attributes = node.attributes as Attributes[]

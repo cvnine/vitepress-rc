@@ -1,7 +1,7 @@
 import path from 'path'
 import reactRefresh from '@vitejs/plugin-react-refresh'
 import { mdxTransform } from './transform'
-import { APP_PATH, SPECIAL_IMPORT_CODE_SCOPE, SPECIAL_IMPORT_SITE_DATA } from './paths'
+import { APP_PATH, DIST_CLIENT_PATH, SPECIAL_IMPORT_CODE_SCOPE, SPECIAL_IMPORT_SITE_DATA } from './paths'
 import { resolveSiteData } from './config'
 import slash from 'slash'
 import { cacher } from './transform/utils/cache'
@@ -29,6 +29,11 @@ export function createVitePlugin(
 			return {
 				resolve: {
 					alias,
+				},
+				server: {
+					fs: {
+						allow: [DIST_CLIENT_PATH, root, process.cwd()],
+					},
 				},
 			}
 		},

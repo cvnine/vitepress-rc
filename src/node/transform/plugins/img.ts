@@ -23,7 +23,7 @@ function getAssetHashName(imgPath: string) {
 
 export default function plugin({ id, root, siteData }: PluginProps): IPluginTransformer {
 	return (tree, vfile) => {
-		visit(tree, 'element', function visitor(node: Node & Element) {
+		visit(tree, 'element', function visitor(node: any) {
 			if (node.tagName === 'img') {
 				if (process.env.NODE_ENV === 'build') {
 					const src = node.properties!.src as string

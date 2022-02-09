@@ -6,8 +6,8 @@ import type { Node } from 'unist'
 
 export default function plugin(): IPluginTransformer {
 	return (tree, vfile) => {
-		visit(tree, 'heading', function visitor(node: Heading & Node) {
-			const textNode = find(node, { type: 'text' })
+		visit(tree, 'heading', function visitor(node: any) {
+			const textNode: any = find(node, { type: 'text' })
 
 			const headerId = (node.data && (node.data.id as string)) || ''
 

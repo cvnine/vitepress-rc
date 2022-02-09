@@ -36,7 +36,7 @@ export default function LiveProvider({
 			scope,
 			local,
 		}
-		const errorCallback = async (err: Error) => {
+		const errorCallback = async (err: any) => {
 			setError(err.toString())
 			if (shadowRoot.current) {
 				const ReactDom_P = await getReactDom(local)

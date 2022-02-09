@@ -2,8 +2,6 @@ import visit from 'unist-util-visit'
 import type { IPluginTransformer } from '../index'
 import type { Node } from 'unist'
 
-type NodeWithChildren = Node & { children: NodeWithChildren[] }
-
 type TYPE = 'tip' | 'warning' | 'danger'
 
 // const reg = /^\s*:::\s*(\w+)(.*?)[\n\r]([\s\S]+?)\s*:::\s*?/
@@ -18,7 +16,7 @@ const TypeMap: Record<TYPE, string> = {
 	danger: 'WARNING',
 }
 
-function getChildrenNode({ type, title, children }: { type: TYPE; title: string; children: NodeWithChildren[] }) {
+function getChildrenNode({ type, title, children }: { type: TYPE; title: string; children: any[] }) {
 	return {
 		type: 'container',
 		children: [
@@ -58,7 +56,7 @@ function getChildrenNode({ type, title, children }: { type: TYPE; title: string;
 
 export default function plugin(): IPluginTransformer {
 	return (tree, vfile) => {
-		visit(tree, 'root', function visitor(node: NodeWithChildren) {
+		visit(tree, 'root', function visitor(node: any) {
 			if (node.children) {
 				let i = 0
 				while (i < node.children.length) {

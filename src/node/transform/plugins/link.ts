@@ -40,7 +40,7 @@ function normalizeHref(href: string) {
 
 export default function plugin(): IPluginTransformer {
 	return (tree, vfile) => {
-		visit(tree, ['link', 'linkReference'], function visitor(node: Link & Node) {
+		visit(tree, ['link', 'linkReference'], function visitor(node: any) {
 			const url = node.url
 
 			let data = node.data || (node.data = {})

@@ -2,6 +2,7 @@ import path from 'path'
 import type { Alias } from 'vite'
 import type { UserConfig } from '@vitepress-rc/types'
 
+export const DIST_CLIENT_PATH = path.join(__dirname, '../client')
 export const APP_PATH = path.join(__dirname, '../client/app')
 export const DEFAULT_THEME_PATH = path.join(__dirname, '../client/theme-default')
 

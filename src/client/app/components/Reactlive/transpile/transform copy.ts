@@ -11,7 +11,7 @@ interface ITransform {
 interface TransformReturnType {
 	result: string
 	imports: Record<string, any>
-	error?: Error
+	error?: any
 	cssText?: string
 }
 

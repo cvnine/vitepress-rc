@@ -84,7 +84,7 @@ export function useRoute(fallbackComponent?: ComponentType<any>, ssrHref?: strin
 						}, 200)
 					}
 				}
-			} catch (err) {
+			} catch (err: any) {
 				if (!err.message.match(/fetch/)) {
 					console.error(err)
 				}
