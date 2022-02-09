@@ -18,7 +18,6 @@ export async function createServer(root: string = process.cwd(), serverOptions: 
 				'styled-components',
 				'@mdx-js/react',
 				'prism-react-renderer',
-				'react-simple-code-editor',
 				'copy-text-to-clipboard',
 			],
 		},

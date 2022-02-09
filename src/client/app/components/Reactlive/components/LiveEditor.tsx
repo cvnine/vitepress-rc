@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react'
 import LiveContext, { IContext } from './LiveContext'
-import Editor from 'react-simple-code-editor'
+import Editor from '../codeEditor'
 import Highlight, { defaultProps } from 'prism-react-renderer'
 
 interface ICodeEditor extends Omit<IContext, 'error' | 'element' | 'shadowRoot' | 'shadowDom'> {
